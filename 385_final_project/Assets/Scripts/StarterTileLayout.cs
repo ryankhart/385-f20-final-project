@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -77,7 +77,7 @@ public class StarterTileLayout : MonoBehaviour
 
             switch (nextRandValue)
             {
-                case 1:
+                case 1: // west
                     if (indexX - 1 >= 0)  // check if we are past the map edge
                     {
                         indexX -= 1;
@@ -85,7 +85,7 @@ public class StarterTileLayout : MonoBehaviour
                         i++;
                     }
                     break;
-                case 2:
+                case 2: // east
                     if (indexX + 1 < mapSize)  // check if we are past the map edge
                     {
                         indexX += 1;
@@ -93,7 +93,7 @@ public class StarterTileLayout : MonoBehaviour
                         i++;
                     }
                     break;
-                case 3:
+                case 3: // south
                     if (indexY - 1 >= 0)  // check if we are past the map edge
                     {
                         indexY -= 1;
@@ -101,7 +101,7 @@ public class StarterTileLayout : MonoBehaviour
                         i++;
                     }
                     break;
-                default:
+                default: // north
                     if (indexY + 1 < mapSize)  // check if we are past the map edge
                     {
                         indexY += 1;
@@ -136,7 +136,7 @@ public class StarterTileLayout : MonoBehaviour
             if (tileMap[nextTreeX, nextTreeY].gameObject.tag.Equals("PlainsTile"))
             {
                 Vector3 treePosition = TilePosition(nextTreeX, nextTreeY, 0);
-                Instantiate(tree, treePosition, Quaternion.Euler(-90, 0, 0)); // rotatet to top down view
+                Instantiate(tree, treePosition, Quaternion.Euler(-90, 0, 0)); // rotate to top down view
                 treeCount--;
             }
         }
