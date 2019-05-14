@@ -8,6 +8,7 @@ public class StarterTileLayout : MonoBehaviour
     public int mapSize = 10;
     public GameObject plainsTile;
     public GameObject waterTile;
+    public GameObject rockTile;
     public GameObject tree;
     public Camera gameCamera;
 
@@ -20,7 +21,8 @@ public class StarterTileLayout : MonoBehaviour
         tileMap = new GameObject[mapSize, mapSize];
 
         GeneratePlains();
-        GenerateOtherTileGroups(waterTile, 0.86f); // water
+        GenerateOtherTileGroups(waterTile, 0.86f, (int) (mapSize * mapSize * 0.25)); // up to 25% of map is water
+        GenerateOtherTileGroups(rockTile, 0.86f, (int)(mapSize * mapSize * 0.15));
         GenerateTrees();
 
         // position the camera in the middle of the map
@@ -40,7 +42,7 @@ public class StarterTileLayout : MonoBehaviour
     }
 
     // can be used for water, mountains, desert...
-    private void GenerateOtherTileGroups(GameObject tilePrefab, float offset)
+    private void GenerateOtherTileGroups(GameObject tilePrefab, float offset, int percentage)
     {
         // choose a random plains tile on the map
         System.Random rand = new System.Random((int)DateTime.Now.Ticks);
@@ -55,19 +57,17 @@ public class StarterTileLayout : MonoBehaviour
         // place new water tile - this will be the origin of the body of water
         Vector3 waterTilePosition = new Vector3(tilePositionX, tilePositionY, 0);
         tileMap[indexX, indexY] = Instantiate(waterTile, waterTilePosition, Quaternion.identity);
-        print("Step 1");
 
         // up to 25 procent of the surface can be water, in practice it is always less
-        int waterCount = (int) ((mapSize * mapSize) * 0.25);
-        int nextWater;
+        int nextRandValue;
 
         // randomly generate a group of water tiles
-        for(int i = 0; i < waterCount; )
+        for(int i = 0; i < percentage; )
         {
             rand = new System.Random((int)DateTime.Now.Ticks);
-            nextWater = rand.Next(0,4);
+            nextRandValue = rand.Next(0,4);
 
-            switch (nextWater)
+            switch (nextRandValue)
             {
                 case 1:
                     if (indexX - 1 >= 0)  // check if we are past the map edge
@@ -137,7 +137,6 @@ public class StarterTileLayout : MonoBehaviour
                 float tilePositionY = tileMap[nextTreeX, nextTreeY].transform.position.y;
                 Vector3 treePosition = new Vector3(tilePositionX + 0.43f, tilePositionY + 0.43f, 0);
                 Instantiate(tree, treePosition, Quaternion.Euler(-90, 0, 0)); // rotatet to top down view
-                print(tilePositionX + " : " + tilePositionY);
                 treeCount--;
             }
         }
