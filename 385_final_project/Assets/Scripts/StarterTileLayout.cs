@@ -33,7 +33,7 @@ public class StarterTileLayout : MonoBehaviour
 
         GeneratePlains();
         GenerateOtherTileGroups(waterTile, 0.86f, (int) (mapSize * mapSize * 0.25)); // up to 25% of map is water
-        GenerateOtherTileGroups(rockTile, 0.86f, (int)(mapSize * mapSize * 0.15));
+        GenerateOtherTileGroups(rockTile, 0.86f, (int)(mapSize * mapSize * 0.15)); // up to 15% of map is rock
         GenerateTrees();
 
         // position the camera in the middle of the map
@@ -69,6 +69,7 @@ public class StarterTileLayout : MonoBehaviour
         int nextRandValue;
 
         // randomly generate a group of water tiles
+        // postcondition: the number of tiles placed into the map is generally less than the percentage
         for(int i = 0; i < percentage; )
         {
             rand = new System.Random((int)DateTime.Now.Ticks);
