@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -58,31 +59,21 @@ public class StarterTileLayout : MonoBehaviour
         int nextWater;
         for(int i = 0; i < waterCount; )
         {
-            rand = new System.Random();
-            rand = new System.Random();
+            rand = new System.Random((int)DateTime.Now.Ticks);
             nextWater = rand.Next(0,4);
 
             switch (nextWater)
             {
                 case 1:
-                    if (waterIndexY + 1 < mapSize)  // check if we are past the map edge
+                    if (waterIndexX - 1 >= 0)  // check if we are past the map edge
                     {
-                        waterIndexY += 1;
-                        waterPositionY = waterIndexY * 0.86f;
+                        waterIndexX -= 1;
+                        waterPositionX = waterIndexX * 0.86f;
                         PlaceNewWaterTile(waterIndexX, waterPositionX, waterIndexY, waterPositionY);
                         i++;
                     }
                     break;
                 case 2:
-                    if (waterIndexY - 1 >= 0)  // check if we are past the map edge
-                    {
-                        waterIndexY -= 1;
-                        waterPositionY = waterIndexY * 0.86f;
-                        PlaceNewWaterTile(waterIndexX, waterPositionX, waterIndexY, waterPositionY);
-                        i++;
-                    }
-                    break;
-                case 3:
                     if (waterIndexX + 1 < mapSize)  // check if we are past the map edge
                     {
                         waterIndexX += 1;
@@ -91,11 +82,20 @@ public class StarterTileLayout : MonoBehaviour
                         i++;
                     }
                     break;
-                default:
-                    if (waterIndexX - 1 >= 0)  // check if we are past the map edge
+                case 3:
+                    if (waterIndexY - 1 >= 0)  // check if we are past the map edge
                     {
-                        waterIndexX -= 1;
-                        waterPositionX = waterIndexX * 0.86f;
+                        waterIndexY -= 1;
+                        waterPositionY = waterIndexY * 0.86f;
+                        PlaceNewWaterTile(waterIndexX, waterPositionX, waterIndexY, waterPositionY);
+                        i++;
+                    }
+                    break;
+                default:
+                    if (waterIndexY + 1 < mapSize)  // check if we are past the map edge
+                    {
+                        waterIndexY += 1;
+                        waterPositionY = waterIndexY * 0.86f;
                         PlaceNewWaterTile(waterIndexX, waterPositionX, waterIndexY, waterPositionY);
                         i++;
                     }
