@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 7801534269295502028}
   - component: {fileID: 6500116466318489774}
   m_Layer: 0
-  m_Name: WaterTile
-  m_TagString: Untagged
+  m_Name: WaterTile_Prefab
+  m_TagString: WaterTile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

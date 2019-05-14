@@ -21,7 +21,7 @@ public class StarterTileLayout : MonoBehaviour
         GenerateWater();
 
         // position the camera in the middle of the map
-        gameCamera.transform.position = new Vector3((mapSize / 2) * 0.86f, (mapSize / 2) * 0.86f, -20);
+        gameCamera.transform.position = new Vector3((mapSize / 2) * 0.86f, (mapSize / 2) * 0.86f, -30);
     }
 
     private void GeneratePlains()
@@ -38,14 +38,86 @@ public class StarterTileLayout : MonoBehaviour
 
     private void GenerateWater()
     {
+        // choose a random plains tile on the map
         System.Random rand = new System.Random();
-        int waterPositionX = rand.Next(mapSize);
+        int waterIndexX = rand.Next(0,mapSize);
+        float waterPositionX = waterIndexX * 0.86f;
         rand = new System.Random();
-        int waterPositionY = rand.Next(mapSize);
-        print(waterPositionX + " " + waterPositionY);
-        Destroy(tileMap[waterPositionX, waterPositionY]);
-        Vector3 waterTilePosition = new Vector3(waterPositionX * 0.86f, waterPositionY * 0.86f, 0);
-        tileMap[waterPositionX, waterPositionY] = Instantiate(waterTile, waterTilePosition, Quaternion.identity);
+        int waterIndexY = rand.Next(0,mapSize);
+        float waterPositionY = waterIndexY * 0.86f;
+
+        // destroy the plains tile
+        Destroy(tileMap[waterIndexX, waterIndexY]);
+
+        // place new water tile - this will be the origin of the body of water
+        Vector3 waterTilePosition = new Vector3(waterPositionX, waterPositionY, 0);
+        tileMap[waterIndexX, waterIndexY] = Instantiate(waterTile, waterTilePosition, Quaternion.identity);
+        print("Step 1");
+
+        int waterCount = (int) ((mapSize * mapSize) * 0.20); // up to 20 procent of the surface can be water
+        int nextWater;
+        for(int i = 0; i < waterCount; )
+        {
+            rand = new System.Random();
+            rand = new System.Random();
+            nextWater = rand.Next(0,4);
+
+            switch (nextWater)
+            {
+                case 1:
+                    if (waterIndexY + 1 < mapSize)  // check if we are past the map edge
+                    {
+                        waterIndexY += 1;
+                        waterPositionY = waterIndexY * 0.86f;
+                        PlaceNewWaterTile(waterIndexX, waterPositionX, waterIndexY, waterPositionY);
+                        i++;
+                    }
+                    break;
+                case 2:
+                    if (waterIndexY - 1 >= 0)  // check if we are past the map edge
+                    {
+                        waterIndexY -= 1;
+                        waterPositionY = waterIndexY * 0.86f;
+                        PlaceNewWaterTile(waterIndexX, waterPositionX, waterIndexY, waterPositionY);
+                        i++;
+                    }
+                    break;
+                case 3:
+                    if (waterIndexX + 1 < mapSize)  // check if we are past the map edge
+                    {
+                        waterIndexX += 1;
+                        waterPositionX = waterIndexX * 0.86f;
+                        PlaceNewWaterTile(waterIndexX, waterPositionX, waterIndexY, waterPositionY);
+                        i++;
+                    }
+                    break;
+                default:
+                    if (waterIndexX - 1 >= 0)  // check if we are past the map edge
+                    {
+                        waterIndexX -= 1;
+                        waterPositionX = waterIndexX * 0.86f;
+                        PlaceNewWaterTile(waterIndexX, waterPositionX, waterIndexY, waterPositionY);
+                        i++;
+                    }
+                    break;
+            }
+        }
+        for(int i = 0; i < mapSize; i++)
+        { 
+            for(int j = 0; j < mapSize; j++)
+            {
+                print(tileMap[i, j].gameObject.tag + " : " + i + " " + j);
+            }
+            print("\n");
+        }
+    }
+
+    private void PlaceNewWaterTile(int waterX, float waterPositionX, int waterY, float waterPositionY)
+    {
+        Vector3 waterTilePosition;
+        Destroy(tileMap[waterX, waterY]);
+        waterTilePosition = new Vector3(waterPositionX, waterPositionY, 0);
+        tileMap[waterX, waterY] = Instantiate(waterTile, waterTilePosition, Quaternion.identity);
     }
 
     // Update is called once per frame
