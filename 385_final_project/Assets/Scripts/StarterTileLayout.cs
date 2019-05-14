@@ -8,6 +8,7 @@ public class StarterTileLayout : MonoBehaviour
     public int mapSize = 10;
     public GameObject plainsTile;
     public GameObject waterTile;
+    public GameObject tree;
     public Camera gameCamera;
 
     private GameObject[,] tileMap;
@@ -20,9 +21,33 @@ public class StarterTileLayout : MonoBehaviour
 
         GeneratePlains();
         GenerateWater();
+        GenerateTrees();
 
         // position the camera in the middle of the map
-        gameCamera.transform.position = new Vector3((mapSize / 2) * 0.86f, (mapSize / 2) * 0.86f, -30);
+        gameCamera.transform.position = new Vector3((mapSize / 2) * 0.86f, (mapSize / 2) * 0.86f, -10);
+    }
+
+    private void GenerateTrees()
+    {
+        System.Random rand = new System.Random((int)DateTime.Now.Ticks);
+
+        // find a plains tile
+        bool treeFound = false;
+        while(!treeFound)
+        {
+            int nextTreeX = rand.Next(0, mapSize);
+            int nextTreeY = rand.Next(0, mapSize);
+
+            if (tileMap[nextTreeX, nextTreeY].gameObject.tag.Equals("PlainsTile"))
+            {
+                float tilePositionX = tileMap[nextTreeX, nextTreeY].transform.position.x;
+                float tilePositionY = tileMap[nextTreeX, nextTreeY].transform.position.y;
+                Vector3 treePosition = new Vector3(tilePositionX, tilePositionY, 0);
+                Instantiate(tree, treePosition, Quaternion.Euler(-90,0,0));
+                print(tilePositionX + " : " + tilePositionY);
+                treeFound = true;
+            }
+        }
     }
 
     private void GeneratePlains()
@@ -101,14 +126,6 @@ public class StarterTileLayout : MonoBehaviour
                     }
                     break;
             }
-        }
-        for(int i = 0; i < mapSize; i++)
-        { 
-            for(int j = 0; j < mapSize; j++)
-            {
-                print(tileMap[i, j].gameObject.tag + " : " + i + " " + j);
-            }
-            print("\n");
         }
     }
 
