@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +15,7 @@ public class StarterTileLayout : MonoBehaviour
     private GameObject[,] tileMap;
     private float offset = 0.86f; // Default offset
 
-    private Vector3 TilePosition(int x, int y, int z)
+    private Vector3 TilePosition(float x, float y, float z)
     {
         return new Vector3(x * offset, y * offset, z);
     }
