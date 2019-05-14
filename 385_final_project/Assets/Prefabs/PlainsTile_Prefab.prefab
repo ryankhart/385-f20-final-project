@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 6419781544089991160}
   - component: {fileID: 1884090960928717006}
   m_Layer: 0
-  m_Name: PlainsTile
-  m_TagString: Untagged
+  m_Name: PlainsTile_Prefab
+  m_TagString: PlainsTile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
