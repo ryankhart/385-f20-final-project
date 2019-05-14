@@ -12,6 +12,17 @@ public class StarterTileLayout : MonoBehaviour
     public Camera gameCamera;
 
     private GameObject[,] tileMap;
+    private float offset = 0.86f; // Default offset
+
+    private Vector3 TilePosition(int x, int y, int z)
+    {
+        return new Vector3(x * offset, y * offset, z);
+    }
+
+    private Vector3 TilePosition(int x, int y, int z, float offset_override)
+    {
+        return new Vector3(x * offset_override, y * offset_override, z);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +35,7 @@ public class StarterTileLayout : MonoBehaviour
         GenerateTrees();
 
         // position the camera in the middle of the map
-        gameCamera.transform.position = new Vector3((mapSize / 2) * 0.86f, (mapSize / 2) * 0.86f, -10);
+        gameCamera.transform.position = TilePosition((mapSize / 2), (mapSize / 2), -10);
     }
 
     private void GeneratePlains()
@@ -33,8 +44,7 @@ public class StarterTileLayout : MonoBehaviour
         {
             for (int j = 0; j < mapSize; j++)
             {
-                Vector3 plainTilePosition = new Vector3(i * 0.86f, j * 0.86f, 0);
-                tileMap[i, j] = Instantiate(plainsTile, plainTilePosition, Quaternion.identity);
+                tileMap[i, j] = Instantiate(plainsTile, TilePosition(i, j, 0), Quaternion.identity);
             }
         }
     }
@@ -45,16 +55,13 @@ public class StarterTileLayout : MonoBehaviour
         // choose a random plains tile on the map
         System.Random rand = new System.Random((int)DateTime.Now.Ticks);
         int indexX = rand.Next(0,mapSize);
-        float tilePositionX = indexX * offset;
         int indexY = rand.Next(0,mapSize);
-        float tilePositionY = indexY * offset;
 
         // destroy the plains tile
         Destroy(tileMap[indexX, indexY]);
 
         // place new water tile - this will be the origin of the body of water
-        Vector3 waterTilePosition = new Vector3(tilePositionX, tilePositionY, 0);
-        tileMap[indexX, indexY] = Instantiate(waterTile, waterTilePosition, Quaternion.identity);
+        tileMap[indexX, indexY] = Instantiate(waterTile, TilePosition(indexX, indexY, 0), Quaternion.identity);
         print("Step 1");
 
         // up to 25 procent of the surface can be water, in practice it is always less
@@ -73,8 +80,7 @@ public class StarterTileLayout : MonoBehaviour
                     if (indexX - 1 >= 0)  // check if we are past the map edge
                     {
                         indexX -= 1;
-                        tilePositionX = indexX * offset;
-                        PlaceNewTile(tilePrefab, indexX, tilePositionX, indexY, tilePositionY);
+                        PlaceNewTile(tilePrefab, indexX, indexY);
                         i++;
                     }
                     break;
@@ -82,8 +88,7 @@ public class StarterTileLayout : MonoBehaviour
                     if (indexX + 1 < mapSize)  // check if we are past the map edge
                     {
                         indexX += 1;
-                        tilePositionX = indexX * offset;
-                        PlaceNewTile(tilePrefab, indexX, tilePositionX, indexY, tilePositionY);
+                        PlaceNewTile(tilePrefab, indexX, indexY);
                         i++;
                     }
                     break;
@@ -91,8 +96,7 @@ public class StarterTileLayout : MonoBehaviour
                     if (indexY - 1 >= 0)  // check if we are past the map edge
                     {
                         indexY -= 1;
-                        tilePositionY = indexY * offset;
-                        PlaceNewTile(tilePrefab, indexX, tilePositionX, indexY, tilePositionY);
+                        PlaceNewTile(tilePrefab, indexX, indexY);
                         i++;
                     }
                     break;
@@ -100,8 +104,7 @@ public class StarterTileLayout : MonoBehaviour
                     if (indexY + 1 < mapSize)  // check if we are past the map edge
                     {
                         indexY += 1;
-                        tilePositionY = indexY * offset;
-                        PlaceNewTile(tilePrefab, indexX, tilePositionX, indexY, tilePositionY);
+                        PlaceNewTile(tilePrefab, indexX, indexY);
                         i++;
                     }
                     break;
@@ -109,12 +112,10 @@ public class StarterTileLayout : MonoBehaviour
         }
     }
 
-    private void PlaceNewTile(GameObject prefab, int indexX, float tilePositionX, int indexY, float tilePositionY)
+    private void PlaceNewTile(GameObject prefab, int indexX, int indexY)
     {
-        Vector3 newTilePosition;
         Destroy(tileMap[indexX, indexY]);
-        newTilePosition = new Vector3(tilePositionX, tilePositionY, 0);
-        tileMap[indexX, indexY] = Instantiate(prefab, newTilePosition, Quaternion.identity);
+        tileMap[indexX, indexY] = Instantiate(prefab, TilePosition(indexX, indexY, 0), Quaternion.identity);
     }
 
     private void GenerateTrees()
@@ -135,7 +136,7 @@ public class StarterTileLayout : MonoBehaviour
             {
                 float tilePositionX = tileMap[nextTreeX, nextTreeY].transform.position.x;
                 float tilePositionY = tileMap[nextTreeX, nextTreeY].transform.position.y;
-                Vector3 treePosition = new Vector3(tilePositionX + 0.43f, tilePositionY + 0.43f, 0);
+                Vector3 treePosition = TilePosition((int)tilePositionX, (int)tilePositionY, 0, 0.43f);
                 Instantiate(tree, treePosition, Quaternion.Euler(-90, 0, 0)); // rotatet to top down view
                 print(tilePositionX + " : " + tilePositionY);
                 treeCount--;
