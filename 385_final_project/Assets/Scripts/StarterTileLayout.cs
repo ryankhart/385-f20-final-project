@@ -13,7 +13,7 @@ public class StarterTileLayout : MonoBehaviour
     public Camera gameCamera;
 
     private GameObject[,] tileMap;
-    private float offset = 0.86f; // Default offset
+    private float offset = 0.86f; // Default tile offset
 
     private Vector3 TilePosition(float x, float y, float z)
     {
@@ -37,7 +37,8 @@ public class StarterTileLayout : MonoBehaviour
         GenerateTrees();
 
         // position the camera in the middle of the map
-        gameCamera.transform.position = TilePosition((mapSize / 2), (mapSize / 2), -10);
+        gameCamera.transform.position = TilePosition((mapSize / 2), (mapSize / 2), -15);
+        print(gameCamera.transform.position);
     }
 
     private void GeneratePlains()
