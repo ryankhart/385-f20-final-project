@@ -38,7 +38,6 @@ public class StarterTileLayout : MonoBehaviour
 
         // position the camera in the middle of the map
         gameCamera.transform.position = TilePosition((mapSize / 2), (mapSize / 2), -15);
-        print(gameCamera.transform.position);
     }
 
     private void GeneratePlains()
