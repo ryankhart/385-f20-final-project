@@ -5,7 +5,7 @@ public class CameraController : MonoBehaviour
 
     public float m_panSpeed = 2f;
     public float m_zoomSpeed = 0.5f;
-    public float m_fastModeMultiplier = 2;
+    public float m_fastModeMultiplier = 10;
     public Vector3 m_position;
 
     private bool m_isInFastMode = false;
