@@ -38,6 +38,26 @@ public class StarterTileLayout : MonoBehaviour
 
         // position the camera in the middle of the map
         gameCamera.transform.position = TilePosition((mapSize / 2), (mapSize / 2), -15);
+    }
+
+    private Vector3 TilePosition(int x, int y, int z, float offset_override)
+    {
+        return new Vector3(x * offset_override, y * offset_override, z);
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // make map based on given size
+        tileMap = new GameObject[mapSize, mapSize];
+
+        GeneratePlains();
+        GenerateOtherTileGroups(waterTile, 0.86f, (int) (mapSize * mapSize * 0.25)); // up to 25% of map is water
+        GenerateOtherTileGroups(rockTile, 0.86f, (int)(mapSize * mapSize * 0.15)); // up to 15% of map is rock
+        GenerateTrees();
+
+        // position the camera in the middle of the map
+        gameCamera.transform.position = TilePosition((mapSize / 2), (mapSize / 2), -15);
 
     private void GeneratePlains()
     {
