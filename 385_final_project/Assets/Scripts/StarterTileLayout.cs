@@ -13,11 +13,11 @@ public class StarterTileLayout : MonoBehaviour
     public Camera gameCamera;
 
     private GameObject[,] tileMap;
-    private float offset = 0.86f; // Default offset
+    private float tileOffset = 0.86f; // Default offset
 
     private Vector3 TilePosition(float x, float y, float z)
     {
-        return new Vector3(x * offset, y * offset, z);
+        return new Vector3(x * tileOffset, y * tileOffset, z);
     }
 
     private Vector3 TilePosition(int x, int y, int z, float offset_override)
@@ -62,10 +62,9 @@ public class StarterTileLayout : MonoBehaviour
         // destroy the plains tile
         Destroy(tileMap[indexX, indexY]);
 
-        // place new water tile - this will be the origin of the body of water
-        tileMap[indexX, indexY] = Instantiate(waterTile, TilePosition(indexX, indexY, 0), Quaternion.identity);
+        // place new terrain tile - this will be the origin of the group of terrain tiles
+        tileMap[indexX, indexY] = Instantiate(tilePrefab, TilePosition(indexX, indexY, 0), Quaternion.identity);
 
-        // up to 25 procent of the surface can be water, in practice it is always less
         int nextRandValue;
 
         // randomly generate a group of water tiles
