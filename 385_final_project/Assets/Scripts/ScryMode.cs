@@ -1,17 +1,18 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ScryMode : MonoBehaviour
 {
-    public GameObject m_ScryOverlay;
-    public Button m_ScryToggleButton;
+    public GameObject m_Overlay;
+    public Button m_ToggleButton;
 
     // Start is called before the first frame update
     void Start()
     {
-        m_ScryToggleButton.onClick.AddListener(TaskOnClick);
+        // If the the toggle button is clicked, run TaskOnClick().
+        m_ToggleButton.onClick.AddListener(TaskOnClick);
     }
 
     void TaskOnClick()
@@ -33,16 +34,16 @@ public class ScryMode : MonoBehaviour
 
     bool IsActive()
     {
-        return (m_ScryOverlay.activeSelf);
+        return (m_Overlay.activeSelf);
     }
 
     void Activate()
     {
-        m_ScryOverlay.SetActive(true);
+        m_Overlay.SetActive(true);
     }
 
     void Deactivate()
     {
-        m_ScryOverlay.SetActive(false);
+        m_Overlay.SetActive(false);
     }
 }
