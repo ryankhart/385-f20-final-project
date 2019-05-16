@@ -31,6 +31,7 @@ public class CameraController : MonoBehaviour
         }
 
         // Basic camera zoom by adjusting camera position
+        // Requires perspective mode to work
         position.z += Input.mouseScrollDelta.y * zoomSpeed;
 
         // Update camera position
