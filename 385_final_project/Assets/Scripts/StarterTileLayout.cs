@@ -63,8 +63,7 @@ public class StarterTileLayout : MonoBehaviour
         Destroy(tileMap[indexX, indexY]);
 
         // place new water tile - this will be the origin of the body of water
-        Vector3 waterTilePosition = new Vector3(indexX, indexY, 0);
-        tileMap[indexX, indexY] = Instantiate(waterTile, waterTilePosition, Quaternion.identity);
+        tileMap[indexX, indexY] = Instantiate(waterTile, TilePosition(indexX, indexY, 0), Quaternion.identity);
 
         // up to 25 procent of the surface can be water, in practice it is always less
         int nextRandValue;
