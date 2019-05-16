@@ -18,6 +18,7 @@ public class ScryMode : MonoBehaviour
         // If the the toggle button is clicked, run TaskOnClick().
         m_ToggleButton.onClick.AddListener(TaskOnClick);
 
+        // Set the CameraController to an easy to read variable
         m_CameraController = m_Camera.GetComponent<CameraController>();
     }
 
@@ -45,7 +46,7 @@ public class ScryMode : MonoBehaviour
 
     void Activate()
     {
-        m_OriginalCameraPosition = m_Camera.transform.position;
+        m_OriginalCameraPosition = m_CameraController.m_position;
         m_Overlay.SetActive(true);
         m_CameraController.EnableFastMode();
     }
@@ -54,6 +55,6 @@ public class ScryMode : MonoBehaviour
     {
         m_Overlay.SetActive(false);
         m_CameraController.DisableFastMode();
-        m_Camera.transform.position = m_OriginalCameraPosition;
+        m_CameraController.m_position = m_OriginalCameraPosition;
     }
 }
