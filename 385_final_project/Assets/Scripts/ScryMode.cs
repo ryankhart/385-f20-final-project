@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +10,7 @@ public class ScryMode : MonoBehaviour
     public Camera m_Camera;
 
     private CameraController m_CameraController;
+    private Vector3 m_OriginalCameraPosition;
 
     // Start is called before the first frame update
     void Start()
@@ -44,6 +45,7 @@ public class ScryMode : MonoBehaviour
 
     void Activate()
     {
+        m_OriginalCameraPosition = m_Camera.transform.position;
         m_Overlay.SetActive(true);
         m_CameraController.EnableFastMode();
     }
@@ -52,5 +54,6 @@ public class ScryMode : MonoBehaviour
     {
         m_Overlay.SetActive(false);
         m_CameraController.DisableFastMode();
+        m_Camera.transform.position = m_OriginalCameraPosition;
     }
 }
