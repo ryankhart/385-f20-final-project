@@ -6,6 +6,9 @@ TagManager:
   tags:
   - WaterTile
   - PlainsTile
+  - Tree
+  - Stone
+  - Home
   - RockTile
   layers:
   - Default
