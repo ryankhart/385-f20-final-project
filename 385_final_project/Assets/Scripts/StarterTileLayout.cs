@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,7 +32,7 @@ public class StarterTileLayout : MonoBehaviour
         tileMap = new GameObject[mapSize, mapSize];
 
         GeneratePlains();
-        GenerateOtherTileGroups(waterTile, 0.86f, (int) (mapSize * mapSize * 0.25)); // up to 25% of map is water
+        GenerateOtherTileGroups(waterTile, 0.86f, (int)(mapSize * mapSize * 0.25)); // up to 25% of map is water
         GenerateOtherTileGroups(rockTile, 0.86f, (int)(mapSize * mapSize * 0.15)); // up to 15% of map is rock
         GenerateTrees();
 
@@ -56,8 +56,8 @@ public class StarterTileLayout : MonoBehaviour
     {
         // choose a random plains tile on the map
         System.Random rand = new System.Random((int)DateTime.Now.Ticks);
-        int indexX = rand.Next(0,mapSize);
-        int indexY = rand.Next(0,mapSize);
+        int indexX = rand.Next(0, mapSize);
+        int indexY = rand.Next(0, mapSize);
 
         // destroy the plains tile
         Destroy(tileMap[indexX, indexY]);
@@ -70,10 +70,10 @@ public class StarterTileLayout : MonoBehaviour
 
         // randomly generate a group of water tiles
         // postcondition: the number of tiles placed into the map is generally less than the percentage
-        for(int i = 0; i < percentage; )
+        for (int i = 0; i < percentage;)
         {
             rand = new System.Random((int)DateTime.Now.Ticks);
-            nextRandValue = rand.Next(0,4);
+            nextRandValue = rand.Next(0, 4);
 
             switch (nextRandValue)
             {
@@ -127,7 +127,7 @@ public class StarterTileLayout : MonoBehaviour
         int nextTreeY;
 
         // find a plains tile
-        int treeCount = (int) (mapSize * mapSize * 0.3); // ~30% of map will be trees
+        int treeCount = (int)(mapSize * mapSize * 0.3); // ~30% of map will be trees
         while (treeCount > 0)
         {
             nextTreeX = rand.Next(0, mapSize);
@@ -145,6 +145,6 @@ public class StarterTileLayout : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
