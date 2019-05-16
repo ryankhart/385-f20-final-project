@@ -687,7 +687,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d921210c5477b348827081031619db9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panSpeed: 20
-  zoomSpeed: 0.5
-  m_fastModeMultiplier: 2
+  m_panSpeed: 2
+  m_zoomSpeed: 0.5
+  m_fastModeMultiplier: 10
   m_position: {x: 0, y: 0, z: 0}
