@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -45,12 +45,12 @@ public class ScryMode : MonoBehaviour
     void Activate()
     {
         m_Overlay.SetActive(true);
-        m_CameraController.enabled = true;
+        m_CameraController.EnableFastMode();
     }
 
     void Deactivate()
     {
         m_Overlay.SetActive(false);
-        m_CameraController.enabled = false;
+        m_CameraController.DisableFastMode();
     }
 }
