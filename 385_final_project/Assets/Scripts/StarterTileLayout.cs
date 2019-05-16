@@ -136,15 +136,8 @@ public class StarterTileLayout : MonoBehaviour
 
             if (tileMap[nextTreeX, nextTreeY].gameObject.tag.Equals("PlainsTile"))
             {
-<<<<<<< HEAD
-                float tilePositionX = tileMap[nextTreeX, nextTreeY].transform.position.x;
-                float tilePositionY = tileMap[nextTreeX, nextTreeY].transform.position.y;
-                Vector3 treePosition = TilePosition((int)tilePositionX, (int)tilePositionY, 0, 0.43f);
-                Instantiate(tree, treePosition, Quaternion.Euler(-90, 0, 0)); // rotatet to top down view
-=======
                 Vector3 treePosition = TilePosition(nextTreeX, nextTreeY, 0);
                 Instantiate(tree, treePosition, Quaternion.Euler(-90, 0, 0)); // rotate to top down view
->>>>>>> Added comments
                 treeCount--;
             }
         }
