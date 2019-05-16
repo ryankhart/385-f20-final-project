@@ -13,7 +13,7 @@ public class StarterTileLayout : MonoBehaviour
     public Camera gameCamera;
 
     private GameObject[,] tileMap;
-    private float offset = 0.86f; // Default tile offset
+    private float offset = 0.86f; // Default offset
 
     private Vector3 TilePosition(float x, float y, float z)
     {
@@ -32,32 +32,13 @@ public class StarterTileLayout : MonoBehaviour
         tileMap = new GameObject[mapSize, mapSize];
 
         GeneratePlains();
-        GenerateOtherTileGroups(waterTile, 0.86f, (int) (mapSize * mapSize * 0.25)); // up to 25% of map is water
+        GenerateOtherTileGroups(waterTile, 0.86f, (int)(mapSize * mapSize * 0.25)); // up to 25% of map is water
         GenerateOtherTileGroups(rockTile, 0.86f, (int)(mapSize * mapSize * 0.15)); // up to 15% of map is rock
         GenerateTrees();
 
         // position the camera in the middle of the map
-        gameCamera.transform.position = TilePosition((mapSize / 2), (mapSize / 2), -15);
+        gameCamera.transform.position = TilePosition((mapSize / 2), (mapSize / 2), -10);
     }
-
-    private Vector3 TilePosition(int x, int y, int z, float offset_override)
-    {
-        return new Vector3(x * offset_override, y * offset_override, z);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        // make map based on given size
-        tileMap = new GameObject[mapSize, mapSize];
-
-        GeneratePlains();
-        GenerateOtherTileGroups(waterTile, 0.86f, (int) (mapSize * mapSize * 0.25)); // up to 25% of map is water
-        GenerateOtherTileGroups(rockTile, 0.86f, (int)(mapSize * mapSize * 0.15)); // up to 15% of map is rock
-        GenerateTrees();
-
-        // position the camera in the middle of the map
-        gameCamera.transform.position = TilePosition((mapSize / 2), (mapSize / 2), -15);
 
     private void GeneratePlains()
     {
@@ -75,8 +56,8 @@ public class StarterTileLayout : MonoBehaviour
     {
         // choose a random plains tile on the map
         System.Random rand = new System.Random((int)DateTime.Now.Ticks);
-        int indexX = rand.Next(0,mapSize);
-        int indexY = rand.Next(0,mapSize);
+        int indexX = rand.Next(0, mapSize);
+        int indexY = rand.Next(0, mapSize);
 
         // destroy the plains tile
         Destroy(tileMap[indexX, indexY]);
@@ -89,10 +70,10 @@ public class StarterTileLayout : MonoBehaviour
 
         // randomly generate a group of water tiles
         // postcondition: the number of tiles placed into the map is generally less than the percentage
-        for(int i = 0; i < percentage; )
+        for (int i = 0; i < percentage;)
         {
             rand = new System.Random((int)DateTime.Now.Ticks);
-            nextRandValue = rand.Next(0,4);
+            nextRandValue = rand.Next(0, 4);
 
             switch (nextRandValue)
             {
@@ -146,7 +127,7 @@ public class StarterTileLayout : MonoBehaviour
         int nextTreeY;
 
         // find a plains tile
-        int treeCount = (int) (mapSize * mapSize * 0.3); // ~30% of map will be trees
+        int treeCount = (int)(mapSize * mapSize * 0.3); // ~30% of map will be trees
         while (treeCount > 0)
         {
             nextTreeX = rand.Next(0, mapSize);
@@ -164,6 +145,6 @@ public class StarterTileLayout : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
