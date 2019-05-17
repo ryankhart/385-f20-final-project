@@ -6,21 +6,40 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 // extending EventTrigger to override dropdown functions
-public class SpawnBuidlings : MonoBehaviour
+public class SpawnBuidlings : MonoBehaviour, ISelectHandler
 {
-    public Dropdown m_Dropdown;
+
+    public GameObject housePrefab;
+
+    private List<GameObject> houses = new List<GameObject>();
 
     void Start()
     {
-        m_Dropdown = GetComponent<Dropdown>();
-        m_Dropdown.onValueChanged.AddListener(delegate {
-            DropdownValueChanged(m_Dropdown);
-        });
+
     }
 
-    //Ouput the new value of the Dropdown into Text
-    void DropdownValueChanged(Dropdown change)
+    void Update()
     {
-        Debug.Log("Selection performed" + change);
+
+    }
+
+    public void OnSelect(BaseEventData eventData)
+    {
+        int selection = gameObject.GetComponent<Dropdown>().value;
+        if(selection != 0)
+        {
+            if(Input.GetMouseButtonDown(0)) // on left click
+            {
+                Debug.Log("Selection" + selection);
+                Vector3 cursorPosition = Input.mousePosition;
+                cursorPosition.z = -2;
+                Debug.Log("Mouse position" + cursorPosition);
+
+                Vector3 housePosition = Camera.main.ScreenToWorldPoint(cursorPosition);
+                Debug.Log("House position" + housePosition);
+                GameObject newHouse = Instantiate(housePrefab, housePosition, Quaternion.identity);
+                houses.Add(newHouse);
+            }
+        }
     }
 }
