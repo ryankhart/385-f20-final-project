@@ -1,18 +1,26 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
+// extending EventTrigger to override dropdown functions
 public class SpawnBuidlings : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public Dropdown m_Dropdown;
+
     void Start()
     {
-        
+        m_Dropdown = GetComponent<Dropdown>();
+        m_Dropdown.onValueChanged.AddListener(delegate {
+            DropdownValueChanged(m_Dropdown);
+        });
     }
 
-    // Update is called once per frame
-    void Update()
+    //Ouput the new value of the Dropdown into Text
+    void DropdownValueChanged(Dropdown change)
     {
-        
+        Debug.Log("Selection performed" + change);
     }
 }

@@ -48,6 +48,8 @@ MonoBehaviour:
     type: 3}
   waterTile: {fileID: 2262391393610958972, guid: 754411a1e4b5a4ba5bbee2ad08ae2dc4,
     type: 3}
-  rockTile: {fileID: 0}
-  tree: {fileID: 0}
-  gameCamera: {fileID: 0}
+  rockTile: {fileID: 6063934138720175809, guid: 24fa9dd261ec9420f8ae126d50f2b356,
+    type: 3}
+  tree: {fileID: 1671842898175696237, guid: 198552a339acc493fb5971128dac8fdb, type: 3}
+  gameCamera: {fileID: 3963153818502319251, guid: 843799c3bcf5b4634bc408f7e941b2e0,
+    type: 3}
