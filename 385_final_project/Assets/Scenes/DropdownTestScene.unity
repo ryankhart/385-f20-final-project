@@ -118,7 +118,7 @@ Camera:
     type: 3}
   m_PrefabInstance: {fileID: 854757072}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &142596205
+--- !u!1 &853387348
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -126,43 +126,63 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 142596207}
-  - component: {fileID: 142596206}
+  - component: {fileID: 853387351}
+  - component: {fileID: 853387350}
+  - component: {fileID: 853387349}
   m_Layer: 0
-  m_Name: BuidlingManager
+  m_Name: EventSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &142596206
+--- !u!114 &853387349
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 142596205}
+  m_GameObject: {fileID: 853387348}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c3b7a528737e435ab1140e121bc690b, type: 3}
+  m_Script: {fileID: 1077351063, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  housePrefab: {fileID: 1174366297928151700, guid: e818fd5208d881d40a771bffbde03a59,
-    type: 3}
-  camera: {fileID: 108831516}
---- !u!4 &142596207
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &853387350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853387348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -619905303, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &853387351
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 142596205}
+  m_GameObject: {fileID: 853387348}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 596.8378, y: 396.64395, z: -29.882456}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &854757072
 PrefabInstance:
@@ -352,7 +372,7 @@ PrefabInstance:
     - target: {fileID: 4873729873565156428, guid: ddca1caa549d94a4e94f7434938d80f4,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4873729873565156428, guid: ddca1caa549d94a4e94f7434938d80f4,
         type: 3}
@@ -422,38 +442,8 @@ PrefabInstance:
     - target: {fileID: 7814054601010383157, guid: ddca1caa549d94a4e94f7434938d80f4,
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7814054601010383157, guid: ddca1caa549d94a4e94f7434938d80f4,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7814054601010383157, guid: ddca1caa549d94a4e94f7434938d80f4,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7814054601010383157, guid: ddca1caa549d94a4e94f7434938d80f4,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 142596206}
-    - target: {fileID: 7814054601010383157, guid: ddca1caa549d94a4e94f7434938d80f4,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SelectBuildingFromDropdown
-      objectReference: {fileID: 0}
-    - target: {fileID: 7814054601010383157, guid: ddca1caa549d94a4e94f7434938d80f4,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 4531776231176438913, guid: ddca1caa549d94a4e94f7434938d80f4,
-        type: 3}
-      propertyPath: camera
-      value: 
-      objectReference: {fileID: 108831516}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddca1caa549d94a4e94f7434938d80f4, type: 3}
 --- !u!1001 &1076530146
@@ -506,7 +496,7 @@ PrefabInstance:
     - target: {fileID: 6060323597384748029, guid: 2bdc6e6e7561f4c77a947b96cb3c4da6,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6060323597384748029, guid: 2bdc6e6e7561f4c77a947b96cb3c4da6,
         type: 3}
