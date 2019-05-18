@@ -34,13 +34,18 @@ public class SpawnNewBuildings : MonoBehaviour
             {
                 // drop the buidling down onto the map surface
                 buildingToDrag.transform.position = new Vector3(buildingToDrag.transform.position.x, buildingToDrag.transform.position.y, 0);
-                
+
             }
-            // stop hodling onto this building
-            buildingToDrag = null;
-            // stop the dragging process
-            draggingNewBuilding = false;
+            StopDraggingBuidling();
         }
+    }
+
+    private void StopDraggingBuidling()
+    {
+        // stop hodling onto this building
+        buildingToDrag = null;
+        // stop the dragging process
+        draggingNewBuilding = false;
     }
 
     private void DragBuilding()
@@ -48,10 +53,7 @@ public class SpawnNewBuildings : MonoBehaviour
         // if user clicks on the left mouse button
         if (Input.GetMouseButtonDown(0))
         {
-            // stop holding onto this building
-            buildingToDrag = null;
-            // stop the dragging process
-            draggingNewBuilding = false;
+            StopDraggingBuidling();
         }
         buildingToDrag = houses[houses.Count - 1];
         float posX = Input.mousePosition.x;
