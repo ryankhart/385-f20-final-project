@@ -16,6 +16,7 @@ public class SpawnNewBuildings : MonoBehaviour
     private bool draggingNewBuilding;
     private Vector3 cameraMouseOffset;
     private Vector3 screenPoint;
+    private readonly float tileOffset = 0.86f;
 
     void Start()
     {
@@ -32,6 +33,17 @@ public class SpawnNewBuildings : MonoBehaviour
         {
             if (buildingToDrag != null)
             {
+                // check that we aren't outside of the map - may not be necessary?
+
+                // place building into a tile on the grid
+                // for now, place to the tile where the lower left corner of the house is
+                // First, get the index of the tiles
+                int tileXIndex = (int)(buildingToDrag.transform.position.x / tileOffset);
+                int tileYIndex = (int)(buildingToDrag.transform.position.y / tileOffset);
+                Debug.Log(tileXIndex + " : " + tileYIndex);
+
+                // check that we are on a plains tile
+
                 // drop the buidling down onto the map surface
                 buildingToDrag.transform.position = new Vector3(buildingToDrag.transform.position.x, buildingToDrag.transform.position.y, 0);
 
