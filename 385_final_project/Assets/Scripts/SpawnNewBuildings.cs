@@ -103,6 +103,7 @@ public class SpawnNewBuildings : MonoBehaviour
         if (tileTag.Equals("PlainsTile"))
         {
             buildingToDrag.transform.position = new Vector3(tileXIndex * tileOffset, tileYIndex * tileOffset, 0);
+            tileLayoutScript.setTileTag(tileXIndex, tileYIndex, "PlainsTileWithBuilding");
             // stop holding onto this building
             buildingToDrag = null;
             StopDraggingBuidling();
