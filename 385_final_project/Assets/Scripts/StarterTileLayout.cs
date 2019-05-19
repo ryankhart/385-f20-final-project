@@ -141,9 +141,13 @@ public class StarterTileLayout : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    public string getTileTag(int x, int y)
+    { 
+        return tileMap[x,y].gameObject.tag;
+    }
 
+    public void setTileTag(int x, int y, string newTag)
+    {
+        tileMap[x, y].gameObject.tag = newTag;
     }
 }

@@ -33,45 +33,45 @@ public class SpawnNewBuildings : MonoBehaviour
         {
             if (buildingToDrag != null)
             {
-                // check that we aren't outside of the map - may not be necessary?
-
-                // place building into a tile on the grid
-                // for now, place to the tile where the lower left corner of the house is
-                // First, get the index of the tiles
-                int tileXIndex = (int)(buildingToDrag.transform.position.x / tileOffset);
-                int tileYIndex = (int)(buildingToDrag.transform.position.y / tileOffset);
-                Debug.Log(tileXIndex + " : " + tileYIndex);
-
-                // check that we are on a plains tile
-
-                // drop the buidling down onto the map surface
-                buildingToDrag.transform.position = new Vector3(buildingToDrag.transform.position.x, buildingToDrag.transform.position.y, 0);
-
+                PlaceBuildingOnFreePlainsTile();
             }
-            StopDraggingBuidling();
+            else
+            {
+                StopDraggingBuidling();
+            }
         }
     }
 
-    private void StopDraggingBuidling()
+    private void PlaceBuildingOnFreePlainsTile()
     {
-        // stop hodling onto this building
-        buildingToDrag = null;
-        // stop the dragging process
-        draggingNewBuilding = false;
-    }
+        // TODO: check that we aren't outside of the map - may not be necessary?, so far all buildings
+        // just happend to be dropped on the map - that may change when the player character is able to move
+        // around, though
 
-    private void DragBuilding()
-    {
-        // if user clicks on the left mouse button
-        if (Input.GetMouseButtonDown(0))
+        // place building into a tile on the grid
+        // TODO: for now, place to the tile where the lower left corner of the house is
+        // get the index of the tiles from the tile map
+        int tileXIndex = (int)(buildingToDrag.transform.position.x / tileOffset);
+        int tileYIndex = (int)(buildingToDrag.transform.position.y / tileOffset);
+
+        // get the tile tag
+        GameObject tileLayoutStarter = GameObject.Find("TileLayoutStarter");
+        StarterTileLayout tileLayoutScript = tileLayoutStarter.GetComponent<StarterTileLayout>();
+        string tileTag = tileLayoutScript.getTileTag(tileXIndex, tileYIndex);
+
+        // drop the buidling down onto a free plains tile
+        if (tileTag.Equals("PlainsTile"))
         {
+            buildingToDrag.transform.position = new Vector3(tileXIndex * tileOffset, tileYIndex * tileOffset, 0);
+            // stop holding onto this building
+            buildingToDrag = null;
             StopDraggingBuidling();
         }
-        buildingToDrag = houses[houses.Count - 1];
-        float posX = Input.mousePosition.x;
-        float posY = Input.mousePosition.y;
-        // 10 units below the camera, so that the player can see where the building is
-        buildingToDrag.transform.position = camera.ScreenToWorldPoint(new Vector3(posX, posY, 10));
+        else
+        {
+            // continue dragging the building
+            draggingNewBuilding = true;
+        }
     }
 
     public void SelectBuildingFromDropdown(int index)
@@ -92,5 +92,25 @@ public class SpawnNewBuildings : MonoBehaviour
         {
             Debug.Log("No building selection made");
         }
+    }
+
+    private void DragBuilding()
+    {
+        // if user clicks on the left mouse button
+        if (Input.GetMouseButtonDown(0))
+        {
+            StopDraggingBuidling();
+        }
+        buildingToDrag = houses[houses.Count - 1];
+        float posX = Input.mousePosition.x;
+        float posY = Input.mousePosition.y;
+        // 10 units below the camera, so that the player can see where the building is
+        buildingToDrag.transform.position = camera.ScreenToWorldPoint(new Vector3(posX, posY, 10));
+    }
+
+    private void StopDraggingBuidling()
+    {
+        // stop the dragging process
+        draggingNewBuilding = false;
     }
 }
