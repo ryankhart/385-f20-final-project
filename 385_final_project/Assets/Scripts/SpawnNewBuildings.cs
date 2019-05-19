@@ -60,6 +60,7 @@ public class SpawnNewBuildings : MonoBehaviour
         {
             Debug.Log("No building selection made");
         }
+
     }
 
     private void DragBuilding()
