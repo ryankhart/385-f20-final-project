@@ -42,38 +42,6 @@ public class SpawnNewBuildings : MonoBehaviour
         }
     }
 
-    private void PlaceBuildingOnFreePlainsTile()
-    {
-        // TODO: check that we aren't outside of the map - may not be necessary?, so far all buildings
-        // just happend to be dropped on the map - that may change when the player character is able to move
-        // around, though
-
-        // place building into a tile on the grid
-        // TODO: for now, place to the tile where the lower left corner of the house is
-        // get the index of the tiles from the tile map
-        int tileXIndex = (int)(buildingToDrag.transform.position.x / tileOffset);
-        int tileYIndex = (int)(buildingToDrag.transform.position.y / tileOffset);
-
-        // get the tile tag
-        GameObject tileLayoutStarter = GameObject.Find("TileLayoutStarter");
-        StarterTileLayout tileLayoutScript = tileLayoutStarter.GetComponent<StarterTileLayout>();
-        string tileTag = tileLayoutScript.getTileTag(tileXIndex, tileYIndex);
-
-        // drop the buidling down onto a free plains tile
-        if (tileTag.Equals("PlainsTile"))
-        {
-            buildingToDrag.transform.position = new Vector3(tileXIndex * tileOffset, tileYIndex * tileOffset, 0);
-            // stop holding onto this building
-            buildingToDrag = null;
-            StopDraggingBuidling();
-        }
-        else
-        {
-            // continue dragging the building
-            draggingNewBuilding = true;
-        }
-    }
-
     public void SelectBuildingFromDropdown(int index)
     {
         // 0 = Building Menu - unselectable item, 1-3 = building options
@@ -112,5 +80,37 @@ public class SpawnNewBuildings : MonoBehaviour
     {
         // stop the dragging process
         draggingNewBuilding = false;
+    }
+
+    private void PlaceBuildingOnFreePlainsTile()
+    {
+        // TODO: check that we aren't outside of the map - may not be necessary?, so far all buildings
+        // just happend to be dropped on the map - that may change when the player character is able to move
+        // around, though
+
+        // place building into a tile on the grid
+        // TODO: for now, place to the tile where the lower left corner of the house is
+        // get the index of the tiles from the tile map
+        int tileXIndex = (int)(buildingToDrag.transform.position.x / tileOffset);
+        int tileYIndex = (int)(buildingToDrag.transform.position.y / tileOffset);
+
+        // get the tile tag
+        GameObject tileLayoutStarter = GameObject.Find("TileLayoutStarter");
+        StarterTileLayout tileLayoutScript = tileLayoutStarter.GetComponent<StarterTileLayout>();
+        string tileTag = tileLayoutScript.getTileTag(tileXIndex, tileYIndex);
+
+        // drop the buidling down onto a free plains tile
+        if (tileTag.Equals("PlainsTile"))
+        {
+            buildingToDrag.transform.position = new Vector3(tileXIndex * tileOffset, tileYIndex * tileOffset, 0);
+            // stop holding onto this building
+            buildingToDrag = null;
+            StopDraggingBuidling();
+        }
+        else
+        {
+            // continue dragging the building
+            draggingNewBuilding = true;
+        }
     }
 }

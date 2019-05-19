@@ -136,6 +136,7 @@ public class StarterTileLayout : MonoBehaviour
             {
                 Vector3 treePosition = TilePosition(nextTreeX, nextTreeY, 0);
                 Instantiate(tree, treePosition, Quaternion.Euler(-90, 0, 0)); // rotate to top down view
+                tileMap[nextTreeX, nextTreeY].gameObject.tag = "PlainsTileWithTree";
                 treeCount--;
             }
         }
