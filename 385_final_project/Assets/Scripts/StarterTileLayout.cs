@@ -13,11 +13,11 @@ public class StarterTileLayout : MonoBehaviour
     public Camera gameCamera;
 
     private GameObject[,] tileMap;
-    private float offset = 0.86f; // Default offset
+    private float tileOffset = 0.86f; // Default offset
 
     private Vector3 TilePosition(float x, float y, float z)
     {
-        return new Vector3(x * offset, y * offset, z);
+        return new Vector3(x * tileOffset, y * tileOffset, z);
     }
 
     private Vector3 TilePosition(int x, int y, int z, float offset_override)
@@ -37,7 +37,7 @@ public class StarterTileLayout : MonoBehaviour
         GenerateTrees();
 
         // position the camera in the middle of the map
-        gameCamera.transform.position = TilePosition((mapSize / 2), (mapSize / 2), -10);
+        gameCamera.transform.position = TilePosition((mapSize / 2f), (mapSize / 2f), -10);
     }
 
     private void GeneratePlains()
@@ -62,10 +62,9 @@ public class StarterTileLayout : MonoBehaviour
         // destroy the plains tile
         Destroy(tileMap[indexX, indexY]);
 
-        // place new water tile - this will be the origin of the body of water
-        tileMap[indexX, indexY] = Instantiate(waterTile, TilePosition(indexX, indexY, 0), Quaternion.identity);
+        // place new terrain tile - this will be the origin of the group of terrain tiles
+        tileMap[indexX, indexY] = Instantiate(tilePrefab, TilePosition(indexX, indexY, 0), Quaternion.identity);
 
-        // up to 25 procent of the surface can be water, in practice it is always less
         int nextRandValue;
 
         // randomly generate a group of water tiles
@@ -137,14 +136,19 @@ public class StarterTileLayout : MonoBehaviour
             {
                 Vector3 treePosition = TilePosition(nextTreeX, nextTreeY, 0);
                 Instantiate(tree, treePosition, Quaternion.Euler(-90, 0, 0)); // rotate to top down view
+                tileMap[nextTreeX, nextTreeY].gameObject.tag = "PlainsTileWithTree";
                 treeCount--;
             }
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    public string getTileTag(int x, int y)
+    { 
+        return tileMap[x,y].gameObject.tag;
+    }
 
+    public void setTileTag(int x, int y, string newTag)
+    {
+        tileMap[x, y].gameObject.tag = newTag;
     }
 }

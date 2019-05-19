@@ -4,14 +4,14 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - WaterTile
-  - PlainsTile
   - Tree
   - Stone
   - Home
   - RockTile
   - PlainsTile
   - WaterTile
+  - PlainsTileWithTree
+  - PlainsTileWithBuilding
   layers:
   - Default
   - TransparentFX
