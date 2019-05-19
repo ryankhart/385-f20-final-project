@@ -11,6 +11,7 @@ TagManager:
   - PlainsTile
   - WaterTile
   - PlainsTileWithTree
+  - PlainsTileWithBuilding
   layers:
   - Default
   - TransparentFX
