@@ -74,7 +74,7 @@ public class SpawnNewBuildings : MonoBehaviour
         float posX = Input.mousePosition.x;
         float posY = Input.mousePosition.y;
         // 10 units below the camera, so that the player can see where the building is
-        buildingToDrag.transform.position = camera.ScreenToWorldPoint(new Vector3(posX, posY, 10));
+        buildingToDrag.transform.position = camera.ScreenToWorldPoint(new Vector3(posX, posY, 9));
     }
 
     private void StopDraggingBuidling()
@@ -93,18 +93,18 @@ public class SpawnNewBuildings : MonoBehaviour
         // TODO: for now, place to the tile where the lower left corner of the house is
         // get the index of the tiles from the tile map
         int tileXIndex = (int)(buildingToDrag.transform.position.x / tileOffset);
-        int tileYIndex = (int)(buildingToDrag.transform.position.y / tileOffset);
+        int tileZIndex = (int)(buildingToDrag.transform.position.z / tileOffset);
 
         // get the tile tag
         GameObject tileLayoutStarter = GameObject.Find("TileLayoutStarter");
         StarterTileLayout tileLayoutScript = tileLayoutStarter.GetComponent<StarterTileLayout>();
-        string tileTag = tileLayoutScript.getTileTag(tileXIndex, tileYIndex);
+        string tileTag = tileLayoutScript.getTileTag(tileXIndex, tileZIndex);
 
         // drop the buidling down onto a free plains tile
         if (tileTag.Equals("PlainsTile"))
         {
-            buildingToDrag.transform.position = new Vector3(tileXIndex * tileOffset, tileYIndex * tileOffset, 0);
-            tileLayoutScript.setTileTag(tileXIndex, tileYIndex, "PlainsTileWithBuilding");
+            buildingToDrag.transform.position = new Vector3(tileXIndex * tileOffset, 0, tileZIndex * tileOffset);
+            tileLayoutScript.setTileTag(tileXIndex, tileZIndex, "PlainsTileWithBuilding");
             // stop holding onto this building
             buildingToDrag = null;
             StopDraggingBuidling();
