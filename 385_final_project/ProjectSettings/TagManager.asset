@@ -12,6 +12,9 @@ TagManager:
   - WaterTile
   - PlainsTileWithTree
   - PlainsTileWithBuilding
+  - Obstacle
+  - Start
+  - End
   layers:
   - Default
   - TransparentFX
@@ -21,7 +24,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Obstacles
   - 
   - 
   - 
