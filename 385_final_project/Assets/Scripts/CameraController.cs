@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         Move();
-        print("Pan Speed is now " + m_panSpeed);
+        //print("Pan Speed is now " + m_panSpeed);
         Zoom();
         UpdatePosition();
     }
