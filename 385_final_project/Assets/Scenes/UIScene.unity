@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.496413, b: 0.5748175, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -532,25 +532,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 843799c3bcf5b4634bc408f7e941b2e0, type: 3}
---- !u!1 &2076532528 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3963153818502319245, guid: 843799c3bcf5b4634bc408f7e941b2e0,
-    type: 3}
-  m_PrefabInstance: {fileID: 2076532527}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2076532529
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2076532528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d921210c5477b348827081031619db9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_panSpeed: 2
-  m_zoomSpeed: 0.5
-  m_fastModeMultiplier: 10
-  m_position: {x: 0, y: 0, z: 0}
