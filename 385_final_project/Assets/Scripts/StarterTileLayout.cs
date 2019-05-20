@@ -17,12 +17,12 @@ public class StarterTileLayout : MonoBehaviour
 
     private Vector3 TilePosition(float x, float y, float z)
     {
-        return new Vector3(x * tileOffset, y * tileOffset, z);
+        return new Vector3(x * tileOffset, y, z * tileOffset);
     }
 
     private Vector3 TilePosition(int x, int y, int z, float offset_override)
     {
-        return new Vector3(x * offset_override, y * offset_override, z);
+        return new Vector3(x * offset_override, y, z * tileOffset);
     }
 
     // Start is called before the first frame update
@@ -37,7 +37,8 @@ public class StarterTileLayout : MonoBehaviour
         GenerateTrees();
 
         // position the camera in the middle of the map
-        gameCamera.transform.position = TilePosition((mapSize / 2f), (mapSize / 2f), -10);
+        gameCamera.transform.position = TilePosition((mapSize / 2f), 10, (mapSize / 2f));
+        gameCamera.transform.rotation = Quaternion.Euler(90,0,0);
     }
 
     private void GeneratePlains()
@@ -46,7 +47,7 @@ public class StarterTileLayout : MonoBehaviour
         {
             for (int j = 0; j < mapSize; j++)
             {
-                tileMap[i, j] = Instantiate(plainsTile, TilePosition(i, j, 0), Quaternion.identity);
+                tileMap[i, j] = Instantiate(plainsTile, TilePosition(i, 0, j), Quaternion.Euler(90,0,0));
             }
         }
     }
@@ -57,13 +58,13 @@ public class StarterTileLayout : MonoBehaviour
         // choose a random plains tile on the map
         System.Random rand = new System.Random((int)DateTime.Now.Ticks);
         int indexX = rand.Next(0, mapSize);
-        int indexY = rand.Next(0, mapSize);
+        int indexZ = rand.Next(0, mapSize);
 
         // destroy the plains tile
-        Destroy(tileMap[indexX, indexY]);
+        Destroy(tileMap[indexX, indexZ]);
 
         // place new terrain tile - this will be the origin of the group of terrain tiles
-        tileMap[indexX, indexY] = Instantiate(tilePrefab, TilePosition(indexX, indexY, 0), Quaternion.identity);
+        tileMap[indexX, indexZ] = Instantiate(tilePrefab, TilePosition(indexX, 0, indexZ), Quaternion.Euler(90, 0, 0));
 
         int nextRandValue;
 
@@ -80,7 +81,7 @@ public class StarterTileLayout : MonoBehaviour
                     if (indexX - 1 >= 0)  // check if we are past the map edge
                     {
                         indexX -= 1;
-                        PlaceNewTile(tilePrefab, indexX, indexY);
+                        PlaceNewTile(tilePrefab, indexX, indexZ);
                         i++;
                     }
                     break;
@@ -88,23 +89,23 @@ public class StarterTileLayout : MonoBehaviour
                     if (indexX + 1 < mapSize)  // check if we are past the map edge
                     {
                         indexX += 1;
-                        PlaceNewTile(tilePrefab, indexX, indexY);
+                        PlaceNewTile(tilePrefab, indexX, indexZ);
                         i++;
                     }
                     break;
                 case 3: // south
-                    if (indexY - 1 >= 0)  // check if we are past the map edge
+                    if (indexZ - 1 >= 0)  // check if we are past the map edge
                     {
-                        indexY -= 1;
-                        PlaceNewTile(tilePrefab, indexX, indexY);
+                        indexZ -= 1;
+                        PlaceNewTile(tilePrefab, indexX, indexZ);
                         i++;
                     }
                     break;
                 default: // north
-                    if (indexY + 1 < mapSize)  // check if we are past the map edge
+                    if (indexZ + 1 < mapSize)  // check if we are past the map edge
                     {
-                        indexY += 1;
-                        PlaceNewTile(tilePrefab, indexX, indexY);
+                        indexZ += 1;
+                        PlaceNewTile(tilePrefab, indexX, indexZ);
                         i++;
                     }
                     break;
@@ -112,10 +113,10 @@ public class StarterTileLayout : MonoBehaviour
         }
     }
 
-    private void PlaceNewTile(GameObject prefab, int indexX, int indexY)
+    private void PlaceNewTile(GameObject prefab, int indexX, int indexZ)
     {
-        Destroy(tileMap[indexX, indexY]);
-        tileMap[indexX, indexY] = Instantiate(prefab, TilePosition(indexX, indexY, 0), Quaternion.identity);
+        Destroy(tileMap[indexX, indexZ]);
+        tileMap[indexX, indexZ] = Instantiate(prefab, TilePosition(indexX, 0, indexZ), Quaternion.Euler(90, 0, 0));
     }
 
     private void GenerateTrees()
@@ -123,32 +124,32 @@ public class StarterTileLayout : MonoBehaviour
         System.Random rand = new System.Random((int)DateTime.Now.Ticks);
         // seed position for a tree
         int nextTreeX;
-        int nextTreeY;
+        int nextTreeZ;
 
         // find a plains tile
         int treeCount = (int)(mapSize * mapSize * 0.3); // ~30% of map will be trees
         while (treeCount > 0)
         {
             nextTreeX = rand.Next(0, mapSize);
-            nextTreeY = rand.Next(0, mapSize);
+            nextTreeZ = rand.Next(0, mapSize);
 
-            if (tileMap[nextTreeX, nextTreeY].gameObject.tag.Equals("PlainsTile"))
+            if (tileMap[nextTreeX, nextTreeZ].gameObject.tag.Equals("PlainsTile"))
             {
-                Vector3 treePosition = TilePosition(nextTreeX, nextTreeY, 0);
-                Instantiate(tree, treePosition, Quaternion.Euler(-90, 0, 0)); // rotate to top down view
-                tileMap[nextTreeX, nextTreeY].gameObject.tag = "PlainsTileWithTree";
+                Vector3 treePosition = TilePosition(nextTreeX, 0, nextTreeZ);
+                Instantiate(tree, treePosition, Quaternion.Euler(0, 0, 0)); // rotate to top down view
+                tileMap[nextTreeX, nextTreeZ].gameObject.tag = "PlainsTileWithTree";
                 treeCount--;
             }
         }
     }
 
-    public string getTileTag(int x, int y)
+    public string getTileTag(int x, int z)
     { 
-        return tileMap[x,y].gameObject.tag;
+        return tileMap[x,z].gameObject.tag;
     }
 
-    public void setTileTag(int x, int y, string newTag)
+    public void setTileTag(int x, int z, string newTag)
     {
-        tileMap[x, y].gameObject.tag = newTag;
+        tileMap[x, z].gameObject.tag = newTag;
     }
 }
