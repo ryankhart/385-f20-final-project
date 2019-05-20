@@ -21,6 +21,7 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         Move();
+        print("Pan Speed is now " + m_panSpeed);
         Zoom();
         UpdatePosition();
     }
@@ -67,6 +68,7 @@ public class CameraController : MonoBehaviour
             print("Enabling Camera Fast Mode");
             m_isInFastMode = true;
             m_panSpeed *= m_fastModeMultiplier;
+            print("Pan Speed is now " + m_panSpeed);
         }
     }
 
@@ -77,6 +79,7 @@ public class CameraController : MonoBehaviour
             print("Disabling Camera Fast Mode");
             m_isInFastMode = false;
             m_panSpeed /= m_fastModeMultiplier;
+            print("Pan Speed is now " + m_panSpeed);
         }
     }
 }
