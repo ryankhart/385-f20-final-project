@@ -30,9 +30,8 @@ public class TownFolkAI : MonoBehaviour
     private RaycastHit avoidanceHit;
     private Vector3 hitNormal;
 
-
-    private Transform startPosition;
-    private Transform endPosition;
+    //private Transform startPosition;
+    //private Transform endPosition;
 
     public Node startNode { get; set; }
     public Node goalNode { get; set; }
@@ -93,7 +92,9 @@ public class TownFolkAI : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
         //Move the agent forard
-        transform.position += transform.forward * currentSpeed;
+        //transform.position += transform.forward * currentSpeed;
+        transform.position += new Vector3((transform.forward * currentSpeed).x, 0, (transform.forward * currentSpeed).z);
+        transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
 
         /*
         //print(target);
@@ -174,8 +175,8 @@ public class TownFolkAI : MonoBehaviour
 
     private void FindPath()
     {
-        startPosition = startCube.transform;
-        endPosition = FindTarget();
+        Transform startPosition = startCube.transform;
+        Transform endPosition = FindTarget();
 
         if(endPosition != null)
         {

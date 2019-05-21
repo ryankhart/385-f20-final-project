@@ -15,6 +15,7 @@ TagManager:
   - Obstacle
   - Start
   - End
+  - MovingBuilding
   layers:
   - Default
   - TransparentFX
