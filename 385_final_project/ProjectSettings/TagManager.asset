@@ -14,8 +14,10 @@ TagManager:
   - Home
   - PlainsTileWithTree
   - PlainsTileWithBuilding
-  - Stone
-  - VillageCenter
+  - Obstacle
+  - Start
+  - End
+  - MovingBuilding
   layers:
   - Default
   - TransparentFX
