@@ -9,6 +9,7 @@ public class SpawnVillagers : MonoBehaviour
     private int mapSize;
     private int currentNumHouses = 0;
     private List<GameObject> villagers;
+    private GameObject[] houses;
     private StarterTileLayout mapStarterScript;
 
     private float tileOffset = 0.86f;
@@ -31,33 +32,40 @@ public class SpawnVillagers : MonoBehaviour
     {
         // one villager per house
         // TODO: come up with a better algorithm for ratio between houses and villagers
-        currentNumHouses = GameObject.FindGameObjectsWithTag("Home").Length;
+        houses = GameObject.FindGameObjectsWithTag("Home");
+        currentNumHouses = houses.Length;
         if(currentNumHouses > 0 && villagers.Count < currentNumHouses && villagers.Count <= mapSize)
         {
-            print(currentNumHouses);
-            bool foundSpot = false;
-            // find an empty plains tile
-            for (int i = 0; i < mapSize; i++)
-            {
-                for (int j = 0; j < mapSize; j++)
-                {
-                    string tileTag = mapStarterScript.getTileTag(i,j);
-                    if (tileTag.Equals("PlainsTile"))
-                    {
-                        //float lumberjackY = (float) (lumberjack.GetComponent<Head>().GetComponent<Renderer>().bounds.size.y + 0.5);
-                        GameObject jack = Instantiate(lumberjack, new Vector3(i * tileOffset + centerOffset, 0.439f, j * tileOffset + centerOffset), Quaternion.identity);
-                        villagers.Add(jack);
-                        // TODO: ask Jonathan to add method to stop a position and not destroy the prefab
-                        jack.GetComponent<TownFolkAI>().resourceTag = "Home";
-                        foundSpot = true;
-                        break;
-                    }
-                }
-                if(foundSpot)
-                {
-                    break;
-                }
-            }
+            print(currentNumHouses + " : " + villagers.Count + " : " + mapSize);
+            // spawn villager at current home
+            float jackX = houses[currentNumHouses - 1].transform.position.x;
+            float jackZ = houses[currentNumHouses - 1].transform.position.z;
+            GameObject jack = Instantiate(lumberjack, new Vector3(jackX, 0.439f, jackZ), Quaternion.identity);
+            villagers.Add(jack);
+
+            //bool foundSpot = false;
+            //// find an empty plains tile
+            //for (int i = 0; i < mapSize; i++)
+            //{
+            //    for (int j = 0; j < mapSize; j++)
+            //    {
+            //        string tileTag = mapStarterScript.getTileTag(i,j);
+            //        if (tileTag.Equals("PlainsTile"))
+            //        {
+            //            //float lumberjackY = (float) (lumberjack.GetComponent<Head>().GetComponent<Renderer>().bounds.size.y + 0.5);
+            //            GameObject jack = Instantiate(lumberjack, new Vector3(i * tileOffset + centerOffset, 0.439f, j * tileOffset + centerOffset), Quaternion.identity);
+            //            villagers.Add(jack);
+            //            // TODO: ask Jonathan to add method to stop a position and not destroy the prefab
+            //            jack.GetComponent<TownFolkAI>().resourceTag = "Home";
+            //            foundSpot = true;
+            //            break;
+            //        }
+            //    }
+            //    if(foundSpot)
+            //    {
+            //        break;
+            //    }
+            //}
         }
     }
 }
