@@ -32,6 +32,11 @@ public class StarterTileLayout : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // instantiate the grid creator, get the map size from it
+        GameObject gridCreator = Instantiate(GridCreator, new Vector3(0, 0, 0), Quaternion.identity);
+        mapSize = gridCreator.GetComponent<GridManager>().GetComponent<GridManager>().numberOfColumns;
+        print(mapSize);
+
         // make map based on given size
         tileMap = new GameObject[mapSize, mapSize];
 
@@ -43,7 +48,7 @@ public class StarterTileLayout : MonoBehaviour
         // position the camera in the middle of the map
         gameCamera.transform.position = TilePosition((mapSize / 2f), 10, (mapSize / 2f));
         gameCamera.transform.rotation = Quaternion.Euler(90,0,0);
-        Instantiate(GridCreator, new Vector3(0, 0, 0), Quaternion.identity);
+
         Instantiate(TownMan, new Vector3(1, .2f, 1), Quaternion.identity);
     }
 

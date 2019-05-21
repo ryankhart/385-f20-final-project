@@ -9,7 +9,9 @@ public class TownFolkAI : MonoBehaviour
     private Transform target;
     //public Transform home;
     private int state = 0;
-    public string tag = "Tree";
+    // renamed because if it's named just "tag" it may cause problems if you
+    // ever need to access the tag of this game object
+    public string resourceTag = "Tree";
 
     [SerializeField]
     private float movementSpeed = 5.0f;
@@ -143,7 +145,7 @@ public class TownFolkAI : MonoBehaviour
     {
         //Get all the trees 
         //TODO: find a way to only find a few trees?
-        GameObject[] targets = GameObject.FindGameObjectsWithTag(tag);
+        GameObject[] targets = GameObject.FindGameObjectsWithTag(resourceTag);
 
         float minDistance = Mathf.Infinity;
         Transform closest;
