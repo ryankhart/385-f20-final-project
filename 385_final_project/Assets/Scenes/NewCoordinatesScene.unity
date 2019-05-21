@@ -601,11 +601,7 @@ PrefabInstance:
     - target: {fileID: 3609154217335766883, guid: 3aba2a525e5ee4477b637cec4a9dadc2,
         type: 3}
       propertyPath: m_RootOrder
-<<<<<<< HEAD
       value: 4
-=======
-      value: 5
->>>>>>> new villager spawns at the last house placed position
       objectReference: {fileID: 0}
     - target: {fileID: 3609154217335766883, guid: 3aba2a525e5ee4477b637cec4a9dadc2,
         type: 3}
