@@ -17,6 +17,7 @@ public class SpawnNewBuildings : MonoBehaviour
     private Vector3 cameraMouseOffset;
     private Vector3 screenPoint;
     private readonly float tileOffset = 0.86f;
+    private readonly float centerOffset = 0.43f;
 
     void Start()
     {
@@ -75,6 +76,7 @@ public class SpawnNewBuildings : MonoBehaviour
         float posY = Input.mousePosition.y;
         // 10 units below the camera, so that the player can see where the building is
         buildingToDrag.transform.position = camera.ScreenToWorldPoint(new Vector3(posX, posY, 9));
+        buildingToDrag.tag = "Home";
     }
 
     private void StopDraggingBuidling()
@@ -103,7 +105,7 @@ public class SpawnNewBuildings : MonoBehaviour
         // drop the buidling down onto a free plains tile
         if (tileTag.Equals("PlainsTile"))
         {
-            buildingToDrag.transform.position = new Vector3(tileXIndex * tileOffset, 0, tileZIndex * tileOffset);
+            buildingToDrag.transform.position = new Vector3(tileXIndex * tileOffset + centerOffset, 0.25f, tileZIndex * tileOffset + centerOffset);
             tileLayoutScript.setTileTag(tileXIndex, tileZIndex, "PlainsTileWithBuilding");
             // stop holding onto this building
             buildingToDrag = null;
