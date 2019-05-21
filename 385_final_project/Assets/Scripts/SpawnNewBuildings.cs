@@ -118,7 +118,6 @@ public class SpawnNewBuildings : MonoBehaviour
         float posY = Input.mousePosition.y;
         // 10 units below the camera, so that the player can see where the building is
         buildingToDrag.transform.position = camera.ScreenToWorldPoint(new Vector3(posX, posY, 9));
-        buildingToDrag.tag = "Home";
     }
 
     private void StopDraggingBuidling()
@@ -160,7 +159,6 @@ public class SpawnNewBuildings : MonoBehaviour
                     resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value);
                 }
             }
-
             // stop holding onto this building
             buildingToDrag = null;
             StopDraggingBuidling();
