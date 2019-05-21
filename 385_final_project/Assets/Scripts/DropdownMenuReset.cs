@@ -13,7 +13,6 @@ public class DropdownMenuReset : MonoBehaviour
     {
         dropdown = gameObject.GetComponent<Dropdown>();
         originalState = dropdown.value;
-        print(originalState);
     }
 
     void Update()
