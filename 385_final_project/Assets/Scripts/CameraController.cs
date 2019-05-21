@@ -33,7 +33,7 @@ public class CameraController : MonoBehaviour
         // keys to go diagonally.
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
-            m_position.y += m_panSpeed * Time.deltaTime;
+            m_position.z += m_panSpeed * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
@@ -41,7 +41,7 @@ public class CameraController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
-            m_position.y -= m_panSpeed * Time.deltaTime;
+            m_position.z -= m_panSpeed * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
