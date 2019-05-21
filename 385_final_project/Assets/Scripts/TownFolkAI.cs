@@ -3,24 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class LumberJackAI : MonoBehaviour
+public class TownFolkAI : MonoBehaviour
 {
     private GameObject targetObject;
     private Transform target;
-    public Transform home;
+    //public Transform home;
     private int state = 0;
     public string tag = "Tree";
 
     [SerializeField]
     private float movementSpeed = 5.0f;
-    [SerializeField]
     private float rotationSpeed = 100.0f;
-    [SerializeField]
     private float force = 50.0f;
-    [SerializeField]
     private float minimumAvoidanceDistance = 20.0f;
     [SerializeField]
-    private float toleranceRadius = 2.0f;
+    private float toleranceRadius = .25f;
 
     private float currentSpeed;
     private Vector3 targetPoint;
@@ -45,7 +42,8 @@ public class LumberJackAI : MonoBehaviour
 
     private float elapsedTime = 0.0f;
     public float intervalTime = 1.0f;
-    private GridManager gridManager;
+    public GameObject GridCreator;
+    public GridManager gridManager;
     private int indexGob = 1;
 
 
@@ -53,9 +51,9 @@ public class LumberJackAI : MonoBehaviour
     void Start()
     {
         //navMeshAgent = gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>();
-        gridManager = FindObjectOfType<GridManager>();
+        GridCreator = GameObject.Find("GridCreator(Clone)");
+        gridManager = GridCreator.GetComponent<GridManager>();
         startCube = GameObject.FindGameObjectWithTag("Start");
-        endCube = GameObject.FindGameObjectWithTag("End");
         //Calculate the path using our AStart code.
         pathArray = new ArrayList();
         FindPath();
@@ -121,16 +119,24 @@ public class LumberJackAI : MonoBehaviour
 
     public void FindTarget2()
     {
-        if(indexGob < pathArray.Count)
+        try
         {
-            Node nextNode = (Node)pathArray[indexGob];
-            targetPoint = nextNode.position;
+            if (indexGob < pathArray.Count && pathArray.Count != 1)
+            {
+                Node nextNode = (Node)pathArray[indexGob];
+                targetPoint = nextNode.position;
+            }
+            else
+            {
+                if (targetObject != null)
+                    Destroy(targetObject);
+            }
         }
-        else
+        catch(Exception e)
         {
-            if(targetObject != null)
-            Destroy(targetObject); 
+
         }
+       
     }
 
     public Transform FindTarget()
@@ -158,34 +164,10 @@ public class LumberJackAI : MonoBehaviour
                 targetObject = targets[i];
                 closest = targets[i].transform;
                 minDistance = distance;
-                targetPoint = targets[i].transform.position;
             }
         }
 
         return closest;
-
-        
-
-    }
-
-    private void ApplyAvoidance(ref Vector3 direction)
-    {
-        //Only detect layer 8 (Obstacles)
-        //We use bitshifting to create a layermask with a value of 
-        //0100000000 where only the 8th position is 1, so only it is active.
-        int layerMask = 1 << 8;
-
-        //Check that the agent hit with the obstacles within it's minimum distance to avoid
-        if (Physics.Raycast(transform.position, transform.forward, out avoidanceHit, minimumAvoidanceDistance, layerMask))
-        {
-            //Get the normal of the hit point to calculate the new direction
-            hitNormal = avoidanceHit.normal;
-            hitNormal.y = 0.0f; //Don't want to move in Y-Space
-
-            //Get the new direction vector by adding force to agent's current forward vector
-            direction = transform.forward + hitNormal * force;
-        }
-
     }
 
     private void FindPath()
@@ -198,6 +180,7 @@ public class LumberJackAI : MonoBehaviour
             startNode = new Node(gridManager.GetGridCellCenter(gridManager.GetGridIndex(startPosition.position)));
             goalNode = new Node(gridManager.GetGridCellCenter(gridManager.GetGridIndex(endPosition.position)));
 
+            if(goalNode != null)
             pathArray = AStar.FindPath(startNode, goalNode);
         }
        

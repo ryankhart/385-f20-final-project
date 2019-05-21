@@ -10,10 +10,14 @@ public class StarterTileLayout : MonoBehaviour
     public GameObject waterTile;
     public GameObject rockTile;
     public GameObject tree;
+    public GameObject GridCreator;
+    public GameObject TownMan;
     public Camera gameCamera;
 
     private GameObject[,] tileMap;
-    private float tileOffset = 0.86f; // Default offset
+    private float tileOffset = 0.860000f; // Default offset
+
+    private float testVal = .50f;
 
     private Vector3 TilePosition(float x, float y, float z)
     {
@@ -32,13 +36,15 @@ public class StarterTileLayout : MonoBehaviour
         tileMap = new GameObject[mapSize, mapSize];
 
         GeneratePlains();
-        GenerateOtherTileGroups(waterTile, 0.86f, (int)(mapSize * mapSize * 0.25)); // up to 25% of map is water
-        GenerateOtherTileGroups(rockTile, 0.86f, (int)(mapSize * mapSize * 0.15)); // up to 15% of map is rock
+        GenerateOtherTileGroups(waterTile, tileOffset, (int)(mapSize * mapSize * 0.25)); // up to 25% of map is water
+        GenerateOtherTileGroups(rockTile, tileOffset, (int)(mapSize * mapSize * 0.15)); // up to 15% of map is rock
         GenerateTrees();
 
         // position the camera in the middle of the map
         gameCamera.transform.position = TilePosition((mapSize / 2f), 10, (mapSize / 2f));
         gameCamera.transform.rotation = Quaternion.Euler(90,0,0);
+        Instantiate(GridCreator, new Vector3(0, 0, 0), Quaternion.identity);
+        Instantiate(TownMan, new Vector3(1, .2f, 1), Quaternion.identity);
     }
 
     private void GeneratePlains()
@@ -47,7 +53,7 @@ public class StarterTileLayout : MonoBehaviour
         {
             for (int j = 0; j < mapSize; j++)
             {
-                tileMap[i, j] = Instantiate(plainsTile, TilePosition(i, 0, j), Quaternion.Euler(90,0,0));
+                tileMap[i, j] = Instantiate(plainsTile, TilePosition(i+testVal, 0, j+testVal), Quaternion.Euler(90,0,0));
             }
         }
     }
@@ -64,7 +70,7 @@ public class StarterTileLayout : MonoBehaviour
         Destroy(tileMap[indexX, indexZ]);
 
         // place new terrain tile - this will be the origin of the group of terrain tiles
-        tileMap[indexX, indexZ] = Instantiate(tilePrefab, TilePosition(indexX, 0, indexZ), Quaternion.Euler(90, 0, 0));
+        tileMap[indexX, indexZ] = Instantiate(tilePrefab, TilePosition(indexX+testVal, 0, indexZ+testVal), Quaternion.Euler(90, 0, 0));
 
         int nextRandValue;
 
@@ -116,7 +122,7 @@ public class StarterTileLayout : MonoBehaviour
     private void PlaceNewTile(GameObject prefab, int indexX, int indexZ)
     {
         Destroy(tileMap[indexX, indexZ]);
-        tileMap[indexX, indexZ] = Instantiate(prefab, TilePosition(indexX, 0, indexZ), Quaternion.Euler(90, 0, 0));
+        tileMap[indexX, indexZ] = Instantiate(prefab, TilePosition(indexX+testVal, 0, indexZ+testVal), Quaternion.Euler(90, 0, 0));
     }
 
     private void GenerateTrees()
@@ -135,7 +141,7 @@ public class StarterTileLayout : MonoBehaviour
 
             if (tileMap[nextTreeX, nextTreeZ].gameObject.tag.Equals("PlainsTile"))
             {
-                Vector3 treePosition = TilePosition(nextTreeX, 0, nextTreeZ);
+                Vector3 treePosition = TilePosition(nextTreeX+testVal, 0, nextTreeZ+testVal);
                 Instantiate(tree, treePosition, Quaternion.Euler(0, 0, 0)); // rotate to top down view
                 tileMap[nextTreeX, nextTreeZ].gameObject.tag = "PlainsTileWithTree";
                 treeCount--;
