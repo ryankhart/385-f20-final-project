@@ -89,7 +89,7 @@ public class AStar
         //We handle the scenario where no goal was found after looping thorugh the open list
         if (node.position != goal.position)
         {
-            Debug.LogError("Goal Not Found");
+            //Debug.LogError("Goal Not Found");
             return null;
         }
 

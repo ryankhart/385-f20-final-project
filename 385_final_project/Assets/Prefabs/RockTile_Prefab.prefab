@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1258692841270834707}
   m_Layer: 0
   m_Name: RockTile_Prefab
-  m_TagString: RockTile
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
