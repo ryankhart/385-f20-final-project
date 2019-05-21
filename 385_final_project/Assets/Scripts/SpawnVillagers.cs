@@ -32,8 +32,9 @@ public class SpawnVillagers : MonoBehaviour
         // one villager per house
         // TODO: come up with a better algorithm for ratio between houses and villagers
         currentNumHouses = GameObject.FindGameObjectsWithTag("Home").Length;
-        if(villagers.Count < currentNumHouses && villagers.Count <= mapSize)
+        if(currentNumHouses > 0 && villagers.Count < currentNumHouses && villagers.Count <= mapSize)
         {
+            print(currentNumHouses);
             bool foundSpot = false;
             // find an empty plains tile
             for (int i = 0; i < mapSize; i++)
