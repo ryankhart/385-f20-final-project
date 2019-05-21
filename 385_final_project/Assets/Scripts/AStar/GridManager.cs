@@ -8,7 +8,7 @@ public class GridManager : MonoBehaviour
     [SerializeField]
     public int numberOfColumns = 20;
     [SerializeField]
-    public float gridCellSize = 2;
+    public float gridCellSize = .86f;
     [SerializeField]
     public bool showGrid = true;
     [SerializeField]
@@ -20,10 +20,16 @@ public class GridManager : MonoBehaviour
     
     public Vector3 Origin {get { return origin; }}
 
-    private void Awake()
+    public void Awake()
+    {
+        
+        InitializeNodes();
+        
+    }
+
+    public void Update()
     {
         obstacleList = GameObject.FindGameObjectsWithTag("Obstacle");
-        InitializeNodes();
         CalculateObstacles();
     }
 
