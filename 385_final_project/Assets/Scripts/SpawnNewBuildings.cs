@@ -16,6 +16,7 @@ public class SpawnNewBuildings : MonoBehaviour
     private bool draggingNewBuilding;
     private Vector3 cameraMouseOffset;
     private Vector3 screenPoint;
+    private StarterTileLayout tileLayoutScript;
     private readonly float tileOffset = 0.86f;
     private readonly float centerOffset = 0.43f;
 
@@ -41,6 +42,12 @@ public class SpawnNewBuildings : MonoBehaviour
                 StopDraggingBuidling();
             }
         }
+    }
+
+    private void Awake()
+    {
+        GameObject tileLayoutStarter = GameObject.Find("TileLayoutStarter");
+        tileLayoutScript = tileLayoutStarter.GetComponent<StarterTileLayout>();
     }
 
     public void SelectBuildingFromDropdown(int index)
@@ -97,8 +104,6 @@ public class SpawnNewBuildings : MonoBehaviour
         int tileZIndex = (int)(buildingToDrag.transform.position.z / tileOffset);
 
         // get the tile tag
-        GameObject tileLayoutStarter = GameObject.Find("TileLayoutStarter");
-        StarterTileLayout tileLayoutScript = tileLayoutStarter.GetComponent<StarterTileLayout>();
         string tileTag = tileLayoutScript.getTileTag(tileXIndex, tileZIndex);
 
         // drop the buidling down onto a free plains tile
