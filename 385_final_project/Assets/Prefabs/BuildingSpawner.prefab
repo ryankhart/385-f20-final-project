@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9160705598833285031}
   - component: {fileID: 9160705598833285030}
   m_Layer: 0
-  m_Name: BuidlingManager
+  m_Name: BuildingSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,6 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c3b7a528737e435ab1140e121bc690b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  villCenterPrefab: {fileID: 6969227837521944263, guid: 3e745e7c3561041129cf7b06d8c5ee0f,
+    type: 3}
   housePrefab: {fileID: 1174366297928151700, guid: e818fd5208d881d40a771bffbde03a59,
     type: 3}
   camera: {fileID: 0}
