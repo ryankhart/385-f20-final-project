@@ -17,7 +17,8 @@ TagManager:
   - Obstacle
   - Start
   - End
-  - MovingBuilding
+  - GridCreator
+script
   layers:
   - Default
   - TransparentFX
