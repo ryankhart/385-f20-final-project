@@ -11,7 +11,7 @@ public class TownFolkAI : MonoBehaviour
 
     [SerializeField]
     private float movementSpeed = 5.0f;
-    private float rotationSpeed = 100.0f;
+    private float rotationSpeed = 10f;
     [SerializeField]
     private float toleranceRadius = .25f;
 
@@ -89,16 +89,16 @@ public class TownFolkAI : MonoBehaviour
 
         currentSpeed = movementSpeed * Time.deltaTime;
 
-        //Rotate the agent towards its target direction 
-        direction = (targetPoint - transform.position);
-        direction.Normalize();
+        //Rotate the agent towards its target direction
+        direction = (targetPoint - transform.position).normalized;
+        direction.y = 0;
+
+        // look
         targetRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
         //Move the agent forard
-        //transform.position += transform.forward * currentSpeed;
-        transform.position += new Vector3((transform.forward * currentSpeed).x, 0, (transform.forward * currentSpeed).z);
-        transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.position += new Vector3(direction.x * currentSpeed, direction.y, direction.z * currentSpeed);
 
         /*
         //print(target);
