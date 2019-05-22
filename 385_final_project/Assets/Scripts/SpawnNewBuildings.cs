@@ -71,8 +71,8 @@ public class SpawnNewBuildings : MonoBehaviour
             {
                 if (villageCenter == null)
                 {
-                    print("No village center yet");
                     villageCenter = Instantiate(villCenterPrefab, buildingPosition, Quaternion.identity);
+                    villageCenter.tag = "VillageCenter";
                     buildingToDrag = villageCenter;
                 }
                 else 
@@ -136,7 +136,7 @@ public class SpawnNewBuildings : MonoBehaviour
             print(buildingToDrag.name);
             print(buildingToDrag.name == buildingToDrag.tag);
 
-            if (!buildingToDrag.name.Equals("VillageCenter(Clone)"))
+            if (!buildingToDrag.tag.Equals("VillageCenter"))
             {
                 buildingToDrag.tag = "Home";
             }
