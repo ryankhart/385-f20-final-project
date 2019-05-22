@@ -13,7 +13,7 @@ public class SpawnVillagers : MonoBehaviour
     private StarterTileLayout mapStarterScript;
 
     private float tileOffset = 0.86f;
-    private float centerOffset = 0.43f;
+    //private float centerOffset = 0.43f;
 
     private void Start()
     {
