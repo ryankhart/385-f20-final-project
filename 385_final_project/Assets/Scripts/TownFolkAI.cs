@@ -192,7 +192,9 @@ public class TownFolkAI : MonoBehaviour
     //A* finds the path that the TownFolk should take.
     private void FindPath()
     {
+
         Transform startPosition = transform;
+
         Transform endPosition = FindTarget();
 
         if (endPosition != null)
