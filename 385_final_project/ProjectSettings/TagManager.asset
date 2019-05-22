@@ -16,6 +16,7 @@ TagManager:
   - Start
   - End
   - GridCreator
+script
   layers:
   - Default
   - TransparentFX
