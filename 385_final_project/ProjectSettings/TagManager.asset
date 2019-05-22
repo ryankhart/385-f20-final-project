@@ -5,10 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Tree
-  - Stone
-  - Home
-  - RockTile
-  - PlainsTile
+  - GridCreator
+  - MovingBuilding
   - WaterTile
   - PlainsTileWithBuilding
   - Obstacle
