@@ -2876,6 +2876,8 @@ MonoBehaviour:
     m_Options:
     - m_Text: Building Menu
       m_Image: {fileID: 0}
+    - m_Text: Village Center
+      m_Image: {fileID: 0}
     - m_Text: House
       m_Image: {fileID: 0}
     - m_Text: Farm
