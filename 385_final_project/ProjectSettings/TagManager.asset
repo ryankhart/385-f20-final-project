@@ -14,6 +14,7 @@ TagManager:
   - Home
   - PlainsTileWithTree
   - PlainsTileWithBuilding
+  - End
   layers:
   - Default
   - TransparentFX
