@@ -42,30 +42,6 @@ public class SpawnVillagers : MonoBehaviour
             float jackZ = houses[currentNumHouses - 1].transform.position.z;
             GameObject jack = Instantiate(lumberjack, new Vector3(jackX, 0.439f, jackZ), Quaternion.identity);
             villagers.Add(jack);
-
-            //bool foundSpot = false;
-            //// find an empty plains tile
-            //for (int i = 0; i < mapSize; i++)
-            //{
-            //    for (int j = 0; j < mapSize; j++)
-            //    {
-            //        string tileTag = mapStarterScript.getTileTag(i,j);
-            //        if (tileTag.Equals("PlainsTile"))
-            //        {
-            //            //float lumberjackY = (float) (lumberjack.GetComponent<Head>().GetComponent<Renderer>().bounds.size.y + 0.5);
-            //            GameObject jack = Instantiate(lumberjack, new Vector3(i * tileOffset + centerOffset, 0.439f, j * tileOffset + centerOffset), Quaternion.identity);
-            //            villagers.Add(jack);
-            //            // TODO: ask Jonathan to add method to stop a position and not destroy the prefab
-            //            jack.GetComponent<TownFolkAI>().resourceTag = "Home";
-            //            foundSpot = true;
-            //            break;
-            //        }
-            //    }
-            //    if(foundSpot)
-            //    {
-            //        break;
-            //    }
-            //}
         }
     }
 }
