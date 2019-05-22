@@ -15,6 +15,7 @@ TagManager:
   - Obstacle
   - Start
   - End
+  - GridCreator
   layers:
   - Default
   - TransparentFX
