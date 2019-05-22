@@ -150,6 +150,7 @@ public class SpawnNewBuildings : MonoBehaviour
             print(buildingToDrag.name);
             print(buildingToDrag.name == buildingToDrag.tag);
 
+<<<<<<< HEAD
             if (!buildingToDrag.tag.Equals("VillageCenter"))
             {
                 buildingToDrag.tag = "Home";
@@ -159,6 +160,13 @@ public class SpawnNewBuildings : MonoBehaviour
                     resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value);
                 }
             }
+=======
+            if (!buildingToDrag.name.Equals("VillageCenter(Clone)"))
+            {
+                buildingToDrag.tag = "Home";
+            }
+
+>>>>>>> added villageCenter prefab and enabled its spawn in the scene
             // stop holding onto this building
             buildingToDrag = null;
             StopDraggingBuidling();
