@@ -183,6 +183,7 @@ public class TownFolkAI : MonoBehaviour
     {
 
         Transform startPosition = transform;
+        Transform endPosition = FindTarget();
 
         if (endPosition != null)
         {
