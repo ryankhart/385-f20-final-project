@@ -89,14 +89,29 @@ public class TownFolkAI : MonoBehaviour
 
         currentSpeed = movementSpeed * Time.deltaTime;
 
+        // JONATHAN'S STUFF - this makes the villager stuck underground again
+        //Rotate the agent towards its target direction 
+        //direction = (targetPoint - transform.position);
+        //direction.Normalize();
+        //targetRotation = Quaternion.LookRotation(direction);
+        //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+        ////Move the agent forard
+        ////transform.position += transform.forward * currentSpeed;
+        //transform.position += new Vector3((transform.forward * currentSpeed).x, 0, (transform.forward * currentSpeed).z);
+        //transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+
+        // PETRA'S STUFF
         //Rotate the agent towards its target direction
         direction = (targetPoint - transform.position).normalized;
         direction.y = 0;
 
         // look
-        targetRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-
+        if (Vector3.Distance(direction, Vector3.zero) > 0.01)
+        {
+            targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
         //Move the agent forard
         transform.position += new Vector3(direction.x * currentSpeed, direction.y, direction.z * currentSpeed);
 
