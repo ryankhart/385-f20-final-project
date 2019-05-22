@@ -137,7 +137,7 @@ public class StarterTileLayout : MonoBehaviour
         int nextTreeZ;
 
         // find a plains tile
-        int treeCount = (int)(mapSize * mapSize * 0.3); // ~30% of map will be trees
+        int treeCount = (int)(mapSize * mapSize * 0.1); // ~30% of map will be trees
         while (treeCount > 0)
         {
             nextTreeX = rand.Next(0, mapSize);
