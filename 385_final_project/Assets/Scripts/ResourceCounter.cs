@@ -16,7 +16,6 @@ public class ResourceCounter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(numberOfResources);
        if(numberOfResources <= 0)
        {
             Destroy(gameObject);
