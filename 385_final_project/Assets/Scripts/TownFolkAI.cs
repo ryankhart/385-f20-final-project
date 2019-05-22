@@ -64,10 +64,15 @@ public class TownFolkAI : MonoBehaviour
         }
 
 
+<<<<<<< HEAD
         FindNode();
+=======
+         FindNode();
+>>>>>>> added script to village center
 
         // Checks if target is too close
-        if (Vector3.Distance(targetPoint, transform.position) < toleranceRadius)
+        // WARNING, YOU ARE FORGETTING THE VILLAGER HAS Y POSITION 0.439
+        if (Vector3.Distance(targetPoint, new Vector3(transform.position.x, 0, transform.position.z)) < toleranceRadius)
         {
             //If target is too close that means we need to peform an action!
 
@@ -112,6 +117,7 @@ public class TownFolkAI : MonoBehaviour
         direction.y = 0;
 
         // look
+        // if statement prevent turning when at target and that stupid zero vector warning
         if (Vector3.Distance(direction, Vector3.zero) > 0.01)
         {
             targetRotation = Quaternion.LookRotation(direction);
@@ -225,10 +231,18 @@ public class TownFolkAI : MonoBehaviour
 
             targetObject.GetComponent<ResourceCounter>().numberOfResources -= 1;
             inventory += 1;
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> added script to village center
 
+            if(inventory == 5)
+            {
+                resourceTag = "VillageCenter";
+                return;
+            }
         }
     }
 

@@ -12,7 +12,11 @@ public class SpawnVillagers : MonoBehaviour
     private GameObject[] houses;
     private StarterTileLayout mapStarterScript;
 
+<<<<<<< HEAD
     //private float tileOffset = 0.86f;
+=======
+    private float tileOffset = 0.86f;
+>>>>>>> added script to village center
     //private float centerOffset = 0.43f;
 
     private void Start()

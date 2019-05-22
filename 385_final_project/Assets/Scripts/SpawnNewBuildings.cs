@@ -83,11 +83,19 @@ public class SpawnNewBuildings : MonoBehaviour
 
             if (index == 1)
             {
+<<<<<<< HEAD
                 if (villageCenter == null)
                 {
                     villageCenter = Instantiate(villCenterPrefab, buildingPosition, Quaternion.identity);
                     villageCenter.tag = "VillageCenter";
                     buildingToDrag = villageCenter;
+=======
+                if (villageCenter == null)
+                {
+                    villageCenter = Instantiate(villCenterPrefab, buildingPosition, Quaternion.identity);
+                    villageCenter.tag = "VillageCenter";
+                    buildingToDrag = villageCenter;
+>>>>>>> added script to village center
                 }
                 else 
                 {
@@ -151,6 +159,7 @@ public class SpawnNewBuildings : MonoBehaviour
             print(buildingToDrag.name == buildingToDrag.tag);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             if (!buildingToDrag.tag.Equals("VillageCenter"))
             {
                 buildingToDrag.tag = "Home";
@@ -164,6 +173,11 @@ public class SpawnNewBuildings : MonoBehaviour
             if (!buildingToDrag.name.Equals("VillageCenter(Clone)"))
             {
                 buildingToDrag.tag = "Home";
+=======
+            if (!buildingToDrag.tag.Equals("VillageCenter"))
+            {
+                buildingToDrag.tag = "Home";
+>>>>>>> added script to village center
             }
 
 >>>>>>> added villageCenter prefab and enabled its spawn in the scene
