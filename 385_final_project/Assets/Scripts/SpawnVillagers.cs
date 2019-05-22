@@ -36,7 +36,6 @@ public class SpawnVillagers : MonoBehaviour
         currentNumHouses = houses.Length;
         if(currentNumHouses > 0 && villagers.Count < currentNumHouses && villagers.Count <= mapSize)
         {
-            print(currentNumHouses + " : " + villagers.Count + " : " + mapSize);
             // spawn villager at current home
             float jackX = houses[currentNumHouses - 1].transform.position.x;
             float jackZ = houses[currentNumHouses - 1].transform.position.z;
