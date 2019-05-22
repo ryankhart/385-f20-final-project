@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5525833345907176686}
   - component: {fileID: 1360395923285141508}
   - component: {fileID: 265895193310337372}
+  - component: {fileID: 2619825237301596646}
   m_Layer: 0
   m_Name: TreeLightPrefab
   m_TagString: Tree
@@ -89,6 +90,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &2619825237301596646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1671842898175696237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8c5f1dbafa0daf429ffc1cf4742f353, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6431418906504306762
 GameObject:
   m_ObjectHideFlags: 0
