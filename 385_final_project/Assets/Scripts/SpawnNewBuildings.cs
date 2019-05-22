@@ -156,6 +156,11 @@ public class SpawnNewBuildings : MonoBehaviour
                     resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value);
                 }
             }
+            if (!buildingToDrag.name.Equals("VillageCenter(Clone)"))
+            {
+                buildingToDrag.tag = "Home";
+            }
+
             // stop holding onto this building
             buildingToDrag = null;
             StopDraggingBuidling();
