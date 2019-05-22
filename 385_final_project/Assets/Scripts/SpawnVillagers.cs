@@ -9,7 +9,6 @@ public class SpawnVillagers : MonoBehaviour
     private int mapSize;
     private int currentNumHouses = 0;
     private List<GameObject> villagers;
-    private GameObject[] houses;
     private StarterTileLayout mapStarterScript;
 
     //private float tileOffset = 0.86f;
