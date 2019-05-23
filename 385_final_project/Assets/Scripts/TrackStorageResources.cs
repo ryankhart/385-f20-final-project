@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TrackStorageResources : MonoBehaviour
 {
-    private Dictionary<string, int> resources;
+    private Dictionary<string, int> resources = new Dictionary<string, int>();
 
     // Start is called before the first frame update
     void Start()
