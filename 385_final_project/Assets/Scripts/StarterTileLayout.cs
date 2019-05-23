@@ -67,7 +67,7 @@ public class StarterTileLayout : MonoBehaviour
     private void GenerateOtherTileGroups(GameObject tilePrefab, float offset, int percentage)
     {
         // choose a random plains tile on the map
-        System.Random rand = new System.Random((int)DateTime.Now.Ticks);
+        System.Random rand = new System.Random(Guid.NewGuid().GetHashCode());
         int indexX = rand.Next(0, mapSize);
         int indexZ = rand.Next(0, mapSize);
 
@@ -83,7 +83,7 @@ public class StarterTileLayout : MonoBehaviour
         // postcondition: the number of tiles placed into the map is generally less than the percentage
         for (int i = 0; i < percentage;)
         {
-            rand = new System.Random((int)DateTime.Now.Ticks);
+            rand = new System.Random(Guid.NewGuid().GetHashCode());
             nextRandValue = rand.Next(0, 4);
 
             switch (nextRandValue)
@@ -132,7 +132,7 @@ public class StarterTileLayout : MonoBehaviour
 
     private void GenerateTrees()
     {
-        System.Random rand = new System.Random((int)DateTime.Now.Ticks);
+        System.Random rand = new System.Random(Guid.NewGuid().GetHashCode());
         // seed position for a tree
         int nextTreeX;
         int nextTreeZ;
