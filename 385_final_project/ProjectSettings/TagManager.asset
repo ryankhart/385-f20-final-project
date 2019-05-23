@@ -17,6 +17,8 @@ TagManager:
   - GridCreator
   - PlainsTileWithTree
   - VillageCenter
+  - MovingBuilding
+  - TownFolk
   layers:
   - Default
   - TransparentFX

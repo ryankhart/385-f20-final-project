@@ -13,7 +13,7 @@ public class MonsterAI : MonoBehaviour
     private float movementSpeed = 5.0f;
     private float rotationSpeed = 100.0f;
     [SerializeField]
-    private float toleranceRadius = 1.0f;
+    private float toleranceRadius = .25f;
 
     private float currentSpeed;
     private Vector3 targetPoint;
@@ -26,7 +26,7 @@ public class MonsterAI : MonoBehaviour
     private ArrayList pathArray;
 
     private float elapsedTime = 0.0f;
-    public float intervalTime = 10.0f;
+    public float intervalTime = 1.0f;
     private int nodesOfMovement = 1;
     private int range = 5;
 
@@ -64,38 +64,42 @@ public class MonsterAI : MonoBehaviour
         FindNode();
 
         // Checks if target is too close
-        if (Vector3.Distance(targetPoint, transform.position) < toleranceRadius)
+        if (Vector3.Distance(targetObject.transform.position, transform.position) < toleranceRadius)
         {
+            print("Monster Attack");
             //If target is too close that means we need to peform an action!
 
             //Check to make sure object is there.
             if (targetObject != null)
             {
                 // "Attacks" townfolk
-                if(targetObject.tag == townFolkTag)
+                if (targetObject.tag == townFolkTag && cooldown <= 0)
                 {
                     targetObject.GetComponent<TownFolkAI>().flee = true;
-                    cooldown = 3.0f;
+                    cooldown = 20.0f;
                 }
             }
 
             return;
         }
 
-        if(pathArray.Count < range)
+        if (pathArray.Count < range)
         {
             currentSpeed = movementSpeed * Time.deltaTime;
 
-            //Rotate the agent towards its target direction 
-            direction = (targetPoint - transform.position);
-            direction.Normalize();
-            targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            //Rotate the agent towards its target direction
+            direction = (targetPoint - transform.position).normalized;
+            direction.y = 0;
 
+            // look
+            // the if statement prevents turning when at target and that stupid zero vector warning
+            if (Vector3.Distance(direction, Vector3.zero) > 0.01)
+            {
+                targetRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            }
             //Move the agent forard
-            //transform.position += transform.forward * currentSpeed;
-            transform.position += new Vector3((transform.forward * currentSpeed).x, 0, (transform.forward * currentSpeed).z);
-            transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            transform.position += new Vector3(direction.x * currentSpeed, direction.y, direction.z * currentSpeed);
         }
         
     }

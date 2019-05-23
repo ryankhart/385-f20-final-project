@@ -8,6 +8,7 @@ public class TownFolkAI : MonoBehaviour
     private GameObject targetObject;
     private Transform target;
     public string resourceTag = "Tree";
+    public string lastResource;
 
     [SerializeField]
     private float movementSpeed = 5.0f;
@@ -33,8 +34,9 @@ public class TownFolkAI : MonoBehaviour
 
     private int nodesOfMovement = 1;
     private int inventory = 0;
-    private string currentResource;
+   
     public bool flee = false;
+    public bool last = true;
 
 
     // Start is called before the first frame update
@@ -50,8 +52,6 @@ public class TownFolkAI : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
-
         elapsedTime += Time.deltaTime;
 
         //How much time it takes to find a new path.
@@ -60,6 +60,11 @@ public class TownFolkAI : MonoBehaviour
             if (flee)
             {
                 elapsedTime = 0.0f;
+                if(last == true)
+                {
+                    setLast();
+                    last = false;
+                }
                 goHome();
             }
             else
@@ -69,56 +74,43 @@ public class TownFolkAI : MonoBehaviour
             } 
         }
 
-         FindNode();
+        FindNode();
 
         // Checks if target is too close
         // WARNING, YOU ARE FORGETTING THE VILLAGER HAS Y POSITION 0.439
-        if (Vector3.Distance(targetPoint, new Vector3(transform.position.x, 0, transform.position.z)) < toleranceRadius)
+        Vector3 villagerPosition = transform.position;
+        villagerPosition.y = 0;
+        if (Vector3.Distance(targetPoint, villagerPosition) < toleranceRadius)
         {
             //If target is too close that means we need to peform an action!
-
             //Check to make sure object is there.
             if (targetObject != null)
             {
-                if (targetObject.tag == "Home")
+                if (resourceTag == "Home")
                 {
                     //wait at home
+                    homeFear(villagerPosition);
                 }
-                else if (targetObject.tag == "Tree")
+                else if (resourceTag == "Tree")
                 {
-                    //Process tree
                     ProcessResource();
-
+                }
+                else if (resourceTag == "VillageCenter")
+                {
+                    GoStoreCollectedResources();
                 }
             }
-
-
-
-
             return;
         }
 
         currentSpeed = movementSpeed * Time.deltaTime;
 
-        // JONATHAN'S STUFF - this makes the villager stuck underground again
-        //Rotate the agent towards its target direction 
-        //direction = (targetPoint - transform.position);
-        //direction.Normalize();
-        //targetRotation = Quaternion.LookRotation(direction);
-        //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-
-        ////Move the agent forard
-        ////transform.position += transform.forward * currentSpeed;
-        //transform.position += new Vector3((transform.forward * currentSpeed).x, 0, (transform.forward * currentSpeed).z);
-        //transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-
-        // PETRA'S STUFF
         //Rotate the agent towards its target direction
         direction = (targetPoint - transform.position).normalized;
         direction.y = 0;
 
         // look
-        // if statement prevent turning when at target and that stupid zero vector warning
+        // the if statement prevents turning when at target and that stupid zero vector warning
         if (Vector3.Distance(direction, Vector3.zero) > 0.01)
         {
             targetRotation = Quaternion.LookRotation(direction);
@@ -149,6 +141,45 @@ public class TownFolkAI : MonoBehaviour
             
         }
         */
+    }
+
+    private void homeFear(Vector3 villagerPosition)
+    {
+        if (checkIfAtDestination(villagerPosition))
+        {
+            flee = false;
+            resourceTag = lastResource;
+            last = true;
+            FindPath();
+        }
+    }
+
+
+    private bool checkIfAtDestination(Vector3 villagerPosition)
+    {
+
+        Node nextNode = (Node)pathArray[pathArray.Count-1];
+        Vector3 last = nextNode.position;
+        if (Vector3.Distance(targetPoint, last) < toleranceRadius)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private void GoStoreCollectedResources()
+    {
+        GameObject villCenter = GameObject.Find("VillageCenter(Clone)");
+        Vector3 centerPosition = villCenter.transform.position;
+        centerPosition.y = 0;   // center of the towncenter prefab is not on y = 0
+        if (Vector3.Distance(targetPoint, centerPosition) < toleranceRadius)
+        {
+            // drop the collected resources off at the village center
+            villCenter.GetComponent<TrackStorageResources>().AddResourceUnits("Tree", inventory);
+            inventory = 0;
+            targetObject = null;
+            resourceTag = "Tree"; // go find a tree to chop
+        }
     }
 
     //Finds a target with a tag
@@ -212,8 +243,6 @@ public class TownFolkAI : MonoBehaviour
         Transform startPosition = transform;
         Transform endPosition = FindTarget();
 
-        Transform endPosition = FindTarget();
-
         if (endPosition != null)
         {
             startNode = new Node(gridManager.GetGridCellCenter(gridManager.GetGridIndex(startPosition.position)));
@@ -228,15 +257,13 @@ public class TownFolkAI : MonoBehaviour
     private void ProcessResource()
     {
         collectionTime += Time.deltaTime;
-        if (collectionTime >= 5)
+        if (collectionTime >= 2)
         {
 
             collectionTime = 0.0f;
 
             targetObject.GetComponent<ResourceCounter>().numberOfResources -= 1;
             inventory += 1;
-
-
 
 
             if(inventory == 5)
@@ -249,9 +276,13 @@ public class TownFolkAI : MonoBehaviour
 
     public void goHome()
     {
-        //Sends villager home
         resourceTag = "Home";
         FindPath();
+    }
+
+    public void setLast()
+    {
+        lastResource = "Tree";
     }
 
     //Drawing debug line
