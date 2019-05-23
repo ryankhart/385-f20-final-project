@@ -14,6 +14,7 @@ TagManager:
   - End
   - GridCreator
   - PlainsTileWithTree
+price system for buildings
   - VillageCenter
   layers:
   - Default
