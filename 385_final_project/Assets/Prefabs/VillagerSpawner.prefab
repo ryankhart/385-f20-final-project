@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &9160705598833285029
+--- !u!1 &3609154217335766893
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,43 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 9160705598833285031}
-  - component: {fileID: 9160705598833285030}
+  - component: {fileID: 3609154217335766883}
+  - component: {fileID: 3609154217335766892}
   m_Layer: 0
-  m_Name: BuildingSpawner
+  m_Name: VillagerSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &9160705598833285031
+--- !u!4 &3609154217335766883
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9160705598833285029}
+  m_GameObject: {fileID: 3609154217335766893}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 596.8378, y: 396.64395, z: -29.882456}
+  m_LocalPosition: {x: 2.2316554, y: 0.21262543, z: 2.1966228}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9160705598833285030
+--- !u!114 &3609154217335766892
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9160705598833285029}
+  m_GameObject: {fileID: 3609154217335766893}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c3b7a528737e435ab1140e121bc690b, type: 3}
+  m_Script: {fileID: 11500000, guid: 8138747dad76d414195c7af5f245e9f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  villCenterPrefab: {fileID: 6969227837521944263, guid: 3e745e7c3561041129cf7b06d8c5ee0f,
+  lumberjack: {fileID: 6067008912458440372, guid: 5751d8429e2192a4ba7c7e422b02bb91,
     type: 3}
-  housePrefab: {fileID: 1174366297928151700, guid: e818fd5208d881d40a771bffbde03a59,
-    type: 3}
-  camera: {fileID: 0}

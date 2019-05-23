@@ -1821,6 +1821,7 @@ GameObject:
   - component: {fileID: 4873729873525837911}
   - component: {fileID: 4873729873525837905}
   - component: {fileID: 4873729873525837910}
+  - component: {fileID: 7283485601458940503}
   m_Layer: 5
   m_Name: WoodCount
   m_TagString: Untagged
@@ -1889,6 +1890,18 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 0
+--- !u!114 &7283485601458940503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4873729873525837908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60a367963b8454339a2c8c56d72aa915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4873729873565156416
 GameObject:
   m_ObjectHideFlags: 0
@@ -2875,6 +2888,8 @@ MonoBehaviour:
   m_Options:
     m_Options:
     - m_Text: Building Menu
+      m_Image: {fileID: 0}
+    - m_Text: Village Center
       m_Image: {fileID: 0}
     - m_Text: House
       m_Image: {fileID: 0}

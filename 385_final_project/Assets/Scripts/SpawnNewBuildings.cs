@@ -8,26 +8,49 @@ using UnityEngine.UI;
 // extending EventTrigger to override dropdown functions
 public class SpawnNewBuildings : MonoBehaviour
 {
+    public GameObject villCenterPrefab;
     public GameObject housePrefab;
     public new Camera camera;   // new is neccessary because this camera overrides some inherited camera
 
+    // buidlings
     private List<GameObject> houses = new List<GameObject>();
+    private GameObject villageCenter;
+
+    // building manipulation
     private GameObject buildingToDrag;
     private bool draggingNewBuilding;
+
+    // building cost and resource spending
+    private TrackStorageResources resourceCounterScript;
+    private Dictionary<string, int> homePrice = new Dictionary<string, int>()
+        {{"Tree", 5}};
+
+    // offsets and other math stuff
     private Vector3 cameraMouseOffset;
     private Vector3 screenPoint;
+    private StarterTileLayout tileLayoutScript;
     private readonly float tileOffset = 0.86f;
+    private readonly float centerOffset = 0.43f;
 
     void Start()
     {
-        draggingNewBuilding = false; // set initial value
+        draggingNewBuilding = false;
     }
 
     void Update()
     {
+        // check if user created village center yet
+        if(resourceCounterScript == null)
+        { 
+            if(GameObject.Find("VillageCenter(Clone)") != null)
+            {
+                resourceCounterScript = GameObject.Find("VillageCenter(Clone)").GetComponent<TrackStorageResources>();
+            }
+        }
+
         if (draggingNewBuilding)
         {
-            DragBuilding();
+            DragBuilding(buildingToDrag);
         }
         else
         {
@@ -42,35 +65,55 @@ public class SpawnNewBuildings : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        GameObject tileLayoutStarter = GameObject.Find("TileLayoutStarter");
+        tileLayoutScript = tileLayoutStarter.GetComponent<StarterTileLayout>();
+    }
+
     public void SelectBuildingFromDropdown(int index)
     {
-        // 0 = Building Menu - unselectable item, 1-3 = building options
+        // 0 = Building Menu - unselectable item, 1-4 = building options
         if (index != 0)
         {
             // position the building to the mouse cursor position
             Vector3 mousePosition = Input.mousePosition;
             // camera is positioned at z = -10 => z = 9 means the object will appear 1 unit above the ground
-            Vector3 housePosition = camera.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, 9.0f));
+            Vector3 buildingPosition = camera.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, 9.0f));
 
-            GameObject newHouse = Instantiate(housePrefab, housePosition, Quaternion.identity);
-            houses.Add(newHouse);
+            if (index == 1)
+            {
+                if (villageCenter == null)
+                {
+                    villageCenter = Instantiate(villCenterPrefab, buildingPosition, Quaternion.identity);
+                    villageCenter.tag = "VillageCenter";
+                    buildingToDrag = villageCenter;
+                }
+                else 
+                {
+                    print("Village center already exists");
+                    return;
+                }
+            }
+            else
+            {
+                GameObject newHouse = Instantiate(housePrefab, buildingPosition, Quaternion.identity);
+                houses.Add(newHouse);
+                buildingToDrag = newHouse;
+            }
             draggingNewBuilding = true;
         }
-        else
-        {
-            Debug.Log("No building selection made");
-        }
-
+        // else do nothing - just the heading of the menu was selected
     }
 
-    private void DragBuilding()
+    private void DragBuilding(GameObject building)
     {
         // if user clicks on the left mouse button
         if (Input.GetMouseButtonDown(0))
         {
             StopDraggingBuidling();
         }
-        buildingToDrag = houses[houses.Count - 1];
+        buildingToDrag = building;
         float posX = Input.mousePosition.x;
         float posY = Input.mousePosition.y;
         // 10 units below the camera, so that the player can see where the building is
@@ -96,15 +139,23 @@ public class SpawnNewBuildings : MonoBehaviour
         int tileZIndex = (int)(buildingToDrag.transform.position.z / tileOffset);
 
         // get the tile tag
-        GameObject tileLayoutStarter = GameObject.Find("TileLayoutStarter");
-        StarterTileLayout tileLayoutScript = tileLayoutStarter.GetComponent<StarterTileLayout>();
         string tileTag = tileLayoutScript.getTileTag(tileXIndex, tileZIndex);
 
         // drop the buidling down onto a free plains tile
         if (tileTag.Equals("PlainsTile"))
         {
-            buildingToDrag.transform.position = new Vector3(tileXIndex * tileOffset, 0, tileZIndex * tileOffset);
+            buildingToDrag.transform.position = new Vector3(tileXIndex * tileOffset + centerOffset, 0.25f, tileZIndex * tileOffset + centerOffset);
             tileLayoutScript.setTileTag(tileXIndex, tileZIndex, "PlainsTileWithBuilding");
+
+            if (!buildingToDrag.tag.Equals("VillageCenter"))
+            {
+                buildingToDrag.tag = "Home";
+                // pay with resources
+                foreach (KeyValuePair<string,int> resource in homePrice)
+                {
+                    resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value);
+                }
+            }
             // stop holding onto this building
             buildingToDrag = null;
             StopDraggingBuidling();

@@ -10,12 +10,13 @@ TagManager:
   - RockTile
   - PlainsTile
   - WaterTile
-  - PlainsTileWithTree
   - PlainsTileWithBuilding
   - Obstacle
   - Start
   - End
   - GridCreator
+  - PlainsTileWithTree
+  - VillageCenter
   layers:
   - Default
   - TransparentFX
@@ -25,7 +26,7 @@ TagManager:
   - UI
   - 
   - 
-  - Obstacles
+  - 
   - 
   - 
   - 
