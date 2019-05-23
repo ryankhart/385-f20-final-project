@@ -6,14 +6,11 @@ using UnityEngine.UI;
 public class TrackStorageResources : MonoBehaviour
 {
     private Dictionary<string, int> resources = new Dictionary<string, int>();
-<<<<<<< HEAD
     private GameObject woodCount;
     private GameObject stoneCount;
     private GameObject copperCount;
     // TODO:
     private Text herbCount;
-=======
->>>>>>> villager brings collected resources to village center and goes on to next resource
 
     // Start is called before the first frame update
     void Start()
