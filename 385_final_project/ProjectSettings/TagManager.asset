@@ -5,16 +5,17 @@ TagManager:
   serializedVersion: 2
   tags:
   - Tree
-  - GridCreator
-  - MovingBuilding
-  - WaterTile
-  - Start
-  - Obstacle
-  - PlainsTile
-  - Home
-  - PlainsTileWithTree
-  - PlainsTileWithBuilding
   - Stone
+  - Home
+  - RockTile
+  - PlainsTile
+  - WaterTile
+  - PlainsTileWithBuilding
+  - Obstacle
+  - Start
+  - End
+  - GridCreator
+  - PlainsTileWithTree
   - VillageCenter
   layers:
   - Default
