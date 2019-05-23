@@ -42,7 +42,7 @@ public class StarterTileLayout : MonoBehaviour
         GeneratePlains();
         GenerateOtherTileGroups(waterTile, tileOffset, (int)(mapSize * mapSize * 0.25)); // up to 25% of map is water
         GenerateOtherTileGroups(rockTile, tileOffset, (int)(mapSize * mapSize * 0.15)); // up to 15% of map is rock
-        GenerateTrees();
+        GenerateEnvironObjs();
 
         // position the camera in the middle of the map
         gameCamera.transform.position = TilePosition((mapSize / 2f), 10, (mapSize / 2f));
@@ -129,7 +129,7 @@ public class StarterTileLayout : MonoBehaviour
         tileMap[indexX, indexZ] = Instantiate(prefab, TilePosition(indexX+testVal, 0, indexZ+testVal), Quaternion.Euler(90, 0, 0));
     }
 
-    private void GenerateTrees()
+    private void GenerateEnvironObjs()
     {
         System.Random rand = new System.Random(Guid.NewGuid().GetHashCode());
         // seed position for a tree
