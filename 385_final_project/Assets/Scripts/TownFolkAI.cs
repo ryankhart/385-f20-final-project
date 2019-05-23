@@ -19,11 +19,6 @@ public class TownFolkAI : MonoBehaviour
     private Vector3 targetPoint;
     private Vector3 direction;
     private Quaternion targetRotation;
-    private RaycastHit avoidanceHit;
-    private Vector3 hitNormal;
-
-    //private Transform startPosition;
-    //private Transform endPosition;
 
     public Node startNode { get; set; }
     public Node goalNode { get; set; }
@@ -186,6 +181,7 @@ public class TownFolkAI : MonoBehaviour
     private void FindPath()
     {
         Transform startPosition = transform;
+        Transform endPosition = FindTarget();
 
         if (endPosition != null)
         {
