@@ -283,7 +283,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4603560805218864699}
-  - component: {fileID: 4068046119518768550}
+  - component: {fileID: 7819066516287994927}
   m_Layer: 0
   m_Name: Monster
   m_TagString: Start
@@ -308,7 +308,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4068046119518768550
+--- !u!114 &7819066516287994927
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -322,6 +322,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   townFolkTag: TownFolk
   movementSpeed: 5
-  toleranceRadius: 1
-  intervalTime: 10
+  toleranceRadius: 0.25
+  intervalTime: 1
   cooldown: 0
