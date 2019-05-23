@@ -13,7 +13,7 @@ public class MonsterAI : MonoBehaviour
     private float movementSpeed = 5.0f;
     private float rotationSpeed = 100.0f;
     [SerializeField]
-    private float toleranceRadius = 1.0f;
+    private float toleranceRadius = .25f;
 
     private float currentSpeed;
     private Vector3 targetPoint;
@@ -26,9 +26,9 @@ public class MonsterAI : MonoBehaviour
     private ArrayList pathArray;
 
     private float elapsedTime = 0.0f;
-    public float intervalTime = 10.0f;
+    public float intervalTime = 1.0f;
     private int nodesOfMovement = 1;
-    private int range = 100;
+    private int range = 5;
 
     public float cooldown = 0.0f;
     // Start is called before the first frame update
@@ -64,25 +64,26 @@ public class MonsterAI : MonoBehaviour
         FindNode();
 
         // Checks if target is too close
-        if (Vector3.Distance(targetPoint, transform.position) < toleranceRadius)
+        if (Vector3.Distance(targetObject.transform.position, transform.position) < toleranceRadius)
         {
+            print("Monster Attack");
             //If target is too close that means we need to peform an action!
 
             //Check to make sure object is there.
             if (targetObject != null)
             {
                 // "Attacks" townfolk
-                if(targetObject.tag == townFolkTag && cooldown <= 0)
+                if (targetObject.tag == townFolkTag && cooldown <= 0)
                 {
                     targetObject.GetComponent<TownFolkAI>().flee = true;
-                    cooldown = 3.0f;
+                    cooldown = 20.0f;
                 }
             }
 
             return;
         }
 
-        if(pathArray.Count < range)
+        if (pathArray.Count < range)
         {
             currentSpeed = movementSpeed * Time.deltaTime;
 
