@@ -28,7 +28,7 @@ public class MonsterAI : MonoBehaviour
     private float elapsedTime = 0.0f;
     public float intervalTime = 10.0f;
     private int nodesOfMovement = 1;
-    private int range = 5;
+    private int range = 100;
 
     public float cooldown = 0.0f;
     // Start is called before the first frame update
@@ -72,7 +72,7 @@ public class MonsterAI : MonoBehaviour
             if (targetObject != null)
             {
                 // "Attacks" townfolk
-                if(targetObject.tag == townFolkTag)
+                if(targetObject.tag == townFolkTag && cooldown <= 0)
                 {
                     targetObject.GetComponent<TownFolkAI>().flee = true;
                     cooldown = 3.0f;
@@ -86,16 +86,19 @@ public class MonsterAI : MonoBehaviour
         {
             currentSpeed = movementSpeed * Time.deltaTime;
 
-            //Rotate the agent towards its target direction 
-            direction = (targetPoint - transform.position);
-            direction.Normalize();
-            targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            //Rotate the agent towards its target direction
+            direction = (targetPoint - transform.position).normalized;
+            direction.y = 0;
 
+            // look
+            // the if statement prevents turning when at target and that stupid zero vector warning
+            if (Vector3.Distance(direction, Vector3.zero) > 0.01)
+            {
+                targetRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            }
             //Move the agent forard
-            //transform.position += transform.forward * currentSpeed;
-            transform.position += new Vector3((transform.forward * currentSpeed).x, 0, (transform.forward * currentSpeed).z);
-            transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            transform.position += new Vector3(direction.x * currentSpeed, direction.y, direction.z * currentSpeed);
         }
         
     }
