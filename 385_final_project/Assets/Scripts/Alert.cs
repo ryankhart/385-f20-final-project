@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Alert : MonoBehaviour
 {
+    public GameObject m_player;
     public GameObject m_target;
     
     private Vector3 m_difference;
