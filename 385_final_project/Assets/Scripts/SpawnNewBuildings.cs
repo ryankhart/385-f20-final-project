@@ -147,9 +147,6 @@ public class SpawnNewBuildings : MonoBehaviour
             buildingToDrag.transform.position = new Vector3(tileXIndex * tileOffset + centerOffset, 0.25f, tileZIndex * tileOffset + centerOffset);
             tileLayoutScript.setTileTag(tileXIndex, tileZIndex, "PlainsTileWithBuilding");
 
-            print(buildingToDrag.name);
-            print(buildingToDrag.name == buildingToDrag.tag);
-
             if (!buildingToDrag.tag.Equals("VillageCenter"))
             {
                 buildingToDrag.tag = "Home";
