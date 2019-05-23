@@ -20,6 +20,11 @@ public class SpawnNewBuildings : MonoBehaviour
     private GameObject buildingToDrag;
     private bool draggingNewBuilding;
 
+    // building cost and resource spending
+    private TrackStorageResources resourceCounterScript;
+    private Dictionary<string, int> homePrice = new Dictionary<string, int>()
+        {{"Tree", 5}};
+
     // offsets and other math stuff
     private Vector3 cameraMouseOffset;
     private Vector3 screenPoint;
@@ -29,11 +34,20 @@ public class SpawnNewBuildings : MonoBehaviour
 
     void Start()
     {
-        draggingNewBuilding = false; // set initial value
+        draggingNewBuilding = false;
     }
 
     void Update()
     {
+        // check if user created village center yet
+        if(resourceCounterScript == null)
+        { 
+            if(GameObject.Find("VillageCenter(Clone)") != null)
+            {
+                resourceCounterScript = GameObject.Find("VillageCenter(Clone)").GetComponent<TrackStorageResources>();
+            }
+        }
+
         if (draggingNewBuilding)
         {
             DragBuilding(buildingToDrag);
@@ -139,6 +153,11 @@ public class SpawnNewBuildings : MonoBehaviour
             if (!buildingToDrag.tag.Equals("VillageCenter"))
             {
                 buildingToDrag.tag = "Home";
+                // pay with resources
+                foreach (KeyValuePair<string,int> resource in homePrice)
+                {
+                    resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value);
+                }
             }
 
             // stop holding onto this building
