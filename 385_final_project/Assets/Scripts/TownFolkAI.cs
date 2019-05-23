@@ -208,12 +208,6 @@ public class TownFolkAI : MonoBehaviour
 
 
 
-            if(inventory == 5)
-            {
-                resourceTag = "VillageCenter";
-                targetObject = null;
-                return;
-            }
         }
     }
 
