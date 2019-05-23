@@ -69,7 +69,6 @@ public class TownFolkAI : MonoBehaviour
             } 
         }
 
-
          FindNode();
 
         // Checks if target is too close
@@ -79,13 +78,13 @@ public class TownFolkAI : MonoBehaviour
             //If target is too close that means we need to peform an action!
 
             //Check to make sure object is there.
-            if(targetObject != null)
+            if (targetObject != null)
             {
-                if(targetObject.tag == "Home")
+                if (targetObject.tag == "Home")
                 {
                     //wait at home
                 }
-                else if(targetObject.tag == "Tree")
+                else if (targetObject.tag == "Tree")
                 {
                     //Process tree
                     ProcessResource();
@@ -236,6 +235,9 @@ public class TownFolkAI : MonoBehaviour
 
             targetObject.GetComponent<ResourceCounter>().numberOfResources -= 1;
             inventory += 1;
+
+
+
 
             if(inventory == 5)
             {
