@@ -147,6 +147,7 @@ public class SpawnNewBuildings : MonoBehaviour
             buildingToDrag.transform.position = new Vector3(tileXIndex * tileOffset + centerOffset, 0.25f, tileZIndex * tileOffset + centerOffset);
             tileLayoutScript.setTileTag(tileXIndex, tileZIndex, "PlainsTileWithBuilding");
 
+<<<<<<< HEAD
             if (!buildingToDrag.tag.Equals("VillageCenter"))
             {
                 buildingToDrag.tag = "Home";
@@ -156,6 +157,18 @@ public class SpawnNewBuildings : MonoBehaviour
                     resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value);
                 }
             }
+=======
+            if (!buildingToDrag.tag.Equals("VillageCenter"))
+            {
+                buildingToDrag.tag = "Home";
+                // pay with resources
+                foreach (KeyValuePair<string,int> resource in homePrice)
+                {
+                    resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value);
+                }
+            }
+
+>>>>>>> f723bf910d2ece20378c0437882689fe04952dee
             // stop holding onto this building
             buildingToDrag = null;
             StopDraggingBuidling();
