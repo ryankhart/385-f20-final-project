@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class TownFolkAI : MonoBehaviour
+public class MonsterAI : MonoBehaviour
 {
     private GameObject targetObject;
-    private Transform target;
-    public string resourceTag = "Tree";
-
+    private GameObject GridCreator;
+    private GridManager gridManager;
+    public string townFolkTag = "TownFolk";
     [SerializeField]
     private float movementSpeed = 5.0f;
     private float rotationSpeed = 100.0f;
     [SerializeField]
-    private float toleranceRadius = .25f;
+    private float toleranceRadius = 1.0f;
 
     private float currentSpeed;
     private Vector3 targetPoint;
@@ -26,120 +26,85 @@ public class TownFolkAI : MonoBehaviour
     private ArrayList pathArray;
 
     private float elapsedTime = 0.0f;
-    private float collectionTime = 0.0f;
-    public float intervalTime = 1.0f;
-    public GameObject GridCreator;
-    public GridManager gridManager;
-
+    public float intervalTime = 10.0f;
     private int nodesOfMovement = 1;
-    private int inventory = 0;
-    private string currentResource;
-    public bool flee = false;
+    private int range = 5;
 
-
+    public float cooldown = 0.0f;
     // Start is called before the first frame update
     void Start()
     {
         GridCreator = GameObject.FindGameObjectsWithTag("GridCreator")[0];
         gridManager = GridCreator.GetComponent<GridManager>();
-        //Calculate the path using our AStart code.
+
         pathArray = new ArrayList();
         FindPath();
     }
 
-
-    private void FixedUpdate()
+    // Update is called once per frame
+    void FixedUpdate()
     {
-        
-
         elapsedTime += Time.deltaTime;
 
         //How much time it takes to find a new path.
         if (elapsedTime >= intervalTime)
         {
-            if (flee)
-            {
-                elapsedTime = 0.0f;
-                goHome();
-            }
-            else
+            if(cooldown <= 0.0f)
             {
                 elapsedTime = 0.0f;
                 FindPath();
-            } 
+            }
+            if(cooldown > 0.0f)
+            {
+                cooldown -= Time.deltaTime;
+            }
         }
 
-        
-         FindNode();
-        
+
+        FindNode();
+
         // Checks if target is too close
         if (Vector3.Distance(targetPoint, transform.position) < toleranceRadius)
         {
             //If target is too close that means we need to peform an action!
-            
-            //Check to make sure object is there.
-            if(targetObject != null)
-            {
-                if(targetObject.tag == "Home")
-                {
-                    //wait at home
-                }
-                else if(targetObject.tag == "Tree")
-                {
-                    //Process tree
-                    ProcessResource();
 
+            //Check to make sure object is there.
+            if (targetObject != null)
+            {
+                // "Attacks" townfolk
+                if(targetObject.tag == townFolkTag)
+                {
+                    targetObject.GetComponent<TownFolkAI>().flee = true;
+                    cooldown = 3.0f;
                 }
             }
-
-
-
 
             return;
         }
 
-        currentSpeed = movementSpeed * Time.deltaTime;
-
-        //Rotate the agent towards its target direction 
-        direction = (targetPoint - transform.position);
-        direction.Normalize();
-        targetRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-
-        //Move the agent forard
-        //transform.position += transform.forward * currentSpeed;
-        transform.position += new Vector3((transform.forward * currentSpeed).x, 0, (transform.forward * currentSpeed).z);
-        transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-
-        /*
-        //print(target);
-        if(target != null && state == 0)
+        if(pathArray.Count < range)
         {
-            navMeshAgent.SetDestination(target.position);
+            currentSpeed = movementSpeed * Time.deltaTime;
+
+            //Rotate the agent towards its target direction 
+            direction = (targetPoint - transform.position);
+            direction.Normalize();
+            targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+            //Move the agent forard
+            //transform.position += transform.forward * currentSpeed;
+            transform.position += new Vector3((transform.forward * currentSpeed).x, 0, (transform.forward * currentSpeed).z);
+            transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         }
-        else
-        {
-           // print(state);
-            //Going home
-            if (state == 0)
-            {
-                target = home;
-            }
-            else
-            {
-                target = FindTarget();
-                state = 0;
-            }
-            
-        }
-        */
+        
     }
 
-    //Finds a target with a tag
+
     public Transform FindTarget()
     {
         //Gets all objects with tag
-        GameObject[] targets = GameObject.FindGameObjectsWithTag(resourceTag);
+        GameObject[] targets = GameObject.FindGameObjectsWithTag(townFolkTag);
 
         float minDistance = Mathf.Infinity;
         Transform closest;
@@ -165,6 +130,7 @@ public class TownFolkAI : MonoBehaviour
 
         return closest;
     }
+
 
     //Finds the next node to move towards
     public void FindNode()
@@ -206,30 +172,6 @@ public class TownFolkAI : MonoBehaviour
 
     }
 
-    private void ProcessResource()
-    {
-        collectionTime += Time.deltaTime;
-        if (collectionTime >= 5)
-        {
-
-            collectionTime = 0.0f;
-
-            targetObject.GetComponent<ResourceCounter>().numberOfResources -= 1;
-            inventory += 1;
-            
-
-
-
-        }
-    }
-
-    public void goHome()
-    {
-        //Sends villager home
-        resourceTag = "Home";
-        FindPath();
-    }
-
     //Drawing debug line
     private void OnDrawGizmos()
     {
@@ -246,12 +188,13 @@ public class TownFolkAI : MonoBehaviour
                 if (index < pathArray.Count)
                 {
                     Node nextNode = (Node)pathArray[index];
-                    Debug.DrawLine(node.position, nextNode.position, Color.green);
+                    Debug.DrawLine(node.position, nextNode.position, Color.red);
                     index++;
                 }
             };
         }
     }
+
 
 
 }
