@@ -14,7 +14,8 @@ TagManager:
   - Home
   - PlainsTileWithTree
   - PlainsTileWithBuilding
-  - End
+  - Stone
+  - VillageCenter
   layers:
   - Default
   - TransparentFX

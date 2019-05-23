@@ -3,32 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class TownFolkAI : MonoBehaviour
+public class TownFolkAIPetra : MonoBehaviour
 {
     private GameObject targetObject;
-    private Transform target;
+    private Transform targetPosition;
+    private Vector3 targetPoint;
     public string resourceTag = "Tree";
+
+    private float currentSpeed;
+    private Vector3 direction;
+    private Quaternion targetRotation;
+
+    public Node startNode { get; set; }
+    public Node goalNode { get; set; }
+
+    private ArrayList pathArray;
 
     [SerializeField]
     private float movementSpeed = 5.0f;
     private float rotationSpeed = 100.0f;
     [SerializeField]
     private float toleranceRadius = .25f;
-
-    private float currentSpeed;
-    private Vector3 targetPoint;
-    private Vector3 direction;
-    private Quaternion targetRotation;
-    private RaycastHit avoidanceHit;
-    private Vector3 hitNormal;
-
-    //private Transform startPosition;
-    //private Transform endPosition;
-
-    public Node startNode { get; set; }
-    public Node goalNode { get; set; }
-
-    private ArrayList pathArray;
 
     private float elapsedTime = 0.0f;
     private float collectionTime = 0.0f;
@@ -38,7 +33,6 @@ public class TownFolkAI : MonoBehaviour
 
     private int nodesOfMovement = 1;
     private int inventory = 0;
-    private string currentResource;
 
 
     // Start is called before the first frame update
@@ -63,70 +57,64 @@ public class TownFolkAI : MonoBehaviour
             FindPath();
         }
 
-
         FindNode();
 
         // Checks if target is too close
-        if (Vector3.Distance(targetPoint, transform.position) < toleranceRadius)
+        // WARNING, YOU ARE FORGETTING THE VILLAGER HAS Y POSITION 0.439
+        Vector3 villagerPosition = transform.position;
+        villagerPosition.y = 0;
+        if (Vector3.Distance(targetPoint, villagerPosition) < toleranceRadius)
         {
             //If target is too close that means we need to peform an action!
-
             //Check to make sure object is there.
             if (targetObject != null)
             {
-                if (targetObject.tag == "Home")
+                if (resourceTag == "Home")
                 {
                     //wait at home
                 }
-                else if (targetObject.tag == "Tree")
+                else if (resourceTag == "Tree")
                 {
-                    //Process tree
                     ProcessResource();
-
+                }
+                else if (resourceTag == "VillageCenter")
+                {
+                    GoStoreCollectedResources();
                 }
             }
-
-
-
-
             return;
         }
 
         currentSpeed = movementSpeed * Time.deltaTime;
 
-        //Rotate the agent towards its target direction 
-        direction = (targetPoint - transform.position);
-        direction.Normalize();
-        targetRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        //Rotate the agent towards its target direction
+        direction = (targetPoint - transform.position).normalized;
+        direction.y = 0;
 
+        // look
+        // the if statement prevents turning when at target and that stupid zero vector warning
+        if (Vector3.Distance(direction, Vector3.zero) > 0.01)
+        {
+            targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
         //Move the agent forard
-        //transform.position += transform.forward * currentSpeed;
-        transform.position += new Vector3((transform.forward * currentSpeed).x, 0, (transform.forward * currentSpeed).z);
-        transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.position += new Vector3(direction.x * currentSpeed, direction.y, direction.z * currentSpeed);
+    }
 
-        /*
-        //print(target);
-        if(target != null && state == 0)
+    private void GoStoreCollectedResources()
+    {
+        GameObject villCenter = GameObject.Find("VillageCenter(Clone)");
+        Vector3 centerPosition = villCenter.transform.position;
+        centerPosition.y = 0;   // center of the towncenter prefab is not on y = 0
+        if (Vector3.Distance(targetPoint, centerPosition) < toleranceRadius)
         {
-            navMeshAgent.SetDestination(target.position);
+            // drop the collected resources off at the village center
+            villCenter.GetComponent<TrackStorageResources>().AddResourceUnits("Tree", inventory);
+            inventory = 0;
+            targetObject = null;
+            resourceTag = "Tree"; // go find a tree to chop
         }
-        else
-        {
-           // print(state);
-            //Going home
-            if (state == 0)
-            {
-                target = home;
-            }
-            else
-            {
-                target = FindTarget();
-                state = 0;
-            }
-            
-        }
-        */
     }
 
     //Finds a target with a tag
@@ -156,7 +144,6 @@ public class TownFolkAI : MonoBehaviour
                 minDistance = distance;
             }
         }
-
         return closest;
     }
 
@@ -187,6 +174,7 @@ public class TownFolkAI : MonoBehaviour
     private void FindPath()
     {
         Transform startPosition = transform;
+        Transform endPosition = FindTarget();
 
         if (endPosition != null)
         {
@@ -196,23 +184,24 @@ public class TownFolkAI : MonoBehaviour
             if (goalNode != null)
                 pathArray = AStar.FindPath(startNode, goalNode);
         }
-
     }
 
     private void ProcessResource()
     {
         collectionTime += Time.deltaTime;
-        if (collectionTime >= 5)
+        if (collectionTime >= 2)
         {
-
             collectionTime = 0.0f;
 
             targetObject.GetComponent<ResourceCounter>().numberOfResources -= 1;
             inventory += 1;
 
-
-
-
+            if (inventory == 5)
+            {
+                resourceTag = "VillageCenter";
+                targetObject = null;
+                return;
+            }
         }
     }
 
@@ -238,6 +227,4 @@ public class TownFolkAI : MonoBehaviour
             };
         }
     }
-
-
 }
