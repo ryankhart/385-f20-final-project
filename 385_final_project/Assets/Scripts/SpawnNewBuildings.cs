@@ -44,10 +44,6 @@ public class SpawnNewBuildings : MonoBehaviour
         { 
             if(GameObject.Find("VillageCenter(Clone)") != null)
             {
-        if(resourceCounterScript == null)
-        { 
-            if(GameObject.Find("VillageCenter(Clone)") != null)
-            {
                 resourceCounterScript = GameObject.Find("VillageCenter(Clone)").GetComponent<TrackStorageResources>();
             }
         }
