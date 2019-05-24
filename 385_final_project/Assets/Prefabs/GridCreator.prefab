@@ -43,8 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97b5f0db5eed54a40beff079f8c352b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfRows: 20
-  numberOfColumns: 20
+  numberOfRows: 30
+  numberOfColumns: 30
   gridCellSize: 0.86
   showGrid: 1
   showObstacleBlocks: 1

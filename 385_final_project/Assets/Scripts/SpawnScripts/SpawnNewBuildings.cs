@@ -83,17 +83,10 @@ public class SpawnNewBuildings : MonoBehaviour
 
             if (index == 1)
             {
-                if (villageCenter == null)
-                {
-                    villageCenter = Instantiate(villCenterPrefab, buildingPosition, Quaternion.identity);
-                    villageCenter.tag = "VillageCenter";
-                    buildingToDrag = villageCenter;
-                }
-                else 
-                {
-                    print("Village center already exists");
-                    return;
-                }
+                villageCenter = Instantiate(villCenterPrefab, buildingPosition, Quaternion.identity);
+                villageCenter.tag = "VillageCenter";
+                buildingToDrag = villageCenter;
+                
             }
             else
             {
@@ -144,18 +137,39 @@ public class SpawnNewBuildings : MonoBehaviour
         // drop the buidling down onto a free plains tile
         if (tileTag.Equals("PlainsTile"))
         {
+            if (!buildingToDrag.tag.Equals("VillageCenter"))
+            {
+                // if village center exists
+                if (resourceCounterScript != null)
+                {
+                    buildingToDrag.tag = "Home";
+                    // pay with resources
+                    bool canBuild = true;
+                    foreach (KeyValuePair<string, int> resource in homePrice)
+                    {
+                        if(resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value) == false)
+                        {
+                            canBuild = false;
+                        }
+                    }
+                    if(!canBuild)
+                    {
+                        print("You have no resources to build with!");
+                        Destroy(buildingToDrag);
+                        return;
+                    }
+                } 
+                else
+                {
+                    print("You have no resources to build with!");
+                    Destroy(buildingToDrag);
+                    return;
+                }
+            }
+
             buildingToDrag.transform.position = new Vector3(tileXIndex * tileOffset + centerOffset, 0.25f, tileZIndex * tileOffset + centerOffset);
             tileLayoutScript.setTileTag(tileXIndex, tileZIndex, "PlainsTileWithBuilding");
 
-            if (!buildingToDrag.tag.Equals("VillageCenter"))
-            {
-                buildingToDrag.tag = "Home";
-                // pay with resources
-                foreach (KeyValuePair<string,int> resource in homePrice)
-                {
-                    resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value);
-                }
-            }
             // stop holding onto this building
             buildingToDrag = null;
             StopDraggingBuidling();

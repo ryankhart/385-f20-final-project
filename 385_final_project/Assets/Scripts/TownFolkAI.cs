@@ -97,7 +97,7 @@ public class TownFolkAI : MonoBehaviour
                 }
                 else if (resourceTag == "VillageCenter")
                 {
-                    GoStoreCollectedResources();
+                    GoStoreCollectedResources(villagerPosition);
                 }
             }
             return;
@@ -167,18 +167,18 @@ public class TownFolkAI : MonoBehaviour
         return false;
     }
 
-    private void GoStoreCollectedResources()
+    private void GoStoreCollectedResources(Vector3 villagerPosition)
     {
-        GameObject villCenter = GameObject.Find("VillageCenter(Clone)");
-        Vector3 centerPosition = villCenter.transform.position;
-        centerPosition.y = 0;   // center of the towncenter prefab is not on y = 0
-        if (Vector3.Distance(targetPoint, centerPosition) < toleranceRadius)
+        if (checkIfAtDestination(villagerPosition))
         {
-            // drop the collected resources off at the village center
-            villCenter.GetComponent<TrackStorageResources>().AddResourceUnits("Tree", inventory);
-            inventory = 0;
-            targetObject = null;
-            resourceTag = "Tree"; // go find a tree to chop
+            if (targetObject.tag == "VillageCenter")
+            {
+                // drop the collected resources off at the village center
+                targetObject.GetComponent<TrackStorageResources>().AddResourceUnits("Tree", inventory);
+                inventory = 0;
+                targetObject = null;
+                resourceTag = "Tree"; // go find a tree to chop
+            }
         }
     }
 

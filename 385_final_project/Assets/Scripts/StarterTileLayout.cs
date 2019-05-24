@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StarterTileLayout : MonoBehaviour
@@ -10,14 +8,16 @@ public class StarterTileLayout : MonoBehaviour
     public GameObject waterTile;
     public GameObject rockTile;
     public GameObject tree;
+    public GameObject stone;
     public GameObject GridCreator;
     public GameObject TownMan;
     public Camera gameCamera;
 
     private GameObject[,] tileMap;
+    private Vector3 objPosition;
     private float tileOffset = 0.860000f; // Default offset
 
-    private float testVal = .50f;
+    private readonly float centerOfTileOffset = .50f;
 
     private Vector3 TilePosition(float x, float y, float z)
     {
@@ -42,10 +42,11 @@ public class StarterTileLayout : MonoBehaviour
         GeneratePlains();
         GenerateOtherTileGroups(waterTile, tileOffset, (int)(mapSize * mapSize * 0.25)); // up to 25% of map is water
         GenerateOtherTileGroups(rockTile, tileOffset, (int)(mapSize * mapSize * 0.15)); // up to 15% of map is rock
-        GenerateTrees();
+        GenerateEnvironObjs(tree, 0.2f); // up to 20 % of map has trees
+        GenerateEnvironObjs(stone, 0.03f); // up to 3 % of map has stone
 
         // position the camera in the middle of the map
-        gameCamera.transform.position = TilePosition((mapSize / 2f), 10, (mapSize / 2f));
+        gameCamera.transform.position = TilePosition((mapSize / 2f), 12, (mapSize / 2f));
         gameCamera.transform.rotation = Quaternion.Euler(90,0,0);
 
         //Instantiate(TownMan, new Vector3(1, .2f, 1), Quaternion.identity);
@@ -57,7 +58,7 @@ public class StarterTileLayout : MonoBehaviour
         {
             for (int j = 0; j < mapSize; j++)
             {
-                tileMap[i, j] = Instantiate(plainsTile, TilePosition(i+testVal, 0, j+testVal), Quaternion.Euler(90,0,0));
+                tileMap[i, j] = Instantiate(plainsTile, TilePosition(i+centerOfTileOffset, 0, j+centerOfTileOffset), Quaternion.Euler(90,0,0));
             }
         }
     }
@@ -74,8 +75,8 @@ public class StarterTileLayout : MonoBehaviour
         Destroy(tileMap[indexX, indexZ]);
 
         // place new terrain tile - this will be the origin of the group of terrain tiles
-        tileMap[indexX, indexZ] = Instantiate(tilePrefab, TilePosition(indexX+testVal, 0, indexZ+testVal), Quaternion.Euler(90, 0, 0));
-
+        tileMap[indexX, indexZ] = Instantiate(tilePrefab, TilePosition(indexX+centerOfTileOffset, 0, indexZ+centerOfTileOffset), Quaternion.Euler(90, 0, 0));
+       
         int nextRandValue;
 
         // randomly generate a group of water tiles
@@ -126,31 +127,120 @@ public class StarterTileLayout : MonoBehaviour
     private void PlaceNewTile(GameObject prefab, int indexX, int indexZ)
     {
         Destroy(tileMap[indexX, indexZ]);
-        tileMap[indexX, indexZ] = Instantiate(prefab, TilePosition(indexX+testVal, 0, indexZ+testVal), Quaternion.Euler(90, 0, 0));
+        tileMap[indexX, indexZ] = Instantiate(prefab, TilePosition(indexX+centerOfTileOffset, 0, indexZ+centerOfTileOffset), Quaternion.Euler(90, 0, 0));
     }
 
-    private void GenerateTrees()
+    private void GenerateEnvironObjs(GameObject prefab, float surfaceCoverage)
     {
         System.Random rand = new System.Random(Guid.NewGuid().GetHashCode());
-        // seed position for a tree
-        int nextTreeX;
-        int nextTreeZ;
+        // seed position for a collectible
+        int nextX;
+        int nextZ;
+
+        // produce random-sized groupings of stone TODO: copper, herbs?
+        int groupSize = 0;
+        int nextTile;
+
+        int objCount = (int)(mapSize * mapSize * surfaceCoverage); // num objects in the scene
 
         // find a plains tile
-        int treeCount = (int)(mapSize * mapSize * 0.1); // ~30% of map will be trees
-        while (treeCount > 0)
+        while (objCount > 0)
         {
-            nextTreeX = rand.Next(0, mapSize);
-            nextTreeZ = rand.Next(0, mapSize);
+            nextX = rand.Next(0, mapSize);
+            nextZ = rand.Next(0, mapSize);
 
-            if (tileMap[nextTreeX, nextTreeZ].gameObject.tag.Equals("PlainsTile"))
+            if (tileMap[nextX, nextZ].gameObject.tag.Equals("PlainsTile"))
             {
-                Vector3 treePosition = TilePosition(nextTreeX+testVal, 0, nextTreeZ+testVal);
-                Instantiate(tree, treePosition, Quaternion.Euler(0, 0, 0)); // rotate to top down view
-                tileMap[nextTreeX, nextTreeZ].gameObject.tag = "PlainsTileWithTree";
-                treeCount--;
+                if (prefab.tag == "Tree")
+                {
+                    objPosition = TilePosition(nextX + centerOfTileOffset, 0, nextZ + centerOfTileOffset);
+                    Instantiate(prefab, objPosition, Quaternion.Euler(0, 0, 0)); // rotate to top down view
+                    tileMap[nextX, nextZ].gameObject.tag = "PlainsTileWithTree";
+                    objCount--;
+                }
+                else // stone, will probably work for others, too
+                {
+                    // seed position for a collectible
+                    objPosition = InstaPrefab(prefab, nextX, nextZ);
+                    objCount--;
+
+                    rand = new System.Random(Guid.NewGuid().GetHashCode());
+                    groupSize = rand.Next(1, mapSize / 4);
+
+                    while (groupSize > 0)
+                    {
+                        nextTile = CreateResourceGroup(prefab, rand, ref nextX, ref nextZ, ref groupSize, ref objCount);
+                        // TODO: either make it PlainsWithResource or add a PlainsWithStoneTile
+                        tileMap[nextX, nextZ].gameObject.tag = "PlainsTileWithTree";
+                    }
+                }
             }
         }
+    }
+
+    private int CreateResourceGroup(GameObject prefab, System.Random rand, ref int nextX, ref int nextZ, ref int groupSize, ref int objCount)
+    {
+        int nextTile = rand.Next(0, 4);
+        switch (nextTile)
+        {
+            case 1: // west
+                if (nextX - 1 >= 0)  // check if we are past the map edge
+                {
+                    nextX -= 1;
+                    if (tileMap[nextX, nextZ].tag == "PlainsTile")
+                    {
+                        objPosition = InstaPrefab(prefab, nextX, nextZ);
+                        objCount--;
+                        groupSize--;
+                    }
+                }
+                break;
+            case 2: // east
+                if (nextX + 1 < mapSize)  // check if we are past the map edge
+                {
+                    nextX += 1;
+                    if (tileMap[nextX, nextZ].tag == "PlainsTile")
+                    {
+                        objPosition = InstaPrefab(prefab, nextX, nextZ);
+                        objCount--;
+                        groupSize--;
+                    }
+                }
+                break;
+            case 3: // south
+                if (nextZ - 1 >= 0)  // check if we are past the map edge
+                {
+                    nextZ -= 1;
+                    if (tileMap[nextX, nextZ].tag == "PlainsTile")
+                    {
+                        objPosition = InstaPrefab(prefab, nextX, nextZ);
+                        objCount--;
+                        groupSize--;
+                    }
+                }
+                break;
+            default: // north
+                if (nextZ + 1 < mapSize)  // check if we are past the map edge
+                {
+                    nextZ += 1;
+                    if (tileMap[nextX, nextZ].tag == "PlainsTile")
+                    {
+                        objPosition = InstaPrefab(prefab, nextX, nextZ);
+                        objCount--;
+                        groupSize--;
+                    }
+                }
+                break;
+        }
+
+        return nextTile;
+    }
+
+    private Vector3 InstaPrefab(GameObject prefab, int nextX, int nextZ)
+    {
+        objPosition = TilePosition(nextX + centerOfTileOffset, prefab.transform.localScale.y / 2, nextZ + centerOfTileOffset);
+        Instantiate(prefab, objPosition, Quaternion.Euler(0, 0, 0)); // rotate to top down view
+        return objPosition;
     }
 
     public string getTileTag(int x, int z)

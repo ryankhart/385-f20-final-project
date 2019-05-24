@@ -5,10 +5,12 @@ using UnityEngine;
 public class SpawnVillagers : MonoBehaviour
 {
     public GameObject lumberjack;
+    public GameObject monster;
 
     private int mapSize;
     private int currentNumHouses = 0;
     private List<GameObject> villagers;
+    private List<GameObject> monsters;
     private GameObject[] houses;
     private StarterTileLayout mapStarterScript;
 
@@ -26,6 +28,7 @@ public class SpawnVillagers : MonoBehaviour
         // limit max num of villagers to a number based on map size
         // TODO: come up with a better number selection
         villagers = new List<GameObject>(mapSize);
+        monsters = new List<GameObject>(mapSize);
     }
 
     private void Update()
@@ -41,6 +44,19 @@ public class SpawnVillagers : MonoBehaviour
             float jackZ = houses[currentNumHouses - 1].transform.position.z;
             GameObject jack = Instantiate(lumberjack, new Vector3(jackX, 0.439f, jackZ), Quaternion.identity);
             villagers.Add(jack);
+        }
+        // monster spawns after every 4 villagers
+        if(villagers.Count > 0 && villagers.Count % 4 == 0 && monsters.Count < (int) (villagers.Count / 4))
+        {
+            GameObject[] trees = GameObject.FindGameObjectsWithTag("Tree");
+            if(trees.Length > 0)
+            {
+                float monsterX = trees[trees.Length - 1].transform.position.x;
+                float monsterZ = trees[trees.Length - 1].transform.position.z;
+
+                GameObject mon = Instantiate(monster, new Vector3(monsterX, 0.439f, monsterZ), Quaternion.identity);
+                monsters.Add(mon);
+            }
         }
     }
 }
