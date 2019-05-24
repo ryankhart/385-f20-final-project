@@ -45,7 +45,7 @@ public class StarterTileLayout : MonoBehaviour
         GenerateEnvironObjs();
 
         // position the camera in the middle of the map
-        gameCamera.transform.position = TilePosition((mapSize / 2f), 10, (mapSize / 2f));
+        gameCamera.transform.position = TilePosition((mapSize / 2f), 12, (mapSize / 2f));
         gameCamera.transform.rotation = Quaternion.Euler(90,0,0);
 
         //Instantiate(TownMan, new Vector3(1, .2f, 1), Quaternion.identity);
