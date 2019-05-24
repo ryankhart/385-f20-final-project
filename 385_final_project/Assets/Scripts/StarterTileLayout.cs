@@ -169,64 +169,71 @@ public class StarterTileLayout : MonoBehaviour
 
                     while (groupSize > 0)
                     {
-                        nextTile = rand.Next(0, 4);
-                        switch (nextTile)
-                        {
-                            case 1: // west
-                                if (nextX - 1 >= 0)  // check if we are past the map edge
-                                {
-                                    nextX -= 1;
-                                    if (tileMap[nextX, nextZ].tag == "PlainsTile")
-                                    {
-                                        objPosition = InstaPrefab(prefab, nextX, nextZ);
-                                        objCount--;
-                                        groupSize--;
-                                    }
-                                }
-                                break;
-                            case 2: // east
-                                if (nextX + 1 < mapSize)  // check if we are past the map edge
-                                {
-                                    nextX += 1;
-                                    if (tileMap[nextX, nextZ].tag == "PlainsTile")
-                                    {
-                                        objPosition = InstaPrefab(prefab, nextX, nextZ);
-                                        objCount--;
-                                        groupSize--;
-                                    }
-                                }
-                                break;
-                            case 3: // south
-                                if (nextZ - 1 >= 0)  // check if we are past the map edge
-                                {
-                                    nextZ -= 1;
-                                    if (tileMap[nextX, nextZ].tag == "PlainsTile")
-                                    {
-                                        objPosition = InstaPrefab(prefab, nextX, nextZ);
-                                        objCount--;
-                                        groupSize--;
-                                    }
-                                }
-                                break;
-                            default: // north
-                                if (nextZ + 1 < mapSize)  // check if we are past the map edge
-                                {
-                                    nextZ += 1;
-                                    if (tileMap[nextX, nextZ].tag == "PlainsTile")
-                                    {
-                                        objPosition = InstaPrefab(prefab, nextX, nextZ);
-                                        objCount--;
-                                        groupSize--;
-                                    }
-                                }
-                                break;
-                        }
+                        nextTile = CreateResourceGroup(prefab, rand, ref nextX, ref nextZ, ref groupSize, ref objCount);
                         // TODO: either make it PlainsWithResource or add a PlainsWithStoneTile
                         tileMap[nextX, nextZ].gameObject.tag = "PlainsTileWithTree";
                     }
                 }
             }
         }
+    }
+
+    private int CreateResourceGroup(GameObject prefab, System.Random rand, ref int nextX, ref int nextZ, ref int groupSize, ref int objCount)
+    {
+        int nextTile = rand.Next(0, 4);
+        switch (nextTile)
+        {
+            case 1: // west
+                if (nextX - 1 >= 0)  // check if we are past the map edge
+                {
+                    nextX -= 1;
+                    if (tileMap[nextX, nextZ].tag == "PlainsTile")
+                    {
+                        objPosition = InstaPrefab(prefab, nextX, nextZ);
+                        objCount--;
+                        groupSize--;
+                    }
+                }
+                break;
+            case 2: // east
+                if (nextX + 1 < mapSize)  // check if we are past the map edge
+                {
+                    nextX += 1;
+                    if (tileMap[nextX, nextZ].tag == "PlainsTile")
+                    {
+                        objPosition = InstaPrefab(prefab, nextX, nextZ);
+                        objCount--;
+                        groupSize--;
+                    }
+                }
+                break;
+            case 3: // south
+                if (nextZ - 1 >= 0)  // check if we are past the map edge
+                {
+                    nextZ -= 1;
+                    if (tileMap[nextX, nextZ].tag == "PlainsTile")
+                    {
+                        objPosition = InstaPrefab(prefab, nextX, nextZ);
+                        objCount--;
+                        groupSize--;
+                    }
+                }
+                break;
+            default: // north
+                if (nextZ + 1 < mapSize)  // check if we are past the map edge
+                {
+                    nextZ += 1;
+                    if (tileMap[nextX, nextZ].tag == "PlainsTile")
+                    {
+                        objPosition = InstaPrefab(prefab, nextX, nextZ);
+                        objCount--;
+                        groupSize--;
+                    }
+                }
+                break;
+        }
+
+        return nextTile;
     }
 
     private Vector3 InstaPrefab(GameObject prefab, int nextX, int nextZ)
