@@ -1,13 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class TownFolkAI : MonoBehaviour
 {
     private GameObject targetObject;
     private Transform target;
-    public string resourceTag = "Tree";
+    public string resourceTag = "Stone";
     public string lastResource;
 
     [SerializeField]
@@ -46,6 +46,7 @@ public class TownFolkAI : MonoBehaviour
         gridManager = GridCreator.GetComponent<GridManager>();
         //Calculate the path using our AStart code.
         pathArray = new ArrayList();
+        setResoruce();
         FindPath();
     }
 
@@ -140,7 +141,7 @@ public class TownFolkAI : MonoBehaviour
             if (targetObject.tag == "VillageCenter")
             {
                 // drop the collected resources off at the village center
-                targetObject.GetComponent<TrackStorageResources>().AddResourceUnits("Tree", inventory);
+                targetObject.GetComponent<TrackStorageResources>().AddResourceUnits(lastResource, inventory);
                 inventory = 0;
                 targetObject = null;
                 resourceTag = lastResource; 
@@ -163,6 +164,19 @@ public class TownFolkAI : MonoBehaviour
             lastResource = "Copper";
         }
         resourceTag = tag;
+    }
+
+    private void setResoruce()
+    {
+        int rand = UnityEngine.Random.Range(1, 4);
+        if(rand <= 2)
+        {
+            resourceTag = "Tree";
+        }
+        else
+        {
+            resourceTag = "Stone";
+        }
     }
 
     //Finds a target with a tag
@@ -252,7 +266,7 @@ public class TownFolkAI : MonoBehaviour
             if(inventory == 5)
             {
                setTag("VillageCenter");
-                return;
+               return;
             }
         }
     }

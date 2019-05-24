@@ -320,10 +320,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be902eca932ab6b4fa187e0be294bde2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resourceTag: Tree
+  resourceTag: 
+  lastResource: 
   movementSpeed: 5
   toleranceRadius: 0.25
   intervalTime: 1
   GridCreator: {fileID: 0}
   gridManager: {fileID: 0}
   flee: 0
+  last: 1
