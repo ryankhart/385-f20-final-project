@@ -56,28 +56,14 @@ public class TownFolkAI : MonoBehaviour
 
         //How much time it takes to find a new path.
         if (elapsedTime >= intervalTime)
-        {
-            if (flee)
-            {
-                elapsedTime = 0.0f;
-                if(last == true)
-                {
-                    setLast();
-                    last = false;
-                }
-                goHome();
-            }
-            else
-            {
-                elapsedTime = 0.0f;
-                FindPath();
-            } 
+        {   
+            elapsedTime -= intervalTime;
+            FindPath(); 
         }
 
         FindNode();
 
         // Checks if target is too close
-        // WARNING, YOU ARE FORGETTING THE VILLAGER HAS Y POSITION 0.439
         Vector3 villagerPosition = transform.position;
         villagerPosition.y = 0;
         if (Vector3.Distance(targetPoint, villagerPosition) < toleranceRadius)
@@ -88,8 +74,7 @@ public class TownFolkAI : MonoBehaviour
             {
                 if (resourceTag == "Home")
                 {
-                    //wait at home
-                    homeFear(villagerPosition);
+                    //wait
                 }
                 else if (resourceTag == "Tree")
                 {
@@ -99,10 +84,21 @@ public class TownFolkAI : MonoBehaviour
                 {
                     GoStoreCollectedResources(villagerPosition);
                 }
+                else if (resourceTag == "Stone")
+                {
+                    ProcessResource();
+                }
             }
             return;
         }
 
+        moveToDestination();
+
+       
+    }
+
+    public void moveToDestination()
+    {
         currentSpeed = movementSpeed * Time.deltaTime;
 
         //Rotate the agent towards its target direction
@@ -118,41 +114,8 @@ public class TownFolkAI : MonoBehaviour
         }
         //Move the agent forard
         transform.position += new Vector3(direction.x * currentSpeed, direction.y, direction.z * currentSpeed);
-
-        /*
-        //print(target);
-        if(target != null && state == 0)
-        {
-            navMeshAgent.SetDestination(target.position);
-        }
-        else
-        {
-           // print(state);
-            //Going home
-            if (state == 0)
-            {
-                target = home;
-            }
-            else
-            {
-                target = FindTarget();
-                state = 0;
-            }
-            
-        }
-        */
     }
 
-    private void homeFear(Vector3 villagerPosition)
-    {
-        if (checkIfAtDestination(villagerPosition))
-        {
-            flee = false;
-            resourceTag = lastResource;
-            last = true;
-            FindPath();
-        }
-    }
 
 
     private bool checkIfAtDestination(Vector3 villagerPosition)
@@ -160,6 +123,7 @@ public class TownFolkAI : MonoBehaviour
 
         Node nextNode = (Node)pathArray[pathArray.Count-1];
         Vector3 last = nextNode.position;
+
         if (Vector3.Distance(targetPoint, last) < toleranceRadius)
         {
             return true;
@@ -177,7 +141,7 @@ public class TownFolkAI : MonoBehaviour
                 targetObject.GetComponent<TrackStorageResources>().AddResourceUnits("Tree", inventory);
                 inventory = 0;
                 targetObject = null;
-                resourceTag = "Tree"; // go find a tree to chop
+                resourceTag = lastResource; // go find a tree to chop
             }
         }
     }
@@ -272,17 +236,6 @@ public class TownFolkAI : MonoBehaviour
                 return;
             }
         }
-    }
-
-    public void goHome()
-    {
-        resourceTag = "Home";
-        FindPath();
-    }
-
-    public void setLast()
-    {
-        lastResource = "Tree";
     }
 
     //Drawing debug line
