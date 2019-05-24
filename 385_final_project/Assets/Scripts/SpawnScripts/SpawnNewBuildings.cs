@@ -83,17 +83,10 @@ public class SpawnNewBuildings : MonoBehaviour
 
             if (index == 1)
             {
-                if (villageCenter == null)
-                {
-                    villageCenter = Instantiate(villCenterPrefab, buildingPosition, Quaternion.identity);
-                    villageCenter.tag = "VillageCenter";
-                    buildingToDrag = villageCenter;
-                }
-                else 
-                {
-                    print("Village center already exists");
-                    return;
-                }
+                villageCenter = Instantiate(villCenterPrefab, buildingPosition, Quaternion.identity);
+                villageCenter.tag = "VillageCenter";
+                buildingToDrag = villageCenter;
+                
             }
             else
             {
@@ -151,9 +144,19 @@ public class SpawnNewBuildings : MonoBehaviour
                 {
                     buildingToDrag.tag = "Home";
                     // pay with resources
+                    bool canBuild = true;
                     foreach (KeyValuePair<string, int> resource in homePrice)
                     {
-                        resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value);
+                        if(resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value) == false)
+                        {
+                            canBuild = false;
+                        }
+                    }
+                    if(!canBuild)
+                    {
+                        print("You have no resources to build with!");
+                        Destroy(buildingToDrag);
+                        return;
                     }
                 } 
                 else

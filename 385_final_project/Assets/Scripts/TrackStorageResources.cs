@@ -48,21 +48,33 @@ public class TrackStorageResources : MonoBehaviour
         }
     }
 
-    public void SubtractResourceUnits(string resourceTag, int numUnits)
+    public bool SubtractResourceUnits(string resourceTag, int numUnits)
     {
-        // TODO: can't subtract below 0
         resources[resourceTag] -= numUnits;
         if (resourceTag == "Tree")
         {
-            woodCount.GetComponent<UpdateResourceCounter>().SetCount(- numUnits);
+            if(woodCount.GetComponent<UpdateResourceCounter>().SetCount(- numUnits) < 0)
+            {
+                print("Not enough wood, buddy");
+                return false;
+            }
         }
         else if (resourceTag == "Stone")
         {
-            stoneCount.GetComponent<UpdateResourceCounter>().SetCount(- numUnits);
+            if(stoneCount.GetComponent<UpdateResourceCounter>().SetCount(- numUnits) < 0)
+            {
+                print("Not enough stone, buddy");
+                return false;
+            }
         }
         else if (resourceTag == "Copper")
         {
-            copperCount.GetComponent<UpdateResourceCounter>().SetCount(- numUnits);
+            if(copperCount.GetComponent<UpdateResourceCounter>().SetCount(- numUnits) < 0)
+            {
+                print("Not enough copper, buddy");
+                return false;
+            }
         }
+        return true;
     }
 }
