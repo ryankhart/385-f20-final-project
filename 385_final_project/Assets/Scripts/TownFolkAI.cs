@@ -33,7 +33,7 @@ public class TownFolkAI : MonoBehaviour
     public GridManager gridManager;
 
     private int nodesOfMovement = 1;
-    private int inventory = 0;
+    public int inventory = 0;
    
     public bool flee = false;
     public bool last = true;

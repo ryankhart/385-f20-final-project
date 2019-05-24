@@ -51,6 +51,7 @@ MonoBehaviour:
   rockTile: {fileID: 6063934138720175809, guid: 24fa9dd261ec9420f8ae126d50f2b356,
     type: 3}
   tree: {fileID: 1671842898175696237, guid: 198552a339acc493fb5971128dac8fdb, type: 3}
+  stone: {fileID: 4762198758383142385, guid: 8943121b8a1a0124ba383301d9f9a7e5, type: 3}
   GridCreator: {fileID: 1798288494717168613, guid: 592c314d6e9519e4aa1307015914fe71,
     type: 3}
   TownMan: {fileID: 6067008912458440372, guid: 5751d8429e2192a4ba7c7e422b02bb91, type: 3}
