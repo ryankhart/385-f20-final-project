@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1707423998547331870}
   - component: {fileID: 4894864987735071813}
   - component: {fileID: 3004760918182448369}
+  - component: {fileID: 1261797432716721933}
   m_Layer: 0
   m_Name: Copper
   m_TagString: Untagged
@@ -91,3 +92,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1261797432716721933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2583634300225348696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8c5f1dbafa0daf429ffc1cf4742f353, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numberOfResources: 1
