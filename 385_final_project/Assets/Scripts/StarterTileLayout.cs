@@ -10,6 +10,7 @@ public class StarterTileLayout : MonoBehaviour
     public GameObject waterTile;
     public GameObject rockTile;
     public GameObject tree;
+    public GameObject stone;
     public GameObject GridCreator;
     public GameObject TownMan;
     public Camera gameCamera;
@@ -42,7 +43,8 @@ public class StarterTileLayout : MonoBehaviour
         GeneratePlains();
         GenerateOtherTileGroups(waterTile, tileOffset, (int)(mapSize * mapSize * 0.25)); // up to 25% of map is water
         GenerateOtherTileGroups(rockTile, tileOffset, (int)(mapSize * mapSize * 0.15)); // up to 15% of map is rock
-        GenerateEnvironObjs();
+        GenerateEnvironObjs(tree, 0.2f); // up to 20 % of map has trees
+        GenerateEnvironObjs(stone, 0.05f); // up to 5 % of map has stone
 
         // position the camera in the middle of the map
         gameCamera.transform.position = TilePosition((mapSize / 2f), 12, (mapSize / 2f));
@@ -129,26 +131,27 @@ public class StarterTileLayout : MonoBehaviour
         tileMap[indexX, indexZ] = Instantiate(prefab, TilePosition(indexX+testVal, 0, indexZ+testVal), Quaternion.Euler(90, 0, 0));
     }
 
-    private void GenerateEnvironObjs()
+    private void GenerateEnvironObjs(GameObject prefab, float surfaceCoverage)
     {
         System.Random rand = new System.Random(Guid.NewGuid().GetHashCode());
-        // seed position for a tree
-        int nextTreeX;
-        int nextTreeZ;
+        // seed position for a collectible
+        int nextX;
+        int nextZ;
 
         // find a plains tile
-        int treeCount = (int)(mapSize * mapSize * 0.1); // ~30% of map will be trees
-        while (treeCount > 0)
+        int count = (int)(mapSize * mapSize * surfaceCoverage);
+        print(count + prefab.tag);
+        while (count > 0)
         {
-            nextTreeX = rand.Next(0, mapSize);
-            nextTreeZ = rand.Next(0, mapSize);
+            nextX = rand.Next(0, mapSize);
+            nextZ = rand.Next(0, mapSize);
 
-            if (tileMap[nextTreeX, nextTreeZ].gameObject.tag.Equals("PlainsTile"))
+            if (tileMap[nextX, nextZ].gameObject.tag.Equals("PlainsTile"))
             {
-                Vector3 treePosition = TilePosition(nextTreeX+testVal, 0, nextTreeZ+testVal);
-                Instantiate(tree, treePosition, Quaternion.Euler(0, 0, 0)); // rotate to top down view
-                tileMap[nextTreeX, nextTreeZ].gameObject.tag = "PlainsTileWithTree";
-                treeCount--;
+                Vector3 objPosition = TilePosition(nextX+testVal, 0, nextZ+testVal);
+                Instantiate(prefab, objPosition, Quaternion.Euler(0, 0, 0)); // rotate to top down view
+                tileMap[nextX, nextZ].gameObject.tag = "PlainsTileWithTree";
+                count--;
             }
         }
     }
