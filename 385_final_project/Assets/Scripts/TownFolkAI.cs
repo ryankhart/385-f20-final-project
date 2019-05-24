@@ -62,11 +62,38 @@ public class TownFolkAI : MonoBehaviour
         }
 
         FindNode();
+        checkAction();
+        moveToDestination();
 
+       
+    }
+
+    public void moveToDestination()
+    {
+        currentSpeed = movementSpeed * Time.deltaTime;
+
+        //Rotate the agent towards its target direction
+        direction = (targetPoint - transform.position).normalized;
+        direction.y = 0;
+
+        // look
+        // the if statement prevents turning when at target and that stupid zero vector warning
+        if (Vector3.Distance(direction, Vector3.zero) > 0.01)
+        {
+            targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
+        //Move the agent forard
+        transform.position += new Vector3(direction.x * currentSpeed, direction.y, direction.z * currentSpeed);
+        return;
+    }
+
+    private void checkAction()
+    {
         // Checks if target is too close
         Vector3 villagerPosition = transform.position;
         villagerPosition.y = 0;
-        if (Vector3.Distance(targetPoint, villagerPosition) < toleranceRadius)
+        if (checkIfAtDestination(villagerPosition));
         {
             //If target is too close that means we need to peform an action!
             //Check to make sure object is there.
@@ -91,32 +118,7 @@ public class TownFolkAI : MonoBehaviour
             }
             return;
         }
-
-        moveToDestination();
-
-       
     }
-
-    public void moveToDestination()
-    {
-        currentSpeed = movementSpeed * Time.deltaTime;
-
-        //Rotate the agent towards its target direction
-        direction = (targetPoint - transform.position).normalized;
-        direction.y = 0;
-
-        // look
-        // the if statement prevents turning when at target and that stupid zero vector warning
-        if (Vector3.Distance(direction, Vector3.zero) > 0.01)
-        {
-            targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        }
-        //Move the agent forard
-        transform.position += new Vector3(direction.x * currentSpeed, direction.y, direction.z * currentSpeed);
-    }
-
-
 
     private bool checkIfAtDestination(Vector3 villagerPosition)
     {
@@ -141,9 +143,26 @@ public class TownFolkAI : MonoBehaviour
                 targetObject.GetComponent<TrackStorageResources>().AddResourceUnits("Tree", inventory);
                 inventory = 0;
                 targetObject = null;
-                resourceTag = lastResource; // go find a tree to chop
+                resourceTag = lastResource; 
             }
         }
+    }
+
+    private void setTag(String tag)
+    {
+        if(resourceTag.Equals("Tree"))
+        {
+            lastResource = "Tree";
+        }
+        else if(resourceTag.Equals("Stone"))
+        {
+            lastResource = "Stone";
+        }
+        else if (resourceTag.Equals("Copper"))
+        {
+            lastResource = "Copper";
+        }
+        resourceTag = tag;
     }
 
     //Finds a target with a tag
@@ -232,7 +251,7 @@ public class TownFolkAI : MonoBehaviour
 
             if(inventory == 5)
             {
-                resourceTag = "VillageCenter";
+               setTag("VillageCenter");
                 return;
             }
         }
