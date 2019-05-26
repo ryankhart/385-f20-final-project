@@ -50,6 +50,17 @@ public class SpawnNewBuildings : MonoBehaviour
 
         if (draggingNewBuilding)
         {
+            float posX = Input.mousePosition.x;
+            float posY = Input.mousePosition.y;
+            // 10 units below the camera, so that the player can see where the building is
+            if (camera.transform.position.y > 8.99)
+            {
+                buildingToDrag.transform.position = camera.ScreenToWorldPoint(new Vector3(posX, posY, 9));
+            }
+            else
+            {
+                buildingToDrag.transform.position = camera.ScreenToWorldPoint(new Vector3(posX, posY, camera.transform.position.y * 0.8f));
+            }
             DragBuilding(buildingToDrag);
         }
         else
@@ -110,7 +121,14 @@ public class SpawnNewBuildings : MonoBehaviour
         float posX = Input.mousePosition.x;
         float posY = Input.mousePosition.y;
         // 10 units below the camera, so that the player can see where the building is
-        buildingToDrag.transform.position = camera.ScreenToWorldPoint(new Vector3(posX, posY, 9));
+        if (camera.transform.position.y > 8.99)
+        {
+            buildingToDrag.transform.position = camera.ScreenToWorldPoint(new Vector3(posX, posY, 9));
+        }
+        else
+        {
+            buildingToDrag.transform.position = camera.ScreenToWorldPoint(new Vector3(posX, posY, camera.transform.position.y * 0.8f));
+        }
     }
 
     private void StopDraggingBuidling()
