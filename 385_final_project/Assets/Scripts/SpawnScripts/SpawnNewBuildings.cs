@@ -120,7 +120,7 @@ public class SpawnNewBuildings : MonoBehaviour
         buildingToDrag = building;
         float posX = Input.mousePosition.x;
         float posY = Input.mousePosition.y;
-        // 10 units below the camera, so that the player can see where the building is
+        // 10 units below the camera, so that the player can see where the bwwwuilding is
         if (camera.transform.position.y > 8.99)
         {
             buildingToDrag.transform.position = camera.ScreenToWorldPoint(new Vector3(posX, posY, 9));
