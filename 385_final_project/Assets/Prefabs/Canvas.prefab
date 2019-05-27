@@ -3349,6 +3349,7 @@ GameObject:
   - component: {fileID: 2035277299713214222}
   - component: {fileID: 4377998334014173685}
   - component: {fileID: 7814054601010383157}
+  - component: {fileID: 4473546483223136375}
   - component: {fileID: 8539558146431903672}
   - component: {fileID: 5359184665313041916}
   m_Layer: 5
@@ -3489,6 +3490,18 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Dropdown+DropdownEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &4473546483223136375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8104029365845297651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47604374e77fb4b64b41b6167d802184, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8539558146431903672
 MonoBehaviour:
   m_ObjectHideFlags: 0

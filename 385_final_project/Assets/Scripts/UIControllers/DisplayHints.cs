@@ -4,37 +4,27 @@ using UnityEngine;
 
 public class DisplayHints : MonoBehaviour
 {
-    private Dictionary<string, Transform> hints;
+    private CanvasGroup buildingHint;
+    private CanvasGroup resourcesHint;
+    private CanvasGroup villagerOverviewHint;
 
     void Start()
-    {
-        hints = new Dictionary<string, Transform>();
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            if (transform.GetChild(i).GetComponent<CanvasGroup>())
-            {
-                hints.Add(transform.GetChild(i).name, transform.GetChild(i));
-            }
-        }
+    { 
+        buildingHint = transform.GetChild(0).GetComponent<CanvasGroup>();
+        resourcesHint = transform.GetChild(1).GetComponent<CanvasGroup>();
+        villagerOverviewHint = transform.GetChild(2).GetComponent<CanvasGroup>();
+
         StartCoroutine(WaitToDisplayBuildingHint());
     }
 
-    public IEnumerator WaitToDisplayBuildingHint()
+    private IEnumerator WaitToDisplayBuildingHint()
     {
         yield return new WaitForSeconds(10);
-        CanvasGroup group = null;
-        foreach (KeyValuePair<string, Transform> item in hints)
+        if (buildingHint != null)
         {
-            if (item.Key == "BuildingHint")
+            while (buildingHint.alpha < 1)
             {
-                group = item.Value.GetComponent<CanvasGroup>();
-            }
-        }
-        if (group != null)
-        {
-            while (group.alpha < 1)
-            {
-                group.alpha += Time.deltaTime / 2;
+                buildingHint.alpha += Time.deltaTime / 2;
                 yield return null;
             }
         }
@@ -42,25 +32,23 @@ public class DisplayHints : MonoBehaviour
         yield return null;
     }
 
-    public IEnumerator HideBuildingHint()
+    public void HideHint(string hintName)
     {
+        print("HIT TOO");
         CanvasGroup group = null;
-        foreach (KeyValuePair<string, Transform> item in hints)
-        {
-            if (item.Key == "BuildingHint")
+        for(int i = 0; i < transform.childCount; i++)
+        { 
+            if(transform.GetChild(i).name == hintName)
             {
-                group = item.Value.GetComponent<CanvasGroup>();
+                group = transform.GetChild(i).GetComponent<CanvasGroup>();
             }
         }
-        if (group != null)
+        if (buildingHint != null)
         {
-            while (group.alpha > 0)
+            while (buildingHint.alpha > 0)
             {
-                group.alpha -= Time.deltaTime / 2;
-                yield return null;
+                buildingHint.alpha -= Time.deltaTime / 2;
             }
         }
-
-        yield return null;
     }
 }
