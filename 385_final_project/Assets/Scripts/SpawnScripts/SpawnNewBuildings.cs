@@ -51,6 +51,7 @@ public class SpawnNewBuildings : MonoBehaviour
             if(GameObject.Find("VillageCenter(Clone)") != null)
             {
                 resourceCounterScript = GameObject.Find("VillageCenter(Clone)").GetComponent<TrackStorageResources>();
+                //GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("PlayerActionHint(1)");
             }
         }
 
@@ -127,6 +128,7 @@ public class SpawnNewBuildings : MonoBehaviour
         }
         else
         {
+            // move building closer to camera, so that the building doesn't go below surface
             buildingToDrag.transform.position = camera.ScreenToWorldPoint(new Vector3(posX, posY, camera.transform.position.y * 0.8f));
         }
     }
@@ -183,6 +185,13 @@ public class SpawnNewBuildings : MonoBehaviour
                     print("You have no resources to build with!");
                     Destroy(buildingToDrag);
                     return;
+                }
+            }
+            else
+            { 
+                if(GameObject.FindGameObjectsWithTag("VillageCenter").Length == 1)
+                {
+                    StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("PlayerActionHint (1)"));
                 }
             }
 

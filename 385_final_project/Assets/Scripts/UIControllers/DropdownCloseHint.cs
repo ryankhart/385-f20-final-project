@@ -8,6 +8,6 @@ public class DropdownCloseHint : MonoBehaviour, IPointerDownHandler
 {
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
-        GameObject.Find("Hints").GetComponent<DisplayHints>().HideHint("BuildingHint");
+        StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().HideHint("BuildingHint"));
     }
 }
