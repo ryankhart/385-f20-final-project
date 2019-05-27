@@ -511,9 +511,10 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6060323597384748028, guid: 2bdc6e6e7561f4c77a947b96cb3c4da6,
         type: 3}
-      propertyPath: gameCamera
+      propertyPath: Sparkles
       value: 
-      objectReference: {fileID: 1181133541}
+      objectReference: {fileID: 3033529734100256005, guid: 322a959b5c2a84b72b570dcb84991f28,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2bdc6e6e7561f4c77a947b96cb3c4da6, type: 3}
 --- !u!1 &1979341606

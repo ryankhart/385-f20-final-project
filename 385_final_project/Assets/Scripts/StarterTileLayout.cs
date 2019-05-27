@@ -307,12 +307,26 @@ public class StarterTileLayout : MonoBehaviour
     }
 
     public string getTileTag(int x, int z)
-    { 
-        return tileMap[x,z].gameObject.tag;
+    {
+        try
+        {
+            return tileMap[x, z].gameObject.tag;
+        }
+        catch (IndexOutOfRangeException)
+        {
+            return null;
+        }
     }
 
     public void setTileTag(int x, int z, string newTag)
     {
-        tileMap[x, z].gameObject.tag = newTag;
+        try
+        {
+            tileMap[x, z].gameObject.tag = newTag;
+        }
+        catch (IndexOutOfRangeException)
+        { 
+            // nothing is set
+        }
     }
 }

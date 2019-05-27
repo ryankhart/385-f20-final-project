@@ -188,7 +188,7 @@ RectTransform:
   m_GameObject: {fileID: 510846195731829821}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 6.500001}
-  m_LocalScale: {x: 3.6507783, y: 1.4677085, z: 1.4677085}
+  m_LocalScale: {x: 4.0158563, y: 1.4677085, z: 1.4677085}
   m_Children:
   - {fileID: 7276334321090357730}
   m_Father: {fileID: 644556692827430656}
@@ -1428,7 +1428,7 @@ RectTransform:
   m_GameObject: {fileID: 3058543642798379628}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.38587832, y: 0.94, z: 0.94}
+  m_LocalScale: {x: 0.35693747, y: 0.94, z: 0.94}
   m_Children: []
   m_Father: {fileID: 8431094165698342656}
   m_RootOrder: 0
@@ -1479,7 +1479,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Send villagers to gather resources!
+  m_Text: Your villagers will collect resources!
 --- !u!1 &3392061266387369076
 GameObject:
   m_ObjectHideFlags: 0
@@ -3475,7 +3475,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8917727139683000759, guid: 63236ca1462d74fdcba1277ac0b9552e,
+      - m_Target: {fileID: 9160705598833285030, guid: ed0445493deda49b2942fe5f34f15b37,
           type: 3}
         m_MethodName: SelectBuildingFromDropdown
         m_Mode: 0
