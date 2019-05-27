@@ -16,16 +16,15 @@ public class DisplayHints : MonoBehaviour
                 hints.Add(transform.GetChild(i).name, transform.GetChild(i));
             }
         }
-        StartCoroutine(WaitToDisplay());
+        StartCoroutine(WaitToDisplayBuildingHint());
     }
 
-    public IEnumerator WaitToDisplay()
+    public IEnumerator WaitToDisplayBuildingHint()
     {
         yield return new WaitForSeconds(10);
         CanvasGroup group = null;
         foreach (KeyValuePair<string, Transform> item in hints)
         {
-            print(item.Key);
             if (item.Key == "BuildingHint")
             {
                 group = item.Value.GetComponent<CanvasGroup>();
@@ -36,6 +35,28 @@ public class DisplayHints : MonoBehaviour
             while (group.alpha < 1)
             {
                 group.alpha += Time.deltaTime / 2;
+                yield return null;
+            }
+        }
+
+        yield return null;
+    }
+
+    public IEnumerator HideBuildingHint()
+    {
+        CanvasGroup group = null;
+        foreach (KeyValuePair<string, Transform> item in hints)
+        {
+            if (item.Key == "BuildingHint")
+            {
+                group = item.Value.GetComponent<CanvasGroup>();
+            }
+        }
+        if (group != null)
+        {
+            while (group.alpha > 0)
+            {
+                group.alpha -= Time.deltaTime / 2;
                 yield return null;
             }
         }
