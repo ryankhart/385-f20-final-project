@@ -5,21 +5,22 @@ using UnityEngine;
 public class DisplayHints : MonoBehaviour
 {
     private CanvasGroup buildingHint;
-    private CanvasGroup resourcesHint;
-    private CanvasGroup villagerOverviewHint;
+    //private CanvasGroup resourcesHint;
+    //private CanvasGroup villagerOverviewHint;
 
     void Start()
     { 
         buildingHint = transform.GetChild(0).GetComponent<CanvasGroup>();
-        resourcesHint = transform.GetChild(1).GetComponent<CanvasGroup>();
-        villagerOverviewHint = transform.GetChild(2).GetComponent<CanvasGroup>();
+        // TODO: maybe won't be needed
+        //resourcesHint = transform.GetChild(1).GetComponent<CanvasGroup>();
+        //villagerOverviewHint = transform.GetChild(2).GetComponent<CanvasGroup>();
 
         StartCoroutine(WaitToDisplayBuildingHint());
     }
 
     private IEnumerator WaitToDisplayBuildingHint()
     {
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(9);
         if (buildingHint != null)
         {
             while (buildingHint.alpha < 1)
@@ -32,23 +33,52 @@ public class DisplayHints : MonoBehaviour
         yield return null;
     }
 
-    public void HideHint(string hintName)
+    public IEnumerator DisplayHint(string hintName)
     {
-        print("HIT TOO");
+        CanvasGroup group = GetCanvasGroup(hintName);
+        if (group != null)
+        {
+            while (group.alpha < 1)
+            {
+                group.alpha += Time.deltaTime / 2;
+                yield return null;
+            }
+        }
+        // special case for game start - replace first player hint second
+        if (hintName == "PlayerActionHint (1)")
+        {
+            yield return new WaitForSeconds(3);
+            StartCoroutine(HideHint(hintName));
+            yield return new WaitForSeconds(3);
+            StartCoroutine(DisplayHint("PlayerActionHint (2)"));
+            yield return new WaitForSeconds(5);
+            StartCoroutine(HideHint("PlayerActionHint (2)"));
+        }
+    }
+
+    public IEnumerator HideHint(string hintName)
+    {
+        CanvasGroup group = GetCanvasGroup(hintName);
+        if (group != null)
+        {
+            while (group.alpha > 0)
+            {
+                group.alpha -= Time.deltaTime / 2;
+                yield return null;
+            }
+        }
+    }
+
+    private CanvasGroup GetCanvasGroup(string hintName)
+    {
         CanvasGroup group = null;
-        for(int i = 0; i < transform.childCount; i++)
-        { 
-            if(transform.GetChild(i).name == hintName)
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).name == hintName)
             {
                 group = transform.GetChild(i).GetComponent<CanvasGroup>();
             }
         }
-        if (buildingHint != null)
-        {
-            while (buildingHint.alpha > 0)
-            {
-                buildingHint.alpha -= Time.deltaTime / 2;
-            }
-        }
+        return group;
     }
 }
