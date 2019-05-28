@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3448971170962105574}
   m_Layer: 0
   m_Name: Tavern
-  m_TagString: Home
+  m_TagString: Tavern
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
