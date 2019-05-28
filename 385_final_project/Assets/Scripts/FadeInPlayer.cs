@@ -11,6 +11,7 @@ public class FadeInPlayer : MonoBehaviour
         Color color = GetComponent<Renderer>().material.color;
         GetComponent<Renderer>().material.color = new Color(color.r, color.g, color.b, 0);
         StartCoroutine(FadeIn());
+
     }
 
     private IEnumerator FadeIn()
