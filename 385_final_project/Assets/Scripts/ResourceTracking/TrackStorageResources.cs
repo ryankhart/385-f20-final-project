@@ -50,6 +50,7 @@ public class TrackStorageResources : MonoBehaviour
 
     public bool SubtractResourceUnits(string resourceTag, int numUnits)
     {
+        print("Building" + resourceTag + numUnits);
         resources[resourceTag] -= numUnits;
         if (resourceTag == "Tree")
         {

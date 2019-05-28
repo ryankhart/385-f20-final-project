@@ -11,6 +11,7 @@ public class StarterTileLayout : MonoBehaviour
     public GameObject stone;
     public GameObject GridCreator;
     public GameObject TownMan;
+    public GameObject Sparkles;
     public Camera gameCamera;
 
     private GameObject[,] tileMap;
@@ -45,11 +46,73 @@ public class StarterTileLayout : MonoBehaviour
         GenerateEnvironObjs(tree, 0.2f); // up to 20 % of map has trees
         GenerateEnvironObjs(stone, 0.03f); // up to 3 % of map has stone
 
-        // position the camera in the middle of the map
-        gameCamera.transform.position = TilePosition((mapSize / 2f), 12, (mapSize / 2f));
-        gameCamera.transform.rotation = Quaternion.Euler(90,0,0);
+        // position camera at the center
+        gameCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+        gameCamera.transform.position = new Vector3((mapSize / 2), 12, (mapSize / 2));
+        gameCamera.transform.rotation = Quaternion.Euler(90, 0, 0);
 
-        //Instantiate(TownMan, new Vector3(1, .2f, 1), Quaternion.identity);
+        PlacePlayer();
+
+        //for(int i = 0; i < mapSize; i++)
+        //{ 
+        //    for(int j = 0; j < mapSize; j++)
+        //    {
+        //        print(tileMap[i, j].tag + " || ");
+        //    }
+        //    print("\n");
+        //}
+    }
+
+    private void PlacePlayer()
+    {
+        Vector3 sparklePosition = gameCamera.transform.position;
+        System.Random rand = new System.Random();
+        int nextRandValue = 0;
+
+        int nextX = (int) sparklePosition.x - 1;
+        int nextZ = (int) sparklePosition.z - 1;
+
+        while (getTileTag(nextX, nextZ) != "PlainsTile")
+        {
+            rand = new System.Random(Guid.NewGuid().GetHashCode());
+            nextRandValue = rand.Next(0, 4);
+            switch (nextRandValue)
+            {
+                case 1: // west
+                    if (nextX - 1 >= 0)  // check if we are past the map edge
+                    {
+                        nextX -= 1;
+                    }
+                    break;
+                case 2: // east
+                    if (nextX + 1 < mapSize)  // check if we are past the map edge
+                    {
+                        nextX += 1;
+                    }
+                    break;
+                case 3: // south
+                    if (nextZ - 1 >= 0)  // check if we are past the map edge
+                    {
+                        nextZ -= 1;
+                    }
+                    break;
+                default: // north
+                    if (nextZ + 1 < mapSize)  // check if we are past the map edge
+                    {
+                        nextZ += 1;
+                    }
+                    break;
+            }
+        }
+        sparklePosition = TilePosition(nextX, 0, nextZ);
+        sparklePosition.x += centerOfTileOffset;
+        sparklePosition.z += centerOfTileOffset;
+        Instantiate(Sparkles, sparklePosition, Quaternion.Euler(-90, 0, 0));
+
+        // reposition the camera to the where the player is
+        gameCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+        gameCamera.transform.position = new Vector3((sparklePosition.x), 12, (sparklePosition.z));
+        gameCamera.transform.rotation = Quaternion.Euler(90, 0, 0);
     }
 
     private void GeneratePlains()
@@ -153,7 +216,7 @@ public class StarterTileLayout : MonoBehaviour
             {
                 if (prefab.tag == "Tree")
                 {
-                    objPosition = TilePosition(nextX + centerOfTileOffset, 0, nextZ + centerOfTileOffset);
+                    objPosition = InstaPrefab(prefab, nextX, nextZ);
                     Instantiate(prefab, objPosition, Quaternion.Euler(0, 0, 0)); // rotate to top down view
                     tileMap[nextX, nextZ].gameObject.tag = "PlainsTileWithTree";
                     objCount--;
@@ -244,12 +307,26 @@ public class StarterTileLayout : MonoBehaviour
     }
 
     public string getTileTag(int x, int z)
-    { 
-        return tileMap[x,z].gameObject.tag;
+    {
+        try
+        {
+            return tileMap[x, z].gameObject.tag;
+        }
+        catch (IndexOutOfRangeException)
+        {
+            return null;
+        }
     }
 
     public void setTileTag(int x, int z, string newTag)
     {
-        tileMap[x, z].gameObject.tag = newTag;
+        try
+        {
+            tileMap[x, z].gameObject.tag = newTag;
+        }
+        catch (IndexOutOfRangeException)
+        { 
+            // nothing is set
+        }
     }
 }

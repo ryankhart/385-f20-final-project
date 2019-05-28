@@ -51,8 +51,8 @@ public class SpawnVillagers : MonoBehaviour
             GameObject[] trees = GameObject.FindGameObjectsWithTag("Tree");
             if(trees.Length > 0)
             {
-                float monsterX = trees[trees.Length - 1].transform.position.x;
-                float monsterZ = trees[trees.Length - 1].transform.position.z;
+                float monsterX = trees[trees.Length / 2].transform.position.x;
+                float monsterZ = trees[trees.Length / 2].transform.position.z;
 
                 GameObject mon = Instantiate(monster, new Vector3(monsterX, 0.439f, monsterZ), Quaternion.identity);
                 monsters.Add(mon);

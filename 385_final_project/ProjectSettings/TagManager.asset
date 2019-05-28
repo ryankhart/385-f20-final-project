@@ -19,6 +19,7 @@ TagManager:
   - VillageCenter
   - MovingBuilding
   - TownFolk
+  - Tavern
   layers:
   - Default
   - TransparentFX
