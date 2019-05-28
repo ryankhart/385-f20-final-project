@@ -50,13 +50,11 @@ public class TrackStorageResources : MonoBehaviour
 
     public bool SubtractResourceUnits(string resourceTag, int numUnits)
     {
-        print("Building" + resourceTag + numUnits);
         resources[resourceTag] -= numUnits;
         if (resourceTag == "Tree")
         {
             if(woodCount.GetComponent<UpdateResourceCounter>().SetCount(- numUnits) < 0)
             {
-                print("Not enough wood, buddy");
                 return false;
             }
         }
@@ -64,7 +62,6 @@ public class TrackStorageResources : MonoBehaviour
         {
             if(stoneCount.GetComponent<UpdateResourceCounter>().SetCount(- numUnits) < 0)
             {
-                print("Not enough stone, buddy");
                 return false;
             }
         }
@@ -72,7 +69,6 @@ public class TrackStorageResources : MonoBehaviour
         {
             if(copperCount.GetComponent<UpdateResourceCounter>().SetCount(- numUnits) < 0)
             {
-                print("Not enough copper, buddy");
                 return false;
             }
         }

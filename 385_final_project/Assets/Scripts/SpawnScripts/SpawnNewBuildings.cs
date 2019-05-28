@@ -23,12 +23,7 @@ public class SpawnNewBuildings : MonoBehaviour
     private bool draggingNewBuilding;
 
     // building cost and resource spending
-    // TODO: move onto building prefabs - this does not belong here
     private TrackStorageResources resourceCounterScript;
-    private Dictionary<string, int> homePrice = new Dictionary<string, int>()
-        {{"Tree", 5}};
-    private Dictionary<string, int> tavernPrice = new Dictionary<string, int>()
-        {{"Tree", 20}, {"Stone",10}};
 
     // offsets and other math stuff
     private Vector3 cameraMouseOffset;
