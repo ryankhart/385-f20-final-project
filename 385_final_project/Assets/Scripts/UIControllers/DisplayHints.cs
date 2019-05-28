@@ -21,12 +21,15 @@ public class DisplayHints : MonoBehaviour
     private IEnumerator WaitToDisplayBuildingHint()
     {
         yield return new WaitForSeconds(9);
-        if (buildingHint != null)
+        if (GameObject.FindGameObjectWithTag("VillageCenter") == null && GameObject.FindGameObjectWithTag("MovingBuilding") == null)
         {
-            while (buildingHint.alpha < 1)
+            if (buildingHint != null)
             {
-                buildingHint.alpha += Time.deltaTime;
-                yield return null;
+                while (buildingHint.alpha < 1)
+                {
+                    buildingHint.alpha += Time.deltaTime;
+                    yield return null;
+                }
             }
         }
 
