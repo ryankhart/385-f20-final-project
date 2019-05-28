@@ -212,15 +212,12 @@ public class StarterTileLayout : MonoBehaviour
                 if (prefab.tag == "Tree")
                 {
                     objPosition = InstaPrefab(prefab, nextX, nextZ);
-                    Instantiate(prefab, objPosition, Quaternion.Euler(0, 0, 0)); // rotate to top down view
                     tileMap[nextX, nextZ].gameObject.tag = "PlainsTileWithTree";
-                    objCount--;
                 }
                 else // stone, will probably work for others, too
                 {
                     // seed position for a collectible
                     objPosition = InstaPrefab(prefab, nextX, nextZ);
-                    objCount--;
 
                     rand = new System.Random(Guid.NewGuid().GetHashCode());
                     groupSize = rand.Next(1, mapSize / 4);
@@ -232,6 +229,7 @@ public class StarterTileLayout : MonoBehaviour
                         tileMap[nextX, nextZ].gameObject.tag = "PlainsTileWithTree";
                     }
                 }
+                objCount--;
             }
         }
     }
