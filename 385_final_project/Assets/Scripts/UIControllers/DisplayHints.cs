@@ -54,6 +54,11 @@ public class DisplayHints : MonoBehaviour
             yield return new WaitForSeconds(5);
             StartCoroutine(HideHint("PlayerActionHint (2)"));
         }
+        if(hintName == "NotEnoughHint")
+        {
+            yield return new WaitForSeconds(3);
+            StartCoroutine(HideHint(hintName));
+        }
     }
 
     public IEnumerator HideHint(string hintName)

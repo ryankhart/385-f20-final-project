@@ -175,15 +175,13 @@ public class SpawnNewBuildings : MonoBehaviour
                 if (resourceCounterScript != null)
                 {
                     buildingToDrag.tag = "Home";
-                    print(buildingToDrag.tag);
                     // pay for the building
                     Dictionary<string, int> price = buildingToDrag.GetComponent<BuildingPrice>().GetPrice();
-                    print(price.ContainsKey("Tree"));
                     foreach (KeyValuePair<string, int> resource in price)
                     {
                         if(resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value) == false)
                         {
-                            print("You have no resources to build with!");
+                            StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("NotEnoughHint"));
                             Destroy(buildingToDrag);
                             return;
                         }
@@ -191,7 +189,7 @@ public class SpawnNewBuildings : MonoBehaviour
                 } 
                 else
                 {
-                    print("You have no resources to build with!");
+                    StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("NotEnoughHint"));
                     Destroy(buildingToDrag);
                     return;
                 }
@@ -210,8 +208,7 @@ public class SpawnNewBuildings : MonoBehaviour
                     {
                         if (resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value) == false)
                         {
-                            // TODO: display hint
-                            print("You have no resources to build with!");
+                            StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("NotEnoughHint"));
                             Destroy(buildingToDrag);
                             return;
                         }
