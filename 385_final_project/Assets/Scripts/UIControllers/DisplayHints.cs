@@ -25,7 +25,7 @@ public class DisplayHints : MonoBehaviour
         {
             while (buildingHint.alpha < 1)
             {
-                buildingHint.alpha += Time.deltaTime / 2;
+                buildingHint.alpha += Time.deltaTime;
                 yield return null;
             }
         }
@@ -40,16 +40,16 @@ public class DisplayHints : MonoBehaviour
         {
             while (group.alpha < 1)
             {
-                group.alpha += Time.deltaTime / 2;
+                group.alpha += Time.deltaTime;
                 yield return null;
             }
         }
-        // special case for game start - replace first player hint second
+        // special case for game start - display player hints one after another
         if (hintName == "PlayerActionHint (1)")
         {
             yield return new WaitForSeconds(3);
             StartCoroutine(HideHint(hintName));
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(2);
             StartCoroutine(DisplayHint("PlayerActionHint (2)"));
             yield return new WaitForSeconds(5);
             StartCoroutine(HideHint("PlayerActionHint (2)"));
@@ -63,7 +63,7 @@ public class DisplayHints : MonoBehaviour
         {
             while (group.alpha > 0)
             {
-                group.alpha -= Time.deltaTime / 2;
+                group.alpha -= Time.deltaTime;
                 yield return null;
             }
         }

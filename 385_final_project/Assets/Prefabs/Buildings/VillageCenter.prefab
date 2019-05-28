@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8752790775694529330}
   - component: {fileID: 350200326421222291}
   - component: {fileID: 3140181753961101943}
+  - component: {fileID: 1920211602311680019}
   m_Layer: 0
   m_Name: VillageCenter
   m_TagString: MovingBuilding
@@ -102,5 +103,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80e63b919e6bb44e39a8abf73ce7d498, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1920211602311680019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6969227837521944263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 827a3c374614b4f659e86ac0b35325c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

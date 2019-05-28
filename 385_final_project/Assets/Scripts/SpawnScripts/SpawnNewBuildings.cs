@@ -10,10 +10,12 @@ public class SpawnNewBuildings : MonoBehaviour
 {
     public GameObject villCenterPrefab;
     public GameObject housePrefab;
+    public GameObject tavernPrefab;
     public new Camera camera;   // new is neccessary because this camera overrides some inherited camera
 
     // buidlings
     private List<GameObject> houses = new List<GameObject>();
+    private List<GameObject> taverns = new List<GameObject>();
     private GameObject villageCenter;
 
     // building manipulation
@@ -21,9 +23,12 @@ public class SpawnNewBuildings : MonoBehaviour
     private bool draggingNewBuilding;
 
     // building cost and resource spending
+    // TODO: move onto building prefabs - this does not belong here
     private TrackStorageResources resourceCounterScript;
     private Dictionary<string, int> homePrice = new Dictionary<string, int>()
         {{"Tree", 5}};
+    private Dictionary<string, int> tavernPrice = new Dictionary<string, int>()
+        {{"Tree", 20}, {"Stone",10}};
 
     // offsets and other math stuff
     private Vector3 cameraMouseOffset;
@@ -51,7 +56,6 @@ public class SpawnNewBuildings : MonoBehaviour
             if(GameObject.Find("VillageCenter(Clone)") != null)
             {
                 resourceCounterScript = GameObject.Find("VillageCenter(Clone)").GetComponent<TrackStorageResources>();
-                //GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("PlayerActionHint(1)");
             }
         }
 
@@ -66,6 +70,7 @@ public class SpawnNewBuildings : MonoBehaviour
             }
             else
             {
+                // nearer the camera so that the building doesn't go under the map
                 buildingToDrag.transform.position = camera.ScreenToWorldPoint(new Vector3(posX, posY, camera.transform.position.y * 0.8f));
             }
             DragBuilding(buildingToDrag);
@@ -100,11 +105,20 @@ public class SpawnNewBuildings : MonoBehaviour
                 buildingToDrag = villageCenter;
 
             }
-            else
+            else if(index == 2)
             {
                 GameObject newHouse = Instantiate(housePrefab, buildingPosition, Quaternion.identity);
+                newHouse.tag = "MovingBuilding";
                 houses.Add(newHouse);
                 buildingToDrag = newHouse;
+            }
+            else 
+            {
+                GameObject newTavern = Instantiate(tavernPrefab, buildingPosition, Quaternion.identity);
+                newTavern.tag = "MovingBuilding";
+                // TODO do I need these lists?
+                taverns.Add(newTavern);
+                buildingToDrag = newTavern;
             }
             draggingNewBuilding = true;
         }
@@ -142,11 +156,8 @@ public class SpawnNewBuildings : MonoBehaviour
     private void PlaceBuildingOnFreePlainsTile()
     {
         // place building into a tile on the grid
-        // get the index of the tiles from the tile map
         int tileXIndex = (int)(buildingToDrag.transform.position.x / tileOffset);
         int tileZIndex = (int)(buildingToDrag.transform.position.z / tileOffset);
-
-        // get the tile tag
         string tileTag = tileLayoutScript.getTileTag(tileXIndex, tileZIndex);
         if(tileTag == null)
         {
@@ -155,29 +166,27 @@ public class SpawnNewBuildings : MonoBehaviour
             return;
         }
 
-        // drop the buidling down onto a free plains tile
+        // drop the building down onto a free plains tile
         if (tileTag.Equals("PlainsTile"))
         {
             if (!buildingToDrag.tag.Equals("VillageCenter"))
             {
-                // if village center exists
+                // if village center exists - village center stores resources
                 if (resourceCounterScript != null)
                 {
                     buildingToDrag.tag = "Home";
-                    // pay with resources
-                    bool canBuild = true;
-                    foreach (KeyValuePair<string, int> resource in homePrice)
+                    print(buildingToDrag.tag);
+                    // pay for the building
+                    Dictionary<string, int> price = buildingToDrag.GetComponent<BuildingPrice>().GetPrice();
+                    print(price.ContainsKey("Tree"));
+                    foreach (KeyValuePair<string, int> resource in price)
                     {
                         if(resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value) == false)
                         {
-                            canBuild = false;
+                            print("You have no resources to build with!");
+                            Destroy(buildingToDrag);
+                            return;
                         }
-                    }
-                    if(!canBuild)
-                    {
-                        print("You have no resources to build with!");
-                        Destroy(buildingToDrag);
-                        return;
                     }
                 } 
                 else
@@ -188,10 +197,25 @@ public class SpawnNewBuildings : MonoBehaviour
                 }
             }
             else
-            { 
+            {
                 if(GameObject.FindGameObjectsWithTag("VillageCenter").Length == 1)
                 {
                     StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("PlayerActionHint (1)"));
+                }
+                else
+                {
+                    Dictionary<string, int> price = buildingToDrag.GetComponent<BuildingPrice>().GetPrice();
+
+                    foreach (KeyValuePair<string, int> resource in price)
+                    {
+                        if (resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value) == false)
+                        {
+                            // TODO: display hint
+                            print("You have no resources to build with!");
+                            Destroy(buildingToDrag);
+                            return;
+                        }
+                    }
                 }
             }
 

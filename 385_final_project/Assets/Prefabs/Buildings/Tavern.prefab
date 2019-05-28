@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 1174366297928151707}
   - component: {fileID: 1174366297928151706}
   - component: {fileID: 1174366297928151701}
-  - component: {fileID: 6236615904165860852}
+  - component: {fileID: 3448971170962105574}
   m_Layer: 0
-  m_Name: House
+  m_Name: Tavern
   m_TagString: Home
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,7 +92,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6236615904165860852
+--- !u!114 &3448971170962105574
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

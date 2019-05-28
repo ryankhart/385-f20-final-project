@@ -47,4 +47,6 @@ MonoBehaviour:
     type: 3}
   housePrefab: {fileID: 1174366297928151700, guid: e818fd5208d881d40a771bffbde03a59,
     type: 3}
-  camera: {fileID: 0}
+  tavernPrefab: {fileID: 1174366297928151700, guid: 833deefc7c3a646eda961b8aba6544aa,
+    type: 3}
+  camera: {fileID: 3963153818502319251, guid: 843799c3bcf5b4634bc408f7e941b2e0, type: 3}
