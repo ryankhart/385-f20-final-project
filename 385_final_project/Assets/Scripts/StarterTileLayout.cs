@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class StarterTileLayout : MonoBehaviour
@@ -12,6 +13,7 @@ public class StarterTileLayout : MonoBehaviour
     public GameObject GridCreator;
     public GameObject TownMan;
     public GameObject Sparkles;
+    public GameObject Player;
     public Camera gameCamera;
 
     private GameObject[,] tileMap;
@@ -52,15 +54,6 @@ public class StarterTileLayout : MonoBehaviour
         gameCamera.transform.rotation = Quaternion.Euler(90, 0, 0);
 
         PlacePlayer();
-
-        //for(int i = 0; i < mapSize; i++)
-        //{ 
-        //    for(int j = 0; j < mapSize; j++)
-        //    {
-        //        print(tileMap[i, j].tag + " || ");
-        //    }
-        //    print("\n");
-        //}
     }
 
     private void PlacePlayer()
@@ -108,6 +101,8 @@ public class StarterTileLayout : MonoBehaviour
         sparklePosition.x += centerOfTileOffset;
         sparklePosition.z += centerOfTileOffset;
         Instantiate(Sparkles, sparklePosition, Quaternion.Euler(-90, 0, 0));
+        sparklePosition.y += Player.transform.localScale.y;
+        Instantiate(Player, sparklePosition, Quaternion.Euler(0,0,0));
 
         // reposition the camera to the where the player is
         gameCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
