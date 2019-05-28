@@ -1,13 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class TownFolkAI : MonoBehaviour
 {
     private GameObject targetObject;
     private Transform target;
-    public string resourceTag = "Tree";
+    public string resourceTag = "Stone";
     public string lastResource;
 
     [SerializeField]
@@ -33,7 +33,7 @@ public class TownFolkAI : MonoBehaviour
     public GridManager gridManager;
 
     private int nodesOfMovement = 1;
-    private int inventory = 0;
+    public int inventory = 0;
    
     public bool flee = false;
     public bool last = true;
@@ -46,6 +46,7 @@ public class TownFolkAI : MonoBehaviour
         gridManager = GridCreator.GetComponent<GridManager>();
         //Calculate the path using our AStart code.
         pathArray = new ArrayList();
+        setResoruce();
         FindPath();
     }
 
@@ -56,53 +57,20 @@ public class TownFolkAI : MonoBehaviour
 
         //How much time it takes to find a new path.
         if (elapsedTime >= intervalTime)
-        {
-            if (flee)
-            {
-                elapsedTime = 0.0f;
-                if(last == true)
-                {
-                    setLast();
-                    last = false;
-                }
-                goHome();
-            }
-            else
-            {
-                elapsedTime = 0.0f;
-                FindPath();
-            } 
+        {   
+            elapsedTime -= intervalTime;
+            FindPath(); 
         }
 
         FindNode();
+        checkAction();
+        moveToDestination();
 
-        // Checks if target is too close
-        // WARNING, YOU ARE FORGETTING THE VILLAGER HAS Y POSITION 0.439
-        Vector3 villagerPosition = transform.position;
-        villagerPosition.y = 0;
-        if (Vector3.Distance(targetPoint, villagerPosition) < toleranceRadius)
-        {
-            //If target is too close that means we need to peform an action!
-            //Check to make sure object is there.
-            if (targetObject != null)
-            {
-                if (resourceTag == "Home")
-                {
-                    //wait at home
-                    homeFear(villagerPosition);
-                }
-                else if (resourceTag == "Tree")
-                {
-                    ProcessResource();
-                }
-                else if (resourceTag == "VillageCenter")
-                {
-                    GoStoreCollectedResources(villagerPosition);
-                }
-            }
-            return;
-        }
+       
+    }
 
+    public void moveToDestination()
+    {
         currentSpeed = movementSpeed * Time.deltaTime;
 
         //Rotate the agent towards its target direction
@@ -118,48 +86,47 @@ public class TownFolkAI : MonoBehaviour
         }
         //Move the agent forard
         transform.position += new Vector3(direction.x * currentSpeed, direction.y, direction.z * currentSpeed);
-
-        /*
-        //print(target);
-        if(target != null && state == 0)
-        {
-            navMeshAgent.SetDestination(target.position);
-        }
-        else
-        {
-           // print(state);
-            //Going home
-            if (state == 0)
-            {
-                target = home;
-            }
-            else
-            {
-                target = FindTarget();
-                state = 0;
-            }
-            
-        }
-        */
+        return;
     }
 
-    private void homeFear(Vector3 villagerPosition)
+    private void checkAction()
     {
-        if (checkIfAtDestination(villagerPosition))
+        // Checks if target is too close
+        Vector3 villagerPosition = transform.position;
+        villagerPosition.y = 0;
+        if (checkIfAtDestination(villagerPosition));
         {
-            flee = false;
-            resourceTag = lastResource;
-            last = true;
-            FindPath();
+            //If target is too close that means we need to peform an action!
+            //Check to make sure object is there.
+            if (targetObject != null)
+            {
+                if (resourceTag == "Home")
+                {
+                    //wait
+                }
+                else if (resourceTag == "Tree")
+                {
+                    ProcessResource();
+                }
+                else if (resourceTag == "VillageCenter")
+                {
+                    GoStoreCollectedResources(villagerPosition);
+                }
+                else if (resourceTag == "Stone")
+                {
+                    ProcessResource();
+                }
+            }
+            return;
         }
     }
-
 
     private bool checkIfAtDestination(Vector3 villagerPosition)
     {
 
         Node nextNode = (Node)pathArray[pathArray.Count-1];
         Vector3 last = nextNode.position;
+
         if (Vector3.Distance(targetPoint, last) < toleranceRadius)
         {
             return true;
@@ -174,11 +141,41 @@ public class TownFolkAI : MonoBehaviour
             if (targetObject.tag == "VillageCenter")
             {
                 // drop the collected resources off at the village center
-                targetObject.GetComponent<TrackStorageResources>().AddResourceUnits("Tree", inventory);
+                targetObject.GetComponent<TrackStorageResources>().AddResourceUnits(lastResource, inventory);
                 inventory = 0;
                 targetObject = null;
-                resourceTag = "Tree"; // go find a tree to chop
+                resourceTag = lastResource; 
             }
+        }
+    }
+
+    private void setTag(String tag)
+    {
+        if(resourceTag.Equals("Tree"))
+        {
+            lastResource = "Tree";
+        }
+        else if(resourceTag.Equals("Stone"))
+        {
+            lastResource = "Stone";
+        }
+        else if (resourceTag.Equals("Copper"))
+        {
+            lastResource = "Copper";
+        }
+        resourceTag = tag;
+    }
+
+    private void setResoruce()
+    {
+        int rand = UnityEngine.Random.Range(1, 4);
+        if(rand <= 2)
+        {
+            resourceTag = "Tree";
+        }
+        else
+        {
+            resourceTag = "Stone";
         }
     }
 
@@ -268,21 +265,10 @@ public class TownFolkAI : MonoBehaviour
 
             if(inventory == 5)
             {
-                resourceTag = "VillageCenter";
-                return;
+               setTag("VillageCenter");
+               return;
             }
         }
-    }
-
-    public void goHome()
-    {
-        resourceTag = "Home";
-        FindPath();
-    }
-
-    public void setLast()
-    {
-        lastResource = "Tree";
     }
 
     //Drawing debug line

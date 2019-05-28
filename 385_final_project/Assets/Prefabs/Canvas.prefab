@@ -1351,6 +1351,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4873729872555173270}
   - component: {fileID: 4873729872555173264}
+  - component: {fileID: 8375052166846390789}
   - component: {fileID: 4873729872555173265}
   m_Layer: 5
   m_Name: CopperCount
@@ -1386,6 +1387,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4873729872555173271}
   m_CullTransparentMesh: 0
+--- !u!114 &8375052166846390789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4873729872555173271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60a367963b8454339a2c8c56d72aa915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4873729872555173265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1505,6 +1518,7 @@ GameObject:
   - component: {fileID: 4873729872733259886}
   - component: {fileID: 4873729872733259880}
   - component: {fileID: 4873729872733259881}
+  - component: {fileID: 4334143915795803875}
   m_Layer: 5
   m_Name: StoneCount
   m_TagString: Untagged
@@ -1573,6 +1587,18 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 0
+--- !u!114 &4334143915795803875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4873729872733259887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60a367963b8454339a2c8c56d72aa915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4873729873278678197
 GameObject:
   m_ObjectHideFlags: 0
