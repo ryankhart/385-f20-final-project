@@ -10,6 +10,7 @@ public class StarterTileLayout : MonoBehaviour
     public GameObject rockTile;
     public GameObject tree;
     public GameObject stone;
+    public GameObject copper;
     public GameObject GridCreator;
     public GameObject TownMan;
     public GameObject Sparkles;
@@ -47,6 +48,7 @@ public class StarterTileLayout : MonoBehaviour
         GenerateOtherTileGroups(rockTile, tileOffset, (int)(mapSize * mapSize * 0.15)); // up to 15% of map is rock
         GenerateEnvironObjs(tree, 0.2f); // up to 20 % of map has trees
         GenerateEnvironObjs(stone, 0.03f); // up to 3 % of map has stone
+        GenerateEnvironObjs(copper, 0.01f); // up to 3 % of map has stone
 
         // position camera at the center
         gameCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
