@@ -55,5 +55,7 @@ MonoBehaviour:
   GridCreator: {fileID: 1798288494717168613, guid: 592c314d6e9519e4aa1307015914fe71,
     type: 3}
   TownMan: {fileID: 6067008912458440372, guid: 5751d8429e2192a4ba7c7e422b02bb91, type: 3}
+  Sparkles: {fileID: 3033529734100256005, guid: 322a959b5c2a84b72b570dcb84991f28,
+    type: 3}
   gameCamera: {fileID: 3963153818502319251, guid: 843799c3bcf5b4634bc408f7e941b2e0,
     type: 3}
