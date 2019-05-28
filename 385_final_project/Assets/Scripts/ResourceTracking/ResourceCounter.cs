@@ -20,11 +20,11 @@ public class ResourceCounter : MonoBehaviour
     {
        if(numberOfResources <= 0)
        {
-            int tileX = (int)((Mathf.Ceil(gameObject.transform.position.x - centerOfTileOffset) / tileOffset));
-            int tileZ = (int)((Mathf.Ceil(transform.position.z - centerOfTileOffset) / tileOffset));
-            GameObject.Find("TileLayoutStarter").GetComponent<StarterTileLayout>().setTileTag(tileX, tileZ, "PlainsTile");
+            int tileX = (int)((transform.position.x - centerOfTileOffset) / tileOffset + 1);
+            int tileZ = (int)((transform.position.z - centerOfTileOffset) / tileOffset + 1);
             print(tileX + "And" + tileZ);
             Destroy(gameObject);
-       }
+            GameObject.Find("TileLayoutStarter").GetComponent<StarterTileLayout>().setTileTag(tileX, tileZ, "PlainsTile");
+        }
     }
 }
