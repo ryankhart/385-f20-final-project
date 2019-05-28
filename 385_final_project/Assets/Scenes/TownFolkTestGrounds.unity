@@ -119,16 +119,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 9160705598833285029, guid: ed0445493deda49b2942fe5f34f15b37,
-        type: 3}
-      propertyPath: m_Name
-      value: BuildingSpawner
-      objectReference: {fileID: 0}
     - target: {fileID: 9160705598833285030, guid: ed0445493deda49b2942fe5f34f15b37,
         type: 3}
       propertyPath: camera
       value: 
       objectReference: {fileID: 2097174444}
+    - target: {fileID: 9160705598833285029, guid: ed0445493deda49b2942fe5f34f15b37,
+        type: 3}
+      propertyPath: m_Name
+      value: BuildingSpawner
+      objectReference: {fileID: 0}
     - target: {fileID: 9160705598833285031, guid: ed0445493deda49b2942fe5f34f15b37,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -382,6 +382,16 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SelectBuildingFromDropdown
       objectReference: {fileID: 0}
+    - target: {fileID: 4873729873565156418, guid: ddca1caa549d94a4e94f7434938d80f4,
+        type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9052114982959466922, guid: ddca1caa549d94a4e94f7434938d80f4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddca1caa549d94a4e94f7434938d80f4, type: 3}
 --- !u!1001 &1154020168
@@ -537,6 +547,12 @@ PrefabInstance:
       propertyPath: gameCamera
       value: 
       objectReference: {fileID: 2097174444}
+    - target: {fileID: 6060323597384748028, guid: 2bdc6e6e7561f4c77a947b96cb3c4da6,
+        type: 3}
+      propertyPath: Sparkles
+      value: 
+      objectReference: {fileID: 3033529734100256005, guid: 322a959b5c2a84b72b570dcb84991f28,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2bdc6e6e7561f4c77a947b96cb3c4da6, type: 3}
 --- !u!20 &2097174444 stripped
