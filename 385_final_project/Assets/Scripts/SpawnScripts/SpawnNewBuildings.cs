@@ -174,7 +174,14 @@ public class SpawnNewBuildings : MonoBehaviour
                 // if village center exists - village center stores resources
                 if (resourceCounterScript != null)
                 {
-                    buildingToDrag.tag = "Home";
+                    if(buildingToDrag.name.Contains("House"))
+                    {
+                        buildingToDrag.tag = "Home";
+                    }
+                    else if(buildingToDrag.name.Contains("Tavern"))
+                    {
+                        buildingToDrag.tag = "Tavern";
+                    }
                     // pay for the building
                     Dictionary<string, int> price = buildingToDrag.GetComponent<BuildingPrice>().GetPrice();
                     foreach (KeyValuePair<string, int> resource in price)
