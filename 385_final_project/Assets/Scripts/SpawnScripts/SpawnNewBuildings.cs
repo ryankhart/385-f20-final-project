@@ -85,7 +85,6 @@ public class SpawnNewBuildings : MonoBehaviour
 
     public void SelectBuildingFromDropdown(int index)
     {
-        // 0 = Building Menu - unselectable item, 1-4 = building options
         if (index != 0)
         {
             // position the building to the mouse cursor position
@@ -100,14 +99,14 @@ public class SpawnNewBuildings : MonoBehaviour
                 buildingToDrag = villageCenter;
 
             }
-            else if(index == 2)
+            else if (index == 2)
             {
                 GameObject newHouse = Instantiate(housePrefab, buildingPosition, Quaternion.identity);
                 newHouse.tag = "MovingBuilding";
                 houses.Add(newHouse);
                 buildingToDrag = newHouse;
             }
-            else 
+            else
             {
                 GameObject newTavern = Instantiate(tavernPrefab, buildingPosition, Quaternion.identity);
                 newTavern.tag = "MovingBuilding";
@@ -117,7 +116,6 @@ public class SpawnNewBuildings : MonoBehaviour
             }
             draggingNewBuilding = true;
         }
-        // else do nothing - just the heading of the menu was selected
     }
 
     private void DragBuilding(GameObject building)
@@ -200,7 +198,7 @@ public class SpawnNewBuildings : MonoBehaviour
             {
                 if(GameObject.FindGameObjectsWithTag("VillageCenter").Length == 1)
                 {
-                    StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("PlayerActionHint (1)"));
+                    StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("PlayerActionHint"));
                 }
                 else
                 {

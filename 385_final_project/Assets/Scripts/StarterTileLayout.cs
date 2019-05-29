@@ -55,7 +55,7 @@ public class StarterTileLayout : MonoBehaviour
         gameCamera.transform.position = new Vector3((mapSize / 2), 12, (mapSize / 2));
         gameCamera.transform.rotation = Quaternion.Euler(90, 0, 0);
 
-        PlacePlayer();
+        //PlacePlayer();
     }
 
     private void PlacePlayer()
