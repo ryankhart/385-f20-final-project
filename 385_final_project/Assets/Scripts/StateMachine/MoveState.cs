@@ -22,15 +22,17 @@ public class MoveState : IState
         owner.moveToDestination();
         Vector3 villagerPosition = owner.transform.position;
         villagerPosition.y = 0;
+
         if (owner.checkIfAtNode(villagerPosition))
         {
             Debug.Log("At Node!");
             if (owner.checkIfAtDestination(villagerPosition))
             {
-                owner.stateMachine.ChangeState(new WaitState(owner));
+                owner.stateMachine.ChangeState(new GatherState(owner));
             }
             else
             {
+                Debug.Log("Node of Movement up by 1");
                 owner.nodesOfMovement++;
                 owner.FindNode();
             }

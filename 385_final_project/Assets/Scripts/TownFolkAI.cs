@@ -27,7 +27,7 @@ public class TownFolkAI : MonoBehaviour
     private ArrayList pathArray;
 
     private float elapsedTime = 0.0f;
-    private float collectionTime = 0.0f;
+    public float collectionTime = 0.0f;
     public float intervalTime = 1.0f;
     public GameObject GridCreator;
     public GridManager gridManager;
@@ -48,13 +48,11 @@ public class TownFolkAI : MonoBehaviour
         //Calculate the path using our AStart code.
         pathArray = new ArrayList();
         setResoruce();
-        FindPath();
-        FindNode();
         stateMachine.ChangeState(new SearchState(this));
     }
 
 
-    private void FixedUpdate()
+    private void Update()
     {
         stateMachine.Update();
     }
@@ -77,11 +75,10 @@ public class TownFolkAI : MonoBehaviour
         }
         //Move the agent forard
         transform.position += new Vector3(direction.x * currentSpeed, direction.y, direction.z * currentSpeed);
-        FindNode();
         return;
     }
 
-    private void checkAction()
+    public void checkAction()
     {
         // Checks if target is too close
         Vector3 villagerPosition = transform.position;
@@ -117,6 +114,7 @@ public class TownFolkAI : MonoBehaviour
 
     public bool checkIfAtDestination(Vector3 villagerPosition)
     {
+        Debug.Log("Checking Last");
         if (pathArray.Count == 0)
         {
             return true;
@@ -125,11 +123,11 @@ public class TownFolkAI : MonoBehaviour
         Node nextNode = (Node)pathArray[pathArray.Count - 1];
         Debug.Log("Current Node: " + villagerPosition);
         Debug.Log("Last Node: " + nextNode.position);
-
         Vector3 last = nextNode.position;
-        if (Vector3.Distance(targetPoint, last) < toleranceRadius)
+        Debug.Log("Distance to last node: " + Vector3.Distance(villagerPosition, last) + "<" + toleranceRadius);
+        if (Vector3.Distance(villagerPosition, last) < toleranceRadius)
         {
-            Debug.Log("Distance: " + Vector3.Distance(targetPoint, last) + "<" + toleranceRadius);
+           
             return true;
         }
 
@@ -139,18 +137,19 @@ public class TownFolkAI : MonoBehaviour
 
     public bool checkIfAtNode(Vector3 villagerPosition)
     {
-        if (pathArray.Count == 0)
+        Debug.Log("Checking Node");
+        if (pathArray.Count == 0 || nodesOfMovement > pathArray.Count -1)
         {
             return true;
         }
 
         Node nextNode = (Node)pathArray[nodesOfMovement];
         Debug.Log("Current Node: " + villagerPosition);
-        Debug.Log("Last Node: " + nextNode.position);
+        Debug.Log("Next Node: " + nextNode.position);
 
         Vector3 last = nextNode.position;
-        Debug.Log("Distance: " + Vector3.Distance(targetPoint, last) + "<" + 1);
-        if (Vector3.Distance(targetPoint, last) < 1)
+        Debug.Log("Distance to next node: " + Vector3.Distance(villagerPosition, last) + "<" + 1);
+        if (Vector3.Distance(villagerPosition, last) < 1)
         {
             return true;
         }
@@ -169,7 +168,8 @@ public class TownFolkAI : MonoBehaviour
                 targetObject.GetComponent<TrackStorageResources>().AddResourceUnits(lastResource, inventory);
                 inventory = 0;
                 targetObject = null;
-                resourceTag = lastResource; 
+                resourceTag = lastResource;
+                stateMachine.ChangeState(new SearchState(this));
             }
         }
     }
@@ -243,17 +243,19 @@ public class TownFolkAI : MonoBehaviour
             //Check if we can get the next node or if we are too close
             if (nodesOfMovement < pathArray.Count && pathArray.Count != 1 && nodesOfMovement > 0)
             {
+                Debug.Log("Picking next node");
                 //Gets the next node
                 Node nextNode = (Node)pathArray[nodesOfMovement];
                 //Sets the target Point to the nodes position
                 targetPoint = nextNode.position;
                 //Sets the node to 1;
-                nodesOfMovement = 1;
+                //nodesOfMovement = 1;
             }
         }
         catch (Exception e)
         {
 
+            Debug.Log("ERROR");
         }
 
     }
@@ -261,7 +263,7 @@ public class TownFolkAI : MonoBehaviour
     //A* finds the path that the TownFolk should take.
     public void FindPath()
     {
-
+        nodesOfMovement = 1;
         Transform startPosition = transform;
         Transform endPosition = FindTarget();
 
@@ -279,20 +281,25 @@ public class TownFolkAI : MonoBehaviour
     private void ProcessResource()
     {
         collectionTime += Time.deltaTime;
-        if (collectionTime >= 2)
+        if (collectionTime >= 10)
         {
-
+            //They are waiting too long
             collectionTime = 0.0f;
+            setTag("VillageCenter");
+            stateMachine.ChangeState(new SearchState(this));
+            return;
+        }
 
-            targetObject.GetComponent<ResourceCounter>().numberOfResources -= 1;
-            inventory += 1;
+        targetObject.GetComponent<ResourceCounter>().numberOfResources -= 1;
+        inventory += 1;
 
 
-            if(inventory == 5)
-            {
-               setTag("VillageCenter");
-               return;
-            }
+        if(inventory == 1)
+        {
+            collectionTime = 0.0f;
+            setTag("VillageCenter");
+            stateMachine.ChangeState(new SearchState(this));
+            return;
         }
     }
 

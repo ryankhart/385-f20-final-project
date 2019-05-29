@@ -20,6 +20,7 @@ public class SearchState : IState
     {
         Debug.Log("Searching");
         owner.FindPath();
+        owner.FindNode();
         owner.stateMachine.ChangeState(new MoveState(owner));
     }
 
