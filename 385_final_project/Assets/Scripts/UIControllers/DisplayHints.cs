@@ -9,7 +9,7 @@ public class DisplayHints : MonoBehaviour
     //private CanvasGroup villagerOverviewHint;
 
     void Start()
-    { 
+    {
         buildingHint = transform.GetChild(0).GetComponent<CanvasGroup>();
         // TODO: maybe won't be needed
         //resourcesHint = transform.GetChild(1).GetComponent<CanvasGroup>();
@@ -20,7 +20,7 @@ public class DisplayHints : MonoBehaviour
 
     private IEnumerator WaitToDisplayBuildingHint()
     {
-        yield return new WaitForSeconds(9);
+        yield return new WaitForSeconds(2);
         if (GameObject.FindGameObjectWithTag("VillageCenter") == null && GameObject.FindGameObjectWithTag("MovingBuilding") == null)
         {
             if (buildingHint != null)
@@ -47,21 +47,8 @@ public class DisplayHints : MonoBehaviour
                 yield return null;
             }
         }
-        // special case for game start - display player hints one after another
-        if (hintName == "PlayerActionHint (1)")
-        {
-            yield return new WaitForSeconds(3);
-            StartCoroutine(HideHint(hintName));
-            yield return new WaitForSeconds(2);
-            StartCoroutine(DisplayHint("PlayerActionHint (2)"));
-            yield return new WaitForSeconds(5);
-            StartCoroutine(HideHint("PlayerActionHint (2)"));
-        }
-        if(hintName == "NotEnoughHint")
-        {
-            yield return new WaitForSeconds(3);
-            StartCoroutine(HideHint(hintName));
-        }
+        yield return new WaitForSeconds(3);
+        StartCoroutine(HideHint(hintName));
     }
 
     public IEnumerator HideHint(string hintName)
