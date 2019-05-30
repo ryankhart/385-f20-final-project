@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveState : IState
+public class MoveStateMonster : IState
 {
-    TownFolkAI owner;
+    MonsterAI owner;
 
-    public MoveState(TownFolkAI owner)
+    public MoveStateMonster(MonsterAI owner)
     {
         this.owner = owner;
     }
@@ -29,7 +29,7 @@ public class MoveState : IState
             Debug.Log("At Node!");
             if (owner.checkIfAtDestination(villagerPosition))
             {
-                owner.stateMachine.ChangeState(new GatherState(owner));
+                owner.stateMachine.ChangeState(new AttackStateMonster(owner));
             }
             else
             {

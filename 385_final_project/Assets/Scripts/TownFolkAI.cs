@@ -39,6 +39,7 @@ public class TownFolkAI : MonoBehaviour
     public bool last = true;
 
     public StateMachine stateMachine = new StateMachine();
+    public string state;
 
     // Start is called before the first frame update
     void Start()
@@ -83,7 +84,12 @@ public class TownFolkAI : MonoBehaviour
         // Checks if target is too close
         Vector3 villagerPosition = transform.position;
         villagerPosition.y = 0;
-        if(checkIfAtDestination(villagerPosition))
+
+        if(targetObject == null)
+        {
+            stateMachine.ChangeState(new SearchState(this));
+        }
+        else if(checkIfAtDestination(villagerPosition))
         {
             Debug.Log("Testing");
             //If target is too close that means we need to peform an action!
@@ -93,6 +99,11 @@ public class TownFolkAI : MonoBehaviour
                 if (resourceTag == "Home")
                 {
                     //wait
+                    if(waitTownFolk(20))
+                    {
+                       setTag(lastResource);
+                       stateMachine.ChangeState(new SearchState(this));
+                    }
                 }
                 else if (resourceTag == "Tree")
                 {
@@ -107,9 +118,18 @@ public class TownFolkAI : MonoBehaviour
                     ProcessResource();
                 }
             }
-            return;
         }
-        return;
+    }
+
+    private bool waitTownFolk(int time)
+    {
+        elapsedTime += Time.deltaTime;
+        if(elapsedTime > time)
+        {
+            elapsedTime = 0.0f;
+            return true;
+        }
+        return false;
     }
 
     public bool checkIfAtDestination(Vector3 villagerPosition)
@@ -137,23 +157,32 @@ public class TownFolkAI : MonoBehaviour
 
     public bool checkIfAtNode(Vector3 villagerPosition)
     {
-        Debug.Log("Checking Node");
-        if (pathArray.Count == 0 || nodesOfMovement > pathArray.Count -1)
+        try
         {
-            return true;
+            Debug.Log("Checking Node");
+            if (pathArray.Count == 0 || nodesOfMovement > pathArray.Count - 1)
+            {
+                return true;
+            }
+
+            Node nextNode = (Node)pathArray[nodesOfMovement];
+            Debug.Log("Current Node: " + villagerPosition);
+            Debug.Log("Next Node: " + nextNode.position);
+
+            Vector3 last = nextNode.position;
+            Debug.Log("Distance to next node: " + Vector3.Distance(villagerPosition, last) + "<" + 1);
+            if (Vector3.Distance(villagerPosition, last) < 1)
+            {
+                return true;
+            }
+
+            
         }
-
-        Node nextNode = (Node)pathArray[nodesOfMovement];
-        Debug.Log("Current Node: " + villagerPosition);
-        Debug.Log("Next Node: " + nextNode.position);
-
-        Vector3 last = nextNode.position;
-        Debug.Log("Distance to next node: " + Vector3.Distance(villagerPosition, last) + "<" + 1);
-        if (Vector3.Distance(villagerPosition, last) < 1)
+        catch(Exception)
         {
-            return true;
+            stateMachine.ChangeState(new SearchState(this));
+            return false;
         }
-
         Debug.Log("Return false");
         return false;
     }
@@ -174,7 +203,7 @@ public class TownFolkAI : MonoBehaviour
         }
     }
 
-    private void setTag(String tag)
+    public void setTag(String tag)
     {
         if(resourceTag.Equals("Tree"))
         {

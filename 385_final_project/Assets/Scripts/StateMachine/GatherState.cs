@@ -15,6 +15,7 @@ public class GatherState : IState
     public void Enter()
     {
         Debug.Log("Entering Gather State");
+        owner.state = "Gather";
     }
 
     public void Execute()

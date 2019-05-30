@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SearchState : IState
+public class SearchStateMonster : IState
 {
-    TownFolkAI owner;
+    MonsterAI owner;
 
-    public SearchState(TownFolkAI owner)
+    public SearchStateMonster(MonsterAI owner)
     {
         this.owner = owner;
     }
@@ -22,7 +22,7 @@ public class SearchState : IState
         Debug.Log("Searching");
         owner.FindPath();
         owner.FindNode();
-        owner.stateMachine.ChangeState(new MoveState(owner));
+        owner.stateMachine.ChangeState(new MoveStateMonster(owner));
     }
 
     public void Exit()
