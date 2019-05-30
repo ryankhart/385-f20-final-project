@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class TownFolkAI : MonoBehaviour
 {
-    private GameObject targetObject;
+    public GameObject targetObject;
     private Transform target;
-    public string resourceTag = "Stone";
+    public string resourceTag = "Tree";
     public string lastResource;
 
     [SerializeField]
@@ -99,9 +99,9 @@ public class TownFolkAI : MonoBehaviour
                 if (resourceTag == "Home")
                 {
                     //wait
-                    if(waitTownFolk(20))
+                    if(waitTownFolk(1))
                     {
-                       setTag(lastResource);
+                       setTag("Tavern");
                        stateMachine.ChangeState(new SearchState(this));
                     }
                 }
@@ -116,6 +116,14 @@ public class TownFolkAI : MonoBehaviour
                 else if (resourceTag == "Stone")
                 {
                     ProcessResource();
+                }
+                else if(resourceTag == "Tavern")
+                {
+                    if (waitTownFolk(20))
+                    {
+                        setTag(lastResource);
+                        stateMachine.ChangeState(new SearchState(this));
+                    }
                 }
             }
         }
@@ -226,10 +234,12 @@ public class TownFolkAI : MonoBehaviour
         if(rand <= 2)
         {
             resourceTag = "Tree";
+            lastResource = "Tree";
         }
         else
         {
             resourceTag = "Stone";
+            lastResource = "Stone";
         }
     }
 
@@ -245,6 +255,7 @@ public class TownFolkAI : MonoBehaviour
         // If there are no trees
         if (targets.Length == 0)
         {
+            targetObject = null;
             return null;
         }
 
