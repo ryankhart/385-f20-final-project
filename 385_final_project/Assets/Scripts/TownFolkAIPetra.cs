@@ -165,7 +165,7 @@ public class TownFolkAIPetra : MonoBehaviour
         }
         catch (Exception e)
         {
-
+            print("Error: " + e);
         }
 
     }

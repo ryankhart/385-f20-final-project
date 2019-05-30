@@ -180,7 +180,6 @@ public class MonsterAI : MonoBehaviour
         catch (Exception e)
         {
 
-            Debug.Log("ERROR");
         }
 
     }
