@@ -58,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 956e60e167f9fe64fb80c52c6748d96c, type: 2}
+  - {fileID: 2100000, guid: e14fb43cb13d86d44870fa754e37030b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -195,7 +195,7 @@ GameObject:
   - component: {fileID: 226879131926594192}
   - component: {fileID: 8364487758419548082}
   m_Layer: 0
-  m_Name: Face
+  m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -283,10 +283,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4603560805218864699}
-  - component: {fileID: 7819066516287994927}
+  - component: {fileID: 3986507767043160660}
   m_Layer: 0
-  m_Name: Monster
-  m_TagString: Monsters
+  m_Name: Fighter
+  m_TagString: Fighter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -308,7 +308,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7819066516287994927
+--- !u!114 &3986507767043160660
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -317,14 +317,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 6067008912458440372}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4ffe0680e7e310449c5d09c7a358622, type: 3}
+  m_Script: {fileID: 11500000, guid: 85dcfaf2bcbcae34d94d1f8120a79b51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targetObject: {fileID: 0}
-  townFolkTag: TownFolk
+  resourceTag: Fort
+  lastResource: 
   movementSpeed: 5
   toleranceRadius: 0.25
+  collectionTime: 0
   intervalTime: 1
+  GridCreator: {fileID: 0}
+  gridManager: {fileID: 0}
   nodesOfMovement: 1
+  inventory: 0
+  flee: 0
+  last: 1
   state: 
-  cooldown: 0

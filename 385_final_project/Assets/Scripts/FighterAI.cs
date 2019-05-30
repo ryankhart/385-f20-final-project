@@ -1,13 +1,17 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TownFolkAI : MonoBehaviour
+public class FighterAI : MonoBehaviour
 {
     public GameObject targetObject;
     private Transform target;
-    public string resourceTag = "Tree";
+    public string resourceTag = "Monsters";
     public string lastResource;
 
     [SerializeField]
@@ -34,7 +38,7 @@ public class TownFolkAI : MonoBehaviour
 
     public int nodesOfMovement = 1;
     public int inventory = 0;
-   
+
     public bool flee = false;
     public bool last = true;
 
@@ -48,8 +52,7 @@ public class TownFolkAI : MonoBehaviour
         gridManager = GridCreator.GetComponent<GridManager>();
         //Calculate the path using our AStart code.
         pathArray = new ArrayList();
-        setResoruce();
-        stateMachine.ChangeState(new SearchState(this));
+        stateMachine.ChangeState(new SearchStateFighter(this));
     }
 
 
@@ -85,45 +88,29 @@ public class TownFolkAI : MonoBehaviour
         Vector3 villagerPosition = transform.position;
         villagerPosition.y = 0;
 
-        if(targetObject == null)
+        if (targetObject == null)
         {
-            stateMachine.ChangeState(new SearchState(this));
+            stateMachine.ChangeState(new SearchStateFighter(this));
         }
-        else if(checkIfAtDestination(villagerPosition))
+        else if (checkIfAtDestination(villagerPosition))
         {
             Debug.Log("Testing");
             //If target is too close that means we need to peform an action!
             //Check to make sure object is there.
             if (targetObject != null)
             {
-                if (resourceTag == "Home")
+                if (resourceTag == "Monsters")
                 {
-                    //wait
-                    if(waitTownFolk(1))
+                    Destroy(targetObject);
+                    stateMachine.ChangeState(new SearchStateFighter(this));
+                }
+                else if (resourceTag == "Fort")
+                {
+                    if (waitTownFolk(60))
                     {
-                       setTag("Tavern");
-                       stateMachine.ChangeState(new SearchState(this));
-                    }
-                }
-                else if (resourceTag == "Tree")
-                {
-                    ProcessResource();
-                }
-                else if (resourceTag == "VillageCenter")
-                {
-                    GoStoreCollectedResources(villagerPosition);
-                }
-                else if (resourceTag == "Stone")
-                {
-                    ProcessResource();
-                }
-                else if(resourceTag == "Tavern")
-                {
-                    if (waitTownFolk(20))
-                    {
-                        setTag(lastResource);
-                        stateMachine.ChangeState(new SearchState(this));
-                    }
+                        setTag("Monsters");
+                        stateMachine.ChangeState(new SearchStateFighter(this));
+                    }  
                 }
             }
         }
@@ -132,7 +119,7 @@ public class TownFolkAI : MonoBehaviour
     private bool waitTownFolk(int time)
     {
         elapsedTime += Time.deltaTime;
-        if(elapsedTime > time)
+        if (elapsedTime > time)
         {
             elapsedTime = 0.0f;
             return true;
@@ -155,12 +142,17 @@ public class TownFolkAI : MonoBehaviour
         Debug.Log("Distance to last node: " + Vector3.Distance(villagerPosition, last) + "<" + toleranceRadius);
         if (Vector3.Distance(villagerPosition, last) < toleranceRadius)
         {
-           
+
             return true;
         }
 
         Debug.Log("Return false");
         return false;
+    }
+
+    public void setTag(String tag)
+    {
+        resourceTag = tag;
     }
 
     public bool checkIfAtNode(Vector3 villagerPosition)
@@ -184,65 +176,17 @@ public class TownFolkAI : MonoBehaviour
                 return true;
             }
 
-            
+
         }
-        catch(Exception)
+        catch (Exception)
         {
-            stateMachine.ChangeState(new SearchState(this));
+            stateMachine.ChangeState(new SearchStateFighter(this));
             return false;
         }
         Debug.Log("Return false");
         return false;
     }
-
-    private void GoStoreCollectedResources(Vector3 villagerPosition)
-    {
-        if (checkIfAtDestination(villagerPosition))
-        {
-            if (targetObject.tag == "VillageCenter")
-            {
-                // drop the collected resources off at the village center
-                targetObject.GetComponent<TrackStorageResources>().AddResourceUnits(lastResource, inventory);
-                inventory = 0;
-                targetObject = null;
-                resourceTag = lastResource;
-                stateMachine.ChangeState(new SearchState(this));
-            }
-        }
-    }
-
-    public void setTag(String tag)
-    {
-        if(resourceTag.Equals("Tree"))
-        {
-            lastResource = "Tree";
-        }
-        else if(resourceTag.Equals("Stone"))
-        {
-            lastResource = "Stone";
-        }
-        else if (resourceTag.Equals("Copper"))
-        {
-            lastResource = "Copper";
-        }
-        resourceTag = tag;
-    }
-
-    private void setResoruce()
-    {
-        int rand = UnityEngine.Random.Range(1, 4);
-        if(rand <= 2)
-        {
-            resourceTag = "Tree";
-            lastResource = "Tree";
-        }
-        else
-        {
-            resourceTag = "Stone";
-            lastResource = "Stone";
-        }
-    }
-
+   
     //Finds a target with a tag
     public Transform FindTarget()
     {
@@ -314,31 +258,6 @@ public class TownFolkAI : MonoBehaviour
                 pathArray = AStar.FindPath(startNode, goalNode);
         }
 
-    }
-
-    private void ProcessResource()
-    {
-        collectionTime += Time.deltaTime;
-        if (collectionTime >= 10)
-        {
-            //They are waiting too long
-            collectionTime = 0.0f;
-            setTag("VillageCenter");
-            stateMachine.ChangeState(new SearchState(this));
-            return;
-        }
-
-        targetObject.GetComponent<ResourceCounter>().numberOfResources -= 1;
-        inventory += 1;
-
-
-        if(inventory == 1)
-        {
-            collectionTime = 0.0f;
-            setTag("VillageCenter");
-            stateMachine.ChangeState(new SearchState(this));
-            return;
-        }
     }
 
     //Drawing debug line

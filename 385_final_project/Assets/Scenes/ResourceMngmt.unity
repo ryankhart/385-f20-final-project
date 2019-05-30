@@ -119,16 +119,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 9160705598833285030, guid: ed0445493deda49b2942fe5f34f15b37,
-        type: 3}
-      propertyPath: camera
-      value: 
-      objectReference: {fileID: 1181133541}
     - target: {fileID: 9160705598833285029, guid: ed0445493deda49b2942fe5f34f15b37,
         type: 3}
       propertyPath: m_Name
       value: BuildingSpawner
       objectReference: {fileID: 0}
+    - target: {fileID: 9160705598833285030, guid: ed0445493deda49b2942fe5f34f15b37,
+        type: 3}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 1181133541}
     - target: {fileID: 9160705598833285031, guid: ed0445493deda49b2942fe5f34f15b37,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -333,6 +333,11 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 7814054601010383157, guid: ddca1caa549d94a4e94f7434938d80f4,
+        type: 3}
+      propertyPath: m_Options.m_Options.Array.data[3].m_Text
+      value: Fort
+      objectReference: {fileID: 0}
     - target: {fileID: 4873729873565156418, guid: ddca1caa549d94a4e94f7434938d80f4,
         type: 3}
       propertyPath: m_MatchWidthOrHeight
@@ -382,6 +387,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4873729872733259881, guid: ddca1caa549d94a4e94f7434938d80f4,
+        type: 3}
+      propertyPath: m_Text
+      value: '20
+
+'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddca1caa549d94a4e94f7434938d80f4, type: 3}
@@ -463,6 +475,12 @@ PrefabInstance:
       propertyPath: monster
       value: 
       objectReference: {fileID: 6067008912458440372, guid: cee68481804936d48ae13ff4dc7402c1,
+        type: 3}
+    - target: {fileID: 3609154217335766892, guid: 3aba2a525e5ee4477b637cec4a9dadc2,
+        type: 3}
+      propertyPath: fighter
+      value: 
+      objectReference: {fileID: 6067008912458440372, guid: 00a6c9a58a69c954cb85720fa87857f2,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3aba2a525e5ee4477b637cec4a9dadc2, type: 3}

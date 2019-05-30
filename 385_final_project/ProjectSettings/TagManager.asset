@@ -20,6 +20,9 @@ TagManager:
   - MovingBuilding
   - TownFolk
   - Tavern
+  - Fighter
+  - Fort
+  - Monsters
   layers:
   - Default
   - TransparentFX
