@@ -49,4 +49,6 @@ MonoBehaviour:
     type: 3}
   tavernPrefab: {fileID: 1174366297928151700, guid: 833deefc7c3a646eda961b8aba6544aa,
     type: 3}
+  fortPrefab: {fileID: 1174366297928151700, guid: f1485dc61e17d854eaed4707133e5300,
+    type: 3}
   camera: {fileID: 3963153818502319251, guid: 843799c3bcf5b4634bc408f7e941b2e0, type: 3}

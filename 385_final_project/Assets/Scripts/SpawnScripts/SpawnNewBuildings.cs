@@ -11,6 +11,7 @@ public class SpawnNewBuildings : MonoBehaviour
     public GameObject villCenterPrefab;
     public GameObject housePrefab;
     public GameObject tavernPrefab;
+    public GameObject fortPrefab;
     public new Camera camera;   // new is neccessary because this camera overrides some inherited camera
 
     // buidlings
@@ -112,6 +113,13 @@ public class SpawnNewBuildings : MonoBehaviour
                 houses.Add(newHouse);
                 buildingToDrag = newHouse;
             }
+            else if(index == 3)
+            {
+                GameObject newHouse = Instantiate(fortPrefab, buildingPosition, Quaternion.identity);
+                newHouse.tag = "MovingBuilding";
+                //houses.Add(newHouse);
+                buildingToDrag = newHouse;
+            }
             else 
             {
                 GameObject newTavern = Instantiate(tavernPrefab, buildingPosition, Quaternion.identity);
@@ -182,6 +190,11 @@ public class SpawnNewBuildings : MonoBehaviour
                     {
                         buildingToDrag.tag = "Tavern";
                     }
+                    else if (buildingToDrag.name.Contains("Fort"))
+                    {
+                        buildingToDrag.tag = "Fort";
+                    }
+
                     // pay for the building
                     Dictionary<string, int> price = buildingToDrag.GetComponent<BuildingPrice>().GetPrice();
                     foreach (KeyValuePair<string, int> resource in price)

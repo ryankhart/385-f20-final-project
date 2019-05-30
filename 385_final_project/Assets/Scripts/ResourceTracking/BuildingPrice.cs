@@ -28,7 +28,13 @@ public class BuildingPrice : MonoBehaviour
         {
             price.Add("Tree", 50);
             price.Add("Stone", 20);
-            price.Add("Copper", 10);
+            price.Add("Copper", 0);
+        }
+        else if (gameObject.name.Contains("Fort"))
+        {
+            price.Add("Tree", 0);
+            price.Add("Stone", 10);
+            price.Add("Copper", 0);
         }
     }
 

@@ -22,7 +22,18 @@ public class SearchState : IState
         Debug.Log("Searching");
         owner.FindPath();
         owner.FindNode();
-        owner.stateMachine.ChangeState(new MoveState(owner));
+        if(owner.targetObject != null)
+        {
+           owner.stateMachine.ChangeState(new MoveState(owner));
+        }
+        else
+        {
+            owner.setTag("Home");
+            if (owner.targetObject != null)
+            {
+                //if still null just wait;
+            }
+        }
     }
 
     public void Exit()
