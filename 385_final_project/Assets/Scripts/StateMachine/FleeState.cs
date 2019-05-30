@@ -19,7 +19,7 @@ public class FleeState : IState
 
     public void Execute()
     {
-        owner.setTag("Home");
+        owner.setTag("Tavern");
         owner.inventory = 0;
         owner.stateMachine.ChangeState(new SearchState(owner));
         owner.stateMachine.Update();
