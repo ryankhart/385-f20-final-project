@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -228,7 +228,7 @@ public class TownFolkAI : MonoBehaviour
         }
         catch (Exception e)
         {
-
+            print("Error: " + e);
         }
 
     }
