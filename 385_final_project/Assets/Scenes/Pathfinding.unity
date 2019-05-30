@@ -1232,6 +1232,16 @@ PrefabInstance:
       propertyPath: gridCellSize
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7989290234810243947, guid: 592c314d6e9519e4aa1307015914fe71,
+        type: 3}
+      propertyPath: numberOfRows
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7989290234810243947, guid: 592c314d6e9519e4aa1307015914fe71,
+        type: 3}
+      propertyPath: numberOfColumns
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 592c314d6e9519e4aa1307015914fe71, type: 3}
 --- !u!1001 &751610932
@@ -2707,5 +2717,10 @@ PrefabInstance:
       propertyPath: GridCreator
       value: 
       objectReference: {fileID: 1401397282}
+    - target: {fileID: 4889055777798592563, guid: 4fe62bed1825a6d4d8f1e599fcc2ec35,
+        type: 3}
+      propertyPath: intervalTime
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fe62bed1825a6d4d8f1e599fcc2ec35, type: 3}

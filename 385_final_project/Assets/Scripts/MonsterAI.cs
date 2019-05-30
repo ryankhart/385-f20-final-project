@@ -5,7 +5,7 @@ using System;
 
 public class MonsterAI : MonoBehaviour
 {
-    private GameObject targetObject;
+    public GameObject targetObject;
     private GameObject GridCreator;
     private GridManager gridManager;
     public string townFolkTag = "TownFolk";
@@ -27,8 +27,11 @@ public class MonsterAI : MonoBehaviour
 
     private float elapsedTime = 0.0f;
     public float intervalTime = 1.0f;
-    private int nodesOfMovement = 1;
+    public int nodesOfMovement = 1;
     private int range = 5;
+
+    public StateMachine stateMachine = new StateMachine();
+    public string state;
 
     public float cooldown = 0.0f;
     // Start is called before the first frame update
@@ -36,75 +39,104 @@ public class MonsterAI : MonoBehaviour
     {
         GridCreator = GameObject.FindGameObjectsWithTag("GridCreator")[0];
         gridManager = GridCreator.GetComponent<GridManager>();
-
         pathArray = new ArrayList();
-        FindPath();
+        stateMachine.ChangeState(new SearchStateMonster(this));
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        elapsedTime += Time.deltaTime;
-
-        //How much time it takes to find a new path.
-        if (elapsedTime >= intervalTime)
-        {
-            if(cooldown <= 0.0f)
-            {
-                elapsedTime = 0.0f;
-                FindPath();
-            }
-            if(cooldown > 0.0f)
-            {
-                cooldown -= Time.deltaTime;
-            }
-        }
-
-
-        FindNode();
-
-        // Checks if target is too close
-        if (Vector3.Distance(targetObject.transform.position, transform.position) < toleranceRadius)
-        {
-            print("Monster Attack");
-            //If target is too close that means we need to peform an action!
-
-            //Check to make sure object is there.
-            if (targetObject != null)
-            {
-                // "Attacks" townfolk
-                if (targetObject.tag == townFolkTag && cooldown <= 0)
-                {
-                    targetObject.GetComponent<TownFolkAI>().flee = true;
-                    cooldown = 20.0f;
-                }
-            }
-
-            return;
-        }
-
-        if (pathArray.Count < range)
-        {
-            currentSpeed = movementSpeed * Time.deltaTime;
-
-            //Rotate the agent towards its target direction
-            direction = (targetPoint - transform.position).normalized;
-            direction.y = 0;
-
-            // look
-            // the if statement prevents turning when at target and that stupid zero vector warning
-            if (Vector3.Distance(direction, Vector3.zero) > 0.01)
-            {
-                targetRotation = Quaternion.LookRotation(direction);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            }
-            //Move the agent forard
-            transform.position += new Vector3(direction.x * currentSpeed, direction.y, direction.z * currentSpeed);
-        }
-        
+        stateMachine.Update();
     }
 
+    public void moveToDestination()
+    {
 
+        currentSpeed = movementSpeed * Time.deltaTime;
+
+        //Rotate the agent towards its target direction
+        direction = (targetPoint - transform.position).normalized;
+        direction.y = 0;
+
+        // look
+        // the if statement prevents turning when at target and that stupid zero vector warning
+        if (Vector3.Distance(direction, Vector3.zero) > 0.01)
+        {
+            targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
+        //Move the agent forard
+        transform.position += new Vector3(direction.x * currentSpeed, direction.y, direction.z * currentSpeed);
+        return;
+    }
+
+    public bool checkIfAtDestination(Vector3 villagerPosition)
+    {
+        Debug.Log("Checking Last");
+        if (pathArray.Count == 0)
+        {
+            return true;
+        }
+
+        Node nextNode = (Node)pathArray[pathArray.Count - 1];
+        Debug.Log("Current Node: " + villagerPosition);
+        Debug.Log("Last Node: " + nextNode.position);
+        Vector3 last = nextNode.position;
+        Debug.Log("Distance to last node: " + Vector3.Distance(villagerPosition, last) + "<" + toleranceRadius);
+        if (Vector3.Distance(villagerPosition, last) < toleranceRadius)
+        {
+
+            return true;
+        }
+
+        Debug.Log("Return false");
+        return false;
+    }
+
+    public bool checkIfAtNode(Vector3 villagerPosition)
+    {
+        try
+        {
+            Debug.Log("Checking Node");
+            if (pathArray.Count == 0 || nodesOfMovement > pathArray.Count - 1)
+            {
+                return true;
+            }
+
+            Node nextNode = (Node)pathArray[nodesOfMovement];
+            Debug.Log("Current Node: " + villagerPosition);
+            Debug.Log("Next Node: " + nextNode.position);
+
+            Vector3 last = nextNode.position;
+            Debug.Log("Distance to next node: " + Vector3.Distance(villagerPosition, last) + "<" + 1);
+            if (Vector3.Distance(villagerPosition, last) < 1)
+            {
+                return true;
+            }
+
+
+        }
+        catch (Exception)
+        {
+            stateMachine.ChangeState(new SearchStateMonster(this));
+            return false;
+        }
+        Debug.Log("Return false");
+        return false;
+    }
+
+    public bool waitTownFolk(int time)
+    {
+        elapsedTime += Time.deltaTime;
+        if (elapsedTime > time)
+        {
+            elapsedTime = 0.0f;
+            return true;
+        }
+        return false;
+    }
+
+    //Finds a target with a tag
     public Transform FindTarget()
     {
         //Gets all objects with tag
@@ -119,22 +151,14 @@ public class MonsterAI : MonoBehaviour
             return null;
         }
 
-        closest = targets[0].transform;
-        for (int i = 0; i < targets.Length; i++)
-        {
-            float distance = (targets[i].transform.position - transform.position).sqrMagnitude;
+        int rand = UnityEngine.Random.Range(0, targets.Length);
 
-            if (distance < minDistance)
-            {
-                targetObject = targets[i];
-                closest = targets[i].transform;
-                minDistance = distance;
-            }
-        }
+        closest = targets[rand].transform;
+        targetObject = targets[rand];
+
 
         return closest;
     }
-
 
     //Finds the next node to move towards
     public void FindNode()
@@ -144,24 +168,26 @@ public class MonsterAI : MonoBehaviour
             //Check if we can get the next node or if we are too close
             if (nodesOfMovement < pathArray.Count && pathArray.Count != 1 && nodesOfMovement > 0)
             {
+                Debug.Log("Picking next node");
                 //Gets the next node
                 Node nextNode = (Node)pathArray[nodesOfMovement];
                 //Sets the target Point to the nodes position
                 targetPoint = nextNode.position;
                 //Sets the node to 1;
-                nodesOfMovement = 1;
+                //nodesOfMovement = 1;
             }
         }
         catch (Exception e)
         {
-            print("Error: " + e);
+
         }
 
     }
 
     //A* finds the path that the TownFolk should take.
-    private void FindPath()
+    public void FindPath()
     {
+        nodesOfMovement = 1;
         Transform startPosition = transform;
         Transform endPosition = FindTarget();
 
@@ -198,7 +224,6 @@ public class MonsterAI : MonoBehaviour
             };
         }
     }
-
 
 
 }
