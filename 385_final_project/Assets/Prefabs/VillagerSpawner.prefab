@@ -45,3 +45,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lumberjack: {fileID: 6067008912458440372, guid: 5751d8429e2192a4ba7c7e422b02bb91,
     type: 3}
+  monster: {fileID: 6067008912458440372, guid: cee68481804936d48ae13ff4dc7402c1, type: 3}
+  fighter: {fileID: 6067008912458440372, guid: 00a6c9a58a69c954cb85720fa87857f2, type: 3}

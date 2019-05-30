@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SearchStateMonster : IState
+public class SearchStateFighter : IState
 {
-    MonsterAI owner;
+    FighterAI owner;
 
-    public SearchStateMonster(MonsterAI owner)
+    public SearchStateFighter(FighterAI owner)
     {
         this.owner = owner;
     }
@@ -22,7 +22,18 @@ public class SearchStateMonster : IState
         Debug.Log("Searching");
         owner.FindPath();
         owner.FindNode();
-        owner.stateMachine.ChangeState(new MoveStateMonster(owner));
+        if (owner.targetObject != null)
+        {
+            owner.stateMachine.ChangeState(new MoveStateFighter(owner));
+        }
+        else
+        {
+            owner.setTag("Fort");
+            if (owner.targetObject != null)
+            {
+                //if still null just wait;
+            }
+        }
     }
 
     public void Exit()
