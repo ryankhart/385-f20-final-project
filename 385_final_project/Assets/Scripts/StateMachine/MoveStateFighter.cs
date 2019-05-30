@@ -24,6 +24,13 @@ public class MoveStateFighter : IState
         Vector3 villagerPosition = owner.transform.position;
         villagerPosition.y = 0;
 
+        if(owner.nodesOfMovement > 30)
+        {
+            owner.stateMachine.ChangeState(new SearchStateFighter(owner));
+        }
+
+
+
         if (owner.checkIfAtNode(villagerPosition))
         {
             Debug.Log("At Node!");

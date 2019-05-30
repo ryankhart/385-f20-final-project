@@ -106,8 +106,11 @@ public class FighterAI : MonoBehaviour
                 }
                 else if (resourceTag == "Fort")
                 {
-                    setTag("Monsters");
-                    stateMachine.ChangeState(new SearchStateFighter(this));
+                    if (waitTownFolk(60))
+                    {
+                        setTag("Monsters");
+                        stateMachine.ChangeState(new SearchStateFighter(this));
+                    }  
                 }
             }
         }

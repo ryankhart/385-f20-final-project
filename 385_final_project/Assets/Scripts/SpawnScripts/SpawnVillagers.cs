@@ -68,7 +68,7 @@ public class SpawnVillagers : MonoBehaviour
         if (villagers.Count > 4)
         {
             elapsedTime += Time.deltaTime;
-            if (elapsedTime > 30)
+            if (elapsedTime > 10)
             {
                 elapsedTime = 0.0f;
                 GameObject[] trees = GameObject.FindGameObjectsWithTag("Tree");
