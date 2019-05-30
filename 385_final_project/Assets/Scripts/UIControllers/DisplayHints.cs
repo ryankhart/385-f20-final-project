@@ -11,9 +11,6 @@ public class DisplayHints : MonoBehaviour
     void Start()
     {
         buildingHint = transform.GetChild(0).GetComponent<CanvasGroup>();
-        // TODO: maybe won't be needed
-        //resourcesHint = transform.GetChild(1).GetComponent<CanvasGroup>();
-        //villagerOverviewHint = transform.GetChild(2).GetComponent<CanvasGroup>();
 
         StartCoroutine(WaitToDisplayBuildingHint());
     }
