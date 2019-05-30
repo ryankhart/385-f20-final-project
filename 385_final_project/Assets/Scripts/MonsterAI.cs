@@ -154,7 +154,7 @@ public class MonsterAI : MonoBehaviour
         }
         catch (Exception e)
         {
-
+            print("Error: " + e);
         }
 
     }
