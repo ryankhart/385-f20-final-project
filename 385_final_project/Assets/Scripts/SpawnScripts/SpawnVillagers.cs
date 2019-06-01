@@ -44,16 +44,16 @@ public class SpawnVillagers : MonoBehaviour
             float jackZ = houses[currentNumHouses - 1].transform.position.z;
             GameObject jack = Instantiate(lumberjack, new Vector3(jackX, 0.439f, jackZ), Quaternion.identity);
             villagers.Add(jack);
+            GameObject.Find("Panel").GetComponent<UpdateVillagerList>().AddVillager(villagers.Count);
         }
         // monster spawns after every 4 villagers
-        if(villagers.Count > 0 && villagers.Count % 4 == 0 && monsters.Count < (int) (villagers.Count / 4))
+        if (villagers.Count > 0 && villagers.Count % 4 == 0 && monsters.Count < (int) (villagers.Count / 4))
         {
             GameObject[] trees = GameObject.FindGameObjectsWithTag("Tree");
             if(trees.Length > 0)
             {
                 float monsterX = trees[trees.Length / 2].transform.position.x;
                 float monsterZ = trees[trees.Length / 2].transform.position.z;
-
                 GameObject mon = Instantiate(monster, new Vector3(monsterX, 0.439f, monsterZ), Quaternion.identity);
                 monsters.Add(mon);
             }
