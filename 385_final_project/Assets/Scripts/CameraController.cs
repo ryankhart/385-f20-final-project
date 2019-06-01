@@ -54,23 +54,11 @@ public class CameraController : MonoBehaviour
         // Basic camera zoom by adjusting camera position
         // Requires perspective mode to work
         float zoomY = Input.mouseScrollDelta.y * m_zoomSpeed;
-        if (m_position.y - zoomY * m_zoomSpeed < 5)
+        if(zoomY == 0)
         {
-            m_position.y = 5;
+            return;
         }
-        else if (m_position.y + zoomY * m_zoomSpeed > 15f)
-        {
-            m_position.y = 14.8f;
-        }
-        else if (zoomY >= -1)
-        {
-            m_position.y -= Input.mouseScrollDelta.y * m_zoomSpeed;
-        }
-        else if (zoomY >= 1)
-        {
-            m_position.y += Input.mouseScrollDelta.y * m_zoomSpeed;
-        }
-
+        m_position.y = Mathf.Clamp(m_position.y - (zoomY * m_zoomSpeed), 5, 15);
     }
 
     void UpdatePosition()
