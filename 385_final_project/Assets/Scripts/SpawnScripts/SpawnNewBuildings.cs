@@ -131,7 +131,7 @@ public class SpawnNewBuildings : MonoBehaviour
         // if user clicks on the left mouse button
         if (Input.GetMouseButtonDown(0))
         {
-            StopDraggingBuidling();
+            StartCoroutine(StopDraggingBuidling());
         }
         buildingToDrag = building;
         float posX = Input.mousePosition.x;
@@ -148,9 +148,10 @@ public class SpawnNewBuildings : MonoBehaviour
         }
     }
 
-    private void StopDraggingBuidling()
+    private IEnumerator StopDraggingBuidling()
     {
         // stop the dragging process
+        yield return new WaitForSeconds(.03f);
         draggingNewBuilding = false;
     }
 
