@@ -22,7 +22,6 @@ public class ResourceCounter : MonoBehaviour
        {
             int tileX = (int)((transform.position.x - centerOfTileOffset) / tileOffset + 1);
             int tileZ = (int)((transform.position.z - centerOfTileOffset) / tileOffset + 1);
-            print(tileX + "And" + tileZ);
             Destroy(gameObject);
             GameObject.Find("TileLayoutStarter").GetComponent<StarterTileLayout>().setTileTag(tileX, tileZ, "PlainsTile");
         }

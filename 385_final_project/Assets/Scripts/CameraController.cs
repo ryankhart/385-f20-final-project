@@ -58,9 +58,9 @@ public class CameraController : MonoBehaviour
         {
             m_position.y = 5;
         }
-        else if (m_position.y + zoomY * m_zoomSpeed > 15.1f)
+        else if (m_position.y + zoomY * m_zoomSpeed > 15f)
         {
-            m_position.y = 14.9f;
+            m_position.y = 14.8f;
         }
         else if (zoomY >= -1)
         {
