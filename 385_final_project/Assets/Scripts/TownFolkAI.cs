@@ -91,7 +91,7 @@ public class TownFolkAI : MonoBehaviour
         }
         else if(checkIfAtDestination(villagerPosition))
         {
-            //Debug.Log("Testing");
+            Debug.Log("Testing");
             //If target is too close that means we need to peform an action!
             //Check to make sure object is there.
             if (targetObject != null)
@@ -142,15 +142,15 @@ public class TownFolkAI : MonoBehaviour
 
     public bool checkIfAtDestination(Vector3 villagerPosition)
     {
-        //Debug.Log("Checking Last");
+        Debug.Log("Checking Last");
         if (pathArray.Count == 0)
         {
             return true;
         }
 
         Node nextNode = (Node)pathArray[pathArray.Count - 1];
-        //Debug.Log("Current Node: " + villagerPosition);
-        //Debug.Log("Last Node: " + nextNode.position);
+        Debug.Log("Current Node: " + villagerPosition);
+        Debug.Log("Last Node: " + nextNode.position);
         Vector3 last = nextNode.position;
         Debug.Log("Distance to last node: " + Vector3.Distance(villagerPosition, last) + "<" + toleranceRadius);
         if (Vector3.Distance(villagerPosition, last) < toleranceRadius)
@@ -159,7 +159,7 @@ public class TownFolkAI : MonoBehaviour
             return true;
         }
 
-        //Debug.Log("Return false");
+        Debug.Log("Return false");
         return false;
     }
 
@@ -167,18 +167,18 @@ public class TownFolkAI : MonoBehaviour
     {
         try
         {
-            //Debug.Log("Checking Node");
+            Debug.Log("Checking Node");
             if (pathArray.Count == 0 || nodesOfMovement > pathArray.Count - 1)
             {
                 return true;
             }
 
             Node nextNode = (Node)pathArray[nodesOfMovement];
-            //Debug.Log("Current Node: " + villagerPosition);
-            //Debug.Log("Next Node: " + nextNode.position);
+            Debug.Log("Current Node: " + villagerPosition);
+            Debug.Log("Next Node: " + nextNode.position);
 
             Vector3 last = nextNode.position;
-            //Debug.Log("Distance to next node: " + Vector3.Distance(villagerPosition, last) + "<" + 1);
+            Debug.Log("Distance to next node: " + Vector3.Distance(villagerPosition, last) + "<" + 1);
             if (Vector3.Distance(villagerPosition, last) < 1)
             {
                 return true;
@@ -191,7 +191,7 @@ public class TownFolkAI : MonoBehaviour
             stateMachine.ChangeState(new SearchState(this));
             return false;
         }
-        //Debug.Log("Return false");
+        Debug.Log("Return false");
         return false;
     }
 
