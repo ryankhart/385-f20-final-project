@@ -19,8 +19,8 @@ public class ShowBuildingPlacementOnMap : MonoBehaviour
         buildingRadical.GetComponent<MeshRenderer>().material.color = red;
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    // Update is better than FixedUpdate - in FixedUpdate, the radical sometimes doesn't change color when it should
+    void Update()
     {
         // if building gets placed
         if(transform.position.y < 0.2)

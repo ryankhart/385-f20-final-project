@@ -52,7 +52,7 @@ public class SpawnVillagers : MonoBehaviour
             float jackZ = houses[currentNumHouses - 1].transform.position.z;
             GameObject jack = Instantiate(lumberjack, new Vector3(jackX, 0.439f, jackZ), Quaternion.identity);
             villagers.Add(jack);
-            GameObject.Find("Panel").GetComponent<UpdateVillagerList>().AddVillager(villagers.Count);
+            GameObject.Find("Panel").GetComponent<UpdateVillagerList>().AddVillagerToMenu(villagers.Count);
         }
 
 
