@@ -22,11 +22,11 @@ public class ShowBuildingPlacementOnMap : MonoBehaviour
     // Update is better than FixedUpdate - in FixedUpdate, the radical sometimes doesn't change color when it should
     void Update()
     {
-        // if building gets placed
-        if(transform.position.y < 0.2)
-        {
-            Destroy(buildingRadical);
-        }
+        //// if building gets placed
+        //if(transform.position.y < 0.2)
+        //{
+        //    Destroy(buildingRadical);
+        //}
 
         Vector3 radicalPosition = transform.position;
         radicalPosition.y = 0.1f;

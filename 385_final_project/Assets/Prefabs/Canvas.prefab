@@ -1533,7 +1533,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Villager\t\t\t\t\tRole\t\t\t\t\tStatus"
+  m_Text: "Villager\t\t\t\t\tTask\t\t\t\t\tStatus"
 --- !u!1 &4661684337558512867
 GameObject:
   m_ObjectHideFlags: 0

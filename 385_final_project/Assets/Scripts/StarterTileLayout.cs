@@ -46,6 +46,7 @@ public class StarterTileLayout : MonoBehaviour
         GeneratePlains();
         GenerateOtherTileGroups(waterTile, tileOffset, (int)(mapSize * mapSize * 0.25)); // up to 25% of map is water
         GenerateOtherTileGroups(rockTile, tileOffset, (int)(mapSize * mapSize * 0.15)); // up to 15% of map is rock
+        GenerateOtherTileGroups(rockTile, tileOffset, (int)(mapSize * mapSize * 0.09)); // up to 9% of map is rock
         GenerateEnvironObjs(tree, 0.2f); // up to 20 % of map has trees
         GenerateEnvironObjs(stone, 0.03f); // up to 3 % of map has stone
         GenerateEnvironObjs(copper, 0.01f); // up to 3 % of map has stone
@@ -53,62 +54,6 @@ public class StarterTileLayout : MonoBehaviour
         // position camera at the center
         gameCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         gameCamera.transform.position = new Vector3((mapSize / 2), 12, (mapSize / 2));
-        gameCamera.transform.rotation = Quaternion.Euler(90, 0, 0);
-
-        //PlacePlayer();
-    }
-
-    private void PlacePlayer()
-    {
-        Vector3 sparklePosition = gameCamera.transform.position;
-        System.Random rand = new System.Random();
-        int nextRandValue = 0;
-
-        int nextX = (int) sparklePosition.x - 1;
-        int nextZ = (int) sparklePosition.z - 1;
-
-        while (getTileTag(nextX, nextZ) != "PlainsTile")
-        {
-            rand = new System.Random(Guid.NewGuid().GetHashCode());
-            nextRandValue = rand.Next(0, 4);
-            switch (nextRandValue)
-            {
-                case 1: // west
-                    if (nextX - 1 >= 0)  // check if we are past the map edge
-                    {
-                        nextX -= 1;
-                    }
-                    break;
-                case 2: // east
-                    if (nextX + 1 < mapSize)  // check if we are past the map edge
-                    {
-                        nextX += 1;
-                    }
-                    break;
-                case 3: // south
-                    if (nextZ - 1 >= 0)  // check if we are past the map edge
-                    {
-                        nextZ -= 1;
-                    }
-                    break;
-                default: // north
-                    if (nextZ + 1 < mapSize)  // check if we are past the map edge
-                    {
-                        nextZ += 1;
-                    }
-                    break;
-            }
-        }
-        sparklePosition = TilePosition(nextX, 0, nextZ);
-        sparklePosition.x += centerOfTileOffset;
-        sparklePosition.z += centerOfTileOffset;
-        Instantiate(Sparkles, sparklePosition, Quaternion.Euler(-90, 0, 0));
-        sparklePosition.y += Player.transform.localScale.y;
-        Instantiate(Player, sparklePosition, Quaternion.Euler(0,0,0));
-
-        // reposition the camera to the where the player is
-        gameCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
-        gameCamera.transform.position = new Vector3((sparklePosition.x), 12, (sparklePosition.z));
         gameCamera.transform.rotation = Quaternion.Euler(90, 0, 0);
     }
 
@@ -131,7 +76,7 @@ public class StarterTileLayout : MonoBehaviour
         int indexX = rand.Next(0, mapSize);
         int indexZ = rand.Next(0, mapSize);
 
-        // destroy the plains tile
+        // destroy the previous tile (may not be plains -> makes more interesting maps)
         Destroy(tileMap[indexX, indexZ]);
 
         // place new terrain tile - this will be the origin of the group of terrain tiles
@@ -139,7 +84,7 @@ public class StarterTileLayout : MonoBehaviour
        
         int nextRandValue;
 
-        // randomly generate a group of water tiles
+        // randomly generate a group of tiles
         // postcondition: the number of tiles placed into the map is generally less than the percentage
         for (int i = 0; i < percentage;)
         {
@@ -193,11 +138,11 @@ public class StarterTileLayout : MonoBehaviour
     private void GenerateEnvironObjs(GameObject prefab, float surfaceCoverage)
     {
         System.Random rand = new System.Random(Guid.NewGuid().GetHashCode());
-        // seed position for a collectible
+        // seed position for a collectible group
         int nextX;
         int nextZ;
 
-        // produce random-sized groupings of stone TODO: copper, herbs?
+        // produce random-sized groupings of collectibles
         int groupSize = 0;
         int nextTile;
 
@@ -216,10 +161,11 @@ public class StarterTileLayout : MonoBehaviour
                     objPosition = InstaPrefab(prefab, nextX, nextZ);
                     tileMap[nextX, nextZ].gameObject.tag = "PlainsTileWithTree";
                 }
-                else // stone, will probably work for others, too
+                else
                 {
-                    // seed position for a collectible
+                    // seed position for a collectible group
                     objPosition = InstaPrefab(prefab, nextX, nextZ);
+                    tileMap[nextX, nextZ].gameObject.tag = "PlainsTileWithTree";
 
                     rand = new System.Random(Guid.NewGuid().GetHashCode());
                     groupSize = rand.Next(1, mapSize / 4);
@@ -228,7 +174,6 @@ public class StarterTileLayout : MonoBehaviour
                     {
                         nextTile = CreateResourceGroup(prefab, rand, ref nextX, ref nextZ, ref groupSize, ref objCount);
                         // TODO: either make it PlainsWithResource or add a PlainsWithStoneTile
-                        tileMap[nextX, nextZ].gameObject.tag = "PlainsTileWithTree";
                     }
                 }
                 objCount--;
@@ -298,6 +243,7 @@ public class StarterTileLayout : MonoBehaviour
     {
         objPosition = TilePosition(nextX + centerOfTileOffset, prefab.transform.localScale.y / 2, nextZ + centerOfTileOffset);
         Instantiate(prefab, objPosition, Quaternion.Euler(0, 0, 0)); // rotate to top down view
+        tileMap[nextX, nextZ].gameObject.tag = "PlainsTileWithTree";
         return objPosition;
     }
 
