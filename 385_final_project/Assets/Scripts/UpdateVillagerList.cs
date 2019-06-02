@@ -32,8 +32,8 @@ public class UpdateVillagerList : MonoBehaviour
 
         infoText.GetComponent<RectTransform>().localScale = panelTrans.lossyScale;
 
-        float x = panelTrans.position.x;
-        float y = header.transform.localScale.y + 150f;
+        float x = panelTrans.position.x - 599;
+        float y = header.transform.localScale.y + 170 - (30 * index);
         info.transform.localPosition = new Vector3(x, y, 0);
         info.transform.localScale = header.transform.lossyScale;
 
