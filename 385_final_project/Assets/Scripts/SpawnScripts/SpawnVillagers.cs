@@ -54,7 +54,7 @@ public class SpawnVillagers : MonoBehaviour
             string currentResource = jack.GetComponent<TownFolkAI>().lastResource;
             string state = jack.GetComponent<TownFolkAI>().state;
             villagers.Add(jack);
-            GameObject.Find("Panel").GetComponent<UpdateVillagerList>().AddVillagerToMenu(villagers.Count, jack);
+            GameObject.Find("VillagerInfo").GetComponent<UpdateVillagerUIList>().AddVillagerToMenu(villagers.Count, jack);
         }
 
 
