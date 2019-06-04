@@ -22,6 +22,7 @@ public class SpawnNewBuildings : MonoBehaviour
     // building manipulation
     private GameObject buildingToDrag;
     private bool draggingNewBuilding;
+    private bool selectedAndFloating;
 
     // building cost and resource spending
     private TrackStorageResources resourceCounterScript;
@@ -36,6 +37,7 @@ public class SpawnNewBuildings : MonoBehaviour
     void Start()
     {
         draggingNewBuilding = false;
+        selectedAndFloating = false;
     }
 
     private void Awake()
@@ -131,7 +133,14 @@ public class SpawnNewBuildings : MonoBehaviour
         // if user clicks on the left mouse button
         if (Input.GetMouseButtonDown(0))
         {
-            StartCoroutine(StopDraggingBuidling());
+            if (selectedAndFloating)
+            {
+                StopDraggingBuidling();
+            }
+            else
+            {
+                StartCoroutine(WaitInsteadOfDropping());
+            }
         }
         buildingToDrag = building;
         float posX = Input.mousePosition.x;
@@ -148,10 +157,9 @@ public class SpawnNewBuildings : MonoBehaviour
         }
     }
 
-    private IEnumerator StopDraggingBuidling()
+    private void StopDraggingBuidling()
     {
         // stop the dragging process
-        yield return new WaitForSeconds(.03f);
         draggingNewBuilding = false;
 
         // Since player is no longer dragging building, destry the radical showing where
@@ -159,6 +167,12 @@ public class SpawnNewBuildings : MonoBehaviour
         ShowBuildingPlacementOnMap script = buildingToDrag.GetComponent<ShowBuildingPlacementOnMap>();
         script.DestroyRadical();
         script.enabled = false;
+    }
+
+    private IEnumerator WaitInsteadOfDropping()
+    {
+        yield return new WaitForSeconds(1);
+        selectedAndFloating = true;
     }
 
     private void PlaceBuildingOnFreePlainsTile()
