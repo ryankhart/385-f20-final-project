@@ -24,12 +24,7 @@ public class SpawnNewBuildings : MonoBehaviour
     private bool draggingNewBuilding;
 
     // building cost and resource spending
-    // TODO: move onto building prefabs - this does not belong here
     private TrackStorageResources resourceCounterScript;
-    private Dictionary<string, int> homePrice = new Dictionary<string, int>()
-        {{"Tree", 5}};
-    private Dictionary<string, int> tavernPrice = new Dictionary<string, int>()
-        {{"Tree", 20}, {"Stone",10}};
 
     // offsets and other math stuff
     private Vector3 cameraMouseOffset;
@@ -91,7 +86,6 @@ public class SpawnNewBuildings : MonoBehaviour
 
     public void SelectBuildingFromDropdown(int index)
     {
-        // 0 = Building Menu - unselectable item, 1-4 = building options
         if (index != 0)
         {
             // position the building to the mouse cursor position
@@ -106,7 +100,7 @@ public class SpawnNewBuildings : MonoBehaviour
                 buildingToDrag = villageCenter;
 
             }
-            else if(index == 2)
+            else if (index == 2)
             {
                 GameObject newHouse = Instantiate(housePrefab, buildingPosition, Quaternion.identity);
                 newHouse.tag = "MovingBuilding";
@@ -130,7 +124,6 @@ public class SpawnNewBuildings : MonoBehaviour
             }
             draggingNewBuilding = true;
         }
-        // else do nothing - just the heading of the menu was selected
     }
 
     private void DragBuilding(GameObject building)
@@ -138,7 +131,7 @@ public class SpawnNewBuildings : MonoBehaviour
         // if user clicks on the left mouse button
         if (Input.GetMouseButtonDown(0))
         {
-            StopDraggingBuidling();
+            StartCoroutine(StopDraggingBuidling());
         }
         buildingToDrag = building;
         float posX = Input.mousePosition.x;
@@ -155,9 +148,10 @@ public class SpawnNewBuildings : MonoBehaviour
         }
     }
 
-    private void StopDraggingBuidling()
+    private IEnumerator StopDraggingBuidling()
     {
         // stop the dragging process
+        yield return new WaitForSeconds(.03f);
         draggingNewBuilding = false;
     }
 

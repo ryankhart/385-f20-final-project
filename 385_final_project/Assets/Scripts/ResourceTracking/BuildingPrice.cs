@@ -15,14 +15,14 @@ public class BuildingPrice : MonoBehaviour
         if(gameObject.name.Contains("House"))
         {
             price.Add("Tree",5);
-            price.Add("Stone", 0);
-            price.Add("Copper", 0);
+            //price.Add("Stone", 0);
+            //price.Add("Copper", 0);
         }
         else if (gameObject.name.Contains("Tavern"))
         {
             price.Add("Tree", 20);
             price.Add("Stone", 10);
-            price.Add("Copper", 0);
+            //price.Add("Copper", 0);
         }
         else if (gameObject.name.Contains("VillageCenter"))
         {
