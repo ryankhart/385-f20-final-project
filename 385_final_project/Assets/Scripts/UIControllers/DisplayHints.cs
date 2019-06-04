@@ -35,6 +35,12 @@ public class DisplayHints : MonoBehaviour
 
     public IEnumerator DisplayHint(string hintName)
     {
+        DisplayHint(hintName, 3);
+        yield return null;
+    }
+
+    public IEnumerator DisplayHint(string hintName, int forTime)
+    {
         CanvasGroup group = GetCanvasGroup(hintName);
         if (group != null)
         {
@@ -44,7 +50,7 @@ public class DisplayHints : MonoBehaviour
                 yield return null;
             }
         }
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(forTime);
         StartCoroutine(HideHint(hintName));
     }
 

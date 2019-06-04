@@ -38,7 +38,7 @@ public class UpdateVillagerUIList : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Every 2 seconds
+        // Every 1 second
         // Get new villager list and check it for status and current resource task
         if(Time.fixedTime >= timeToUpdate)
         {
