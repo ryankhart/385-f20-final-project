@@ -12,6 +12,7 @@ public class SpawnNewBuildings : MonoBehaviour
     public GameObject housePrefab;
     public GameObject tavernPrefab;
     public GameObject fortPrefab;
+    public GameObject farmPrefab;
     public new Camera camera;   // new is neccessary because this camera overrides some inherited camera
 
     // buidlings
@@ -104,19 +105,26 @@ public class SpawnNewBuildings : MonoBehaviour
             }
             else if (index == 2)
             {
+                GameObject newFarm = Instantiate(farmPrefab, buildingPosition, Quaternion.identity);
+                newFarm.tag = "MovingBuilding";
+                //houses.Add(newHouse);
+                buildingToDrag = newFarm;
+            }
+            else if (index == 3)
+            {
                 GameObject newHouse = Instantiate(housePrefab, buildingPosition, Quaternion.identity);
                 newHouse.tag = "MovingBuilding";
                 houses.Add(newHouse);
                 buildingToDrag = newHouse;
             }
-            else if(index == 3)
+            else if(index == 4)
             {
-                GameObject newHouse = Instantiate(fortPrefab, buildingPosition, Quaternion.identity);
-                newHouse.tag = "MovingBuilding";
+                GameObject newFort = Instantiate(fortPrefab, buildingPosition, Quaternion.identity);
+                newFort.tag = "MovingBuilding";
                 //houses.Add(newHouse);
-                buildingToDrag = newHouse;
+                buildingToDrag = newFort;
             }
-            else 
+            else if(index == 5)
             {
                 GameObject newTavern = Instantiate(tavernPrefab, buildingPosition, Quaternion.identity);
                 newTavern.tag = "MovingBuilding";
@@ -171,7 +179,7 @@ public class SpawnNewBuildings : MonoBehaviour
 
     private IEnumerator WaitInsteadOfDropping()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.7f);
         selectedAndFloating = true;
     }
 
@@ -208,6 +216,10 @@ public class SpawnNewBuildings : MonoBehaviour
                     {
                         buildingToDrag.tag = "Fort";
                     }
+                    else if (buildingToDrag.name.Contains("Farm"))
+                    {
+                        buildingToDrag.tag = "Farm";
+                    }
 
                     // pay for the building
                     Dictionary<string, int> price = buildingToDrag.GetComponent<BuildingPrice>().GetPrice();
@@ -219,6 +231,11 @@ public class SpawnNewBuildings : MonoBehaviour
                             Destroy(buildingToDrag);
                             return;
                         }
+                    }
+
+                    if (GameObject.FindGameObjectsWithTag("Farm").Length == 1)
+                    {
+                        StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("FarmFunctionHint", 5));
                     }
                 } 
                 else
@@ -232,7 +249,7 @@ public class SpawnNewBuildings : MonoBehaviour
             {
                 if(GameObject.FindGameObjectsWithTag("VillageCenter").Length == 1)
                 {
-                    StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("PlayerActionHint (1)"));
+                    StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("BuildFarmsHint", 5));
                 }
                 else
                 {
