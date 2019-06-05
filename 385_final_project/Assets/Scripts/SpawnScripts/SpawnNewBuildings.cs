@@ -179,7 +179,7 @@ public class SpawnNewBuildings : MonoBehaviour
 
     private IEnumerator WaitInsteadOfDropping()
     {
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.5f);
         selectedAndFloating = true;
     }
 
@@ -219,6 +219,13 @@ public class SpawnNewBuildings : MonoBehaviour
                     else if (buildingToDrag.name.Contains("Farm"))
                     {
                         buildingToDrag.tag = "Farm";
+                        if (GameObject.FindGameObjectsWithTag("Farm").Length == 1)
+                        {
+                            StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("FarmFunctionHint", 5));
+                            // BuildHousesHint will be delayed
+                            StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("BuildHousesHint", 5));
+                        }
+                        GameObject.Find("BuildMenuDropDown").GetComponent<DisableDropdownOptions>().DisplayFullMenu();
                     }
 
                     // pay for the building
@@ -231,11 +238,6 @@ public class SpawnNewBuildings : MonoBehaviour
                             Destroy(buildingToDrag);
                             return;
                         }
-                    }
-
-                    if (GameObject.FindGameObjectsWithTag("Farm").Length == 1)
-                    {
-                        StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("FarmFunctionHint", 5));
                     }
                 } 
                 else
@@ -250,6 +252,7 @@ public class SpawnNewBuildings : MonoBehaviour
                 if(GameObject.FindGameObjectsWithTag("VillageCenter").Length == 1)
                 {
                     StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("BuildFarmsHint", 5));
+                    GameObject.Find("BuildMenuDropDown").GetComponent<DisableDropdownOptions>().DisplayBiggerMenu();
                 }
                 else
                 {

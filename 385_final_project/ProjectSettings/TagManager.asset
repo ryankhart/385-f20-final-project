@@ -23,6 +23,7 @@ TagManager:
   - Fighter
   - Fort
   - Monsters
+  - Farm
   layers:
   - Default
   - TransparentFX
