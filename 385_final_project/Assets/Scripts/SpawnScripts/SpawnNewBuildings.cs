@@ -24,6 +24,7 @@ public class SpawnNewBuildings : MonoBehaviour
     private GameObject buildingToDrag;
     private bool draggingNewBuilding;
     private bool selectedAndFloating;
+    private Vector3 creationPosition;
 
     // building cost and resource spending
     private TrackStorageResources resourceCounterScript;
@@ -50,9 +51,9 @@ public class SpawnNewBuildings : MonoBehaviour
     void Update()
     {
         // check if user created village center yet
-        if(resourceCounterScript == null)
-        { 
-            if(GameObject.Find("VillageCenter(Clone)") != null)
+        if (resourceCounterScript == null)
+        {
+            if (GameObject.Find("VillageCenter(Clone)") != null)
             {
                 resourceCounterScript = GameObject.Find("VillageCenter(Clone)").GetComponent<TrackStorageResources>();
             }
@@ -65,6 +66,10 @@ public class SpawnNewBuildings : MonoBehaviour
             // 10 units below the camera, so that the player can see where the building is
             if (camera.transform.position.y > 8.99)
             {
+                if (buildingToDrag == null)
+                {
+                    return;
+                }
                 buildingToDrag.transform.position = camera.ScreenToWorldPoint(new Vector3(posX, posY, 9));
             }
             else
@@ -76,13 +81,24 @@ public class SpawnNewBuildings : MonoBehaviour
         }
         else
         {
-            if (buildingToDrag != null)
+            // player can place a building only if mouse has been moved away from the creation position
+            // because the creation position is usually the UI position
+            // this caused player to sometimes unintentionally place a building at the creation
+            // position by accidentally double-clicking
+            if (Vector3.Distance(creationPosition, Input.mousePosition) > 5)
             {
-                PlaceBuildingOnFreePlainsTile();
+                if (buildingToDrag != null)
+                {
+                    PlaceBuildingOnFreePlainsTile();
+                }
+                else
+                {
+                    StopDraggingBuidling();
+                }
             }
             else
             {
-                StopDraggingBuidling();
+                draggingNewBuilding = true;
             }
         }
     }
@@ -91,15 +107,15 @@ public class SpawnNewBuildings : MonoBehaviour
     {
         if (index != 0)
         {
-            if(buildingToDrag != null)
+            if (buildingToDrag != null)
             {
                 Destroy(buildingToDrag);
                 StopDraggingBuidling();
             }
             // position the building to the mouse cursor position
-            Vector3 mousePosition = Input.mousePosition;
+            creationPosition = Input.mousePosition;
             // camera is positioned at z = -10 => z = 9 means the object will appear 1 unit above the ground
-            Vector3 buildingPosition = camera.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, 9.0f));
+            Vector3 buildingPosition = camera.ScreenToWorldPoint(new Vector3(creationPosition.x, creationPosition.y, 9.0f));
 
             if (index == 1)
             {
@@ -122,18 +138,17 @@ public class SpawnNewBuildings : MonoBehaviour
                 houses.Add(newHouse);
                 buildingToDrag = newHouse;
             }
-            else if(index == 4)
+            else if (index == 4)
             {
                 GameObject newFort = Instantiate(fortPrefab, buildingPosition, Quaternion.identity);
                 newFort.tag = "MovingBuilding";
                 //houses.Add(newHouse);
                 buildingToDrag = newFort;
             }
-            else if(index == 5)
+            else if (index == 5)
             {
                 GameObject newTavern = Instantiate(tavernPrefab, buildingPosition, Quaternion.identity);
                 newTavern.tag = "MovingBuilding";
-                // TODO do I need these lists?
                 taverns.Add(newTavern);
                 buildingToDrag = newTavern;
             }
@@ -188,7 +203,7 @@ public class SpawnNewBuildings : MonoBehaviour
         int tileXIndex = (int)(buildingToDrag.transform.position.x / tileOffset);
         int tileZIndex = (int)(buildingToDrag.transform.position.z / tileOffset);
         string tileTag = tileLayoutScript.getTileTag(tileXIndex, tileZIndex);
-        if(tileTag == null)
+        if (tileTag == null)
         {
             Destroy(buildingToDrag);
             StopDraggingBuidling();
@@ -203,11 +218,11 @@ public class SpawnNewBuildings : MonoBehaviour
                 // if village center exists - village center stores resources
                 if (resourceCounterScript != null)
                 {
-                    if(buildingToDrag.name.Contains("House"))
+                    if (buildingToDrag.name.Contains("House"))
                     {
                         buildingToDrag.tag = "Home";
                     }
-                    else if(buildingToDrag.name.Contains("Tavern"))
+                    else if (buildingToDrag.name.Contains("Tavern"))
                     {
                         buildingToDrag.tag = "Tavern";
                     }
@@ -231,14 +246,14 @@ public class SpawnNewBuildings : MonoBehaviour
                     Dictionary<string, int> price = buildingToDrag.GetComponent<BuildingPrice>().GetPrice();
                     foreach (KeyValuePair<string, int> resource in price)
                     {
-                        if(resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value) == false)
+                        if (resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value) == false)
                         {
                             StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("NotEnoughHint"));
                             Destroy(buildingToDrag);
                             return;
                         }
                     }
-                } 
+                }
                 else
                 {
                     StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("NotEnoughHint"));
@@ -248,7 +263,7 @@ public class SpawnNewBuildings : MonoBehaviour
             }
             else
             {
-                if(GameObject.FindGameObjectsWithTag("VillageCenter").Length == 1)
+                if (GameObject.FindGameObjectsWithTag("VillageCenter").Length == 1)
                 {
                     StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("BuildFarmsHint", 5));
                     GameObject.Find("BuildMenuDropDown").GetComponent<DisableDropdownOptions>().DisplayBiggerMenu();
