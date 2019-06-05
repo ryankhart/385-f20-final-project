@@ -91,6 +91,11 @@ public class SpawnNewBuildings : MonoBehaviour
     {
         if (index != 0)
         {
+            if(buildingToDrag != null)
+            {
+                Destroy(buildingToDrag);
+                StopDraggingBuidling();
+            }
             // position the building to the mouse cursor position
             Vector3 mousePosition = Input.mousePosition;
             // camera is positioned at z = -10 => z = 9 means the object will appear 1 unit above the ground
