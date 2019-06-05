@@ -51,7 +51,10 @@ public class SpawnVillagers : MonoBehaviour
             float jackX = houses[currentNumHouses - 1].transform.position.x;
             float jackZ = houses[currentNumHouses - 1].transform.position.z;
             GameObject jack = Instantiate(lumberjack, new Vector3(jackX, 0.439f, jackZ), Quaternion.identity);
+            string currentResource = jack.GetComponent<TownFolkAI>().lastResource;
+            string state = jack.GetComponent<TownFolkAI>().state;
             villagers.Add(jack);
+            GameObject.Find("VillagerInfo").GetComponent<UpdateVillagerUIList>().AddVillagerToMenu(villagers.Count, jack);
         }
 
 
@@ -84,5 +87,10 @@ public class SpawnVillagers : MonoBehaviour
             }
            
         }
+    }
+
+    public List<GameObject> getVillagerList()
+    {
+        return villagers;
     }
 }

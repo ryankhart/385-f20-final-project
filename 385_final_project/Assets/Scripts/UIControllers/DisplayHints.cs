@@ -9,24 +9,24 @@ public class DisplayHints : MonoBehaviour
     //private CanvasGroup villagerOverviewHint;
 
     void Start()
-    { 
+    {
         buildingHint = transform.GetChild(0).GetComponent<CanvasGroup>();
-        // TODO: maybe won't be needed
-        //resourcesHint = transform.GetChild(1).GetComponent<CanvasGroup>();
-        //villagerOverviewHint = transform.GetChild(2).GetComponent<CanvasGroup>();
 
         StartCoroutine(WaitToDisplayBuildingHint());
     }
 
     private IEnumerator WaitToDisplayBuildingHint()
     {
-        yield return new WaitForSeconds(9);
-        if (buildingHint != null)
+        yield return new WaitForSeconds(2);
+        if (GameObject.FindGameObjectWithTag("VillageCenter") == null && GameObject.FindGameObjectWithTag("MovingBuilding") == null)
         {
-            while (buildingHint.alpha < 1)
+            if (buildingHint != null)
             {
-                buildingHint.alpha += Time.deltaTime;
-                yield return null;
+                while (buildingHint.alpha < 1)
+                {
+                    buildingHint.alpha += Time.deltaTime;
+                    yield return null;
+                }
             }
         }
 
@@ -44,21 +44,8 @@ public class DisplayHints : MonoBehaviour
                 yield return null;
             }
         }
-        // special case for game start - display player hints one after another
-        if (hintName == "PlayerActionHint (1)")
-        {
-            yield return new WaitForSeconds(3);
-            StartCoroutine(HideHint(hintName));
-            yield return new WaitForSeconds(2);
-            StartCoroutine(DisplayHint("PlayerActionHint (2)"));
-            yield return new WaitForSeconds(5);
-            StartCoroutine(HideHint("PlayerActionHint (2)"));
-        }
-        if(hintName == "NotEnoughHint")
-        {
-            yield return new WaitForSeconds(3);
-            StartCoroutine(HideHint(hintName));
-        }
+        yield return new WaitForSeconds(3);
+        StartCoroutine(HideHint(hintName));
     }
 
     public IEnumerator HideHint(string hintName)

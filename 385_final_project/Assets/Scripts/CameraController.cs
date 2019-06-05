@@ -31,21 +31,22 @@ public class CameraController : MonoBehaviour
         // Move camera relative to time, not to framerate by using Time.deltaTime.
         // if-else is not used because player should be able to press 2 separate
         // keys to go diagonally.
+        float panSpeed = Time.deltaTime * 10;
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
-            m_position.z += m_panSpeed * Time.deltaTime;
+            m_position.z += m_panSpeed * panSpeed;
         }
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
-            m_position.x -= m_panSpeed * Time.deltaTime;
+            m_position.x -= m_panSpeed * panSpeed;
         }
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
-            m_position.z -= m_panSpeed * Time.deltaTime;
+            m_position.z -= m_panSpeed * panSpeed;
         }
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
-            m_position.x += m_panSpeed * Time.deltaTime;
+            m_position.x += m_panSpeed * panSpeed;
         }
     }
 
@@ -53,15 +54,12 @@ public class CameraController : MonoBehaviour
     {
         // Basic camera zoom by adjusting camera position
         // Requires perspective mode to work
-        float zoomY = Input.mouseScrollDelta.y* m_zoomSpeed;
-        if (m_position.y - zoomY * m_zoomSpeed > 5)
+        float zoomY = Input.mouseScrollDelta.y * m_zoomSpeed;
+        if(zoomY == 0)
         {
-            m_position.y -= Input.mouseScrollDelta.y * m_zoomSpeed;
+            return;
         }
-        else
-        {
-            m_position.y = 5;
-        }
+        m_position.y = Mathf.Clamp(m_position.y - (zoomY * m_zoomSpeed), 5, 15);
     }
 
     void UpdatePosition()

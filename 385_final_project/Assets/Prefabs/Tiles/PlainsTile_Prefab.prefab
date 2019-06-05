@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6419781544089991160}
   - component: {fileID: 1884090960928717006}
+  - component: {fileID: 2487412093457950906}
   m_Layer: 0
   m_Name: PlainsTile_Prefab
   m_TagString: PlainsTile
@@ -79,3 +80,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!65 &2487412093457950906
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2135948993826295249}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.72, y: 1.72, z: 0.001}
+  m_Center: {x: 0, y: 0, z: 0}
