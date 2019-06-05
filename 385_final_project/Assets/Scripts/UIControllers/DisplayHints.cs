@@ -62,7 +62,6 @@ public class DisplayHints : MonoBehaviour
         }
         yield return new WaitForSeconds(forTime);
         StartCoroutine(HideHint(hintName));
-        print(hintName);
     }
 
     public IEnumerator HideHint(string hintName)
