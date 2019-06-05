@@ -321,9 +321,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be902eca932ab6b4fa187e0be294bde2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetObject: {fileID: 0}
   resourceTag: 
   lastResource: 
-  movementSpeed: 5
+  movementSpeed: 2
   toleranceRadius: 0.25
   collectionTime: 0
   intervalTime: 1

@@ -17,7 +17,7 @@ public class DisplayHints : MonoBehaviour
 
     private IEnumerator WaitToDisplayBuildingHint()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         if (GameObject.FindGameObjectWithTag("VillageCenter") == null && GameObject.FindGameObjectWithTag("MovingBuilding") == null)
         {
             if (buildingHint != null)
@@ -41,6 +41,16 @@ public class DisplayHints : MonoBehaviour
 
     public IEnumerator DisplayHint(string hintName, int forTime)
     {
+        if (hintName == "BuildHousesHint")
+        {
+            yield return new WaitForSeconds(5);
+        }
+        if (hintName == "VillagersOverview")
+        {
+            // 5 seconds is too long for this hint
+            yield return new WaitForSeconds(4);
+        }
+
         CanvasGroup group = GetCanvasGroup(hintName);
         if (group != null)
         {
@@ -52,6 +62,7 @@ public class DisplayHints : MonoBehaviour
         }
         yield return new WaitForSeconds(forTime);
         StartCoroutine(HideHint(hintName));
+        print(hintName);
     }
 
     public IEnumerator HideHint(string hintName)

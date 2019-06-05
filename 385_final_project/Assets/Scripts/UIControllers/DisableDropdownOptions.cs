@@ -37,18 +37,15 @@ public class DisableDropdownOptions : MonoBehaviour
         displayFullList = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void DisplayBiggerMenu()
     {
-        if (!displayFullList && GameObject.FindWithTag("VillageCenter") && GameObject.FindWithTag("Farm"))
-        {
-            dropdown.ClearOptions();
-            dropdown.AddOptions(completeList);
-        }
-        else if(!displayFullList && GameObject.FindWithTag("VillageCenter"))
-        {
-            dropdown.ClearOptions();
-            dropdown.AddOptions(biggerList);
-        }
+        dropdown.ClearOptions();
+        dropdown.AddOptions(biggerList);
+    }
+
+    public void DisplayFullMenu()
+    {
+        dropdown.ClearOptions();
+        dropdown.AddOptions(completeList);
     }
 }
