@@ -136,13 +136,14 @@ public class SpawnNewBuildings : MonoBehaviour
         }
     }
 
+    // methods for destroying building if user clicks on building menu to re-select building
+    // triggered by PointerEnter and PointerExit on BuildingMenuDropDown object
     public void MakeDestroyable()
     {
         GameObject floating = GameObject.FindWithTag("MovingBuilding");
         if (floating)
         {
             floating.tag = "DestroyThis";
-            print(floating.tag);
         }
     }
 
@@ -152,7 +153,6 @@ public class SpawnNewBuildings : MonoBehaviour
         if (floating)
         {
             floating.tag = "MovingBuilding";
-            print(floating.tag);
         }
     }
 
@@ -209,10 +209,6 @@ public class SpawnNewBuildings : MonoBehaviour
         string tileTag = tileLayoutScript.getTileTag(tileXIndex, tileZIndex);
         if (tileTag == null || buildingToDrag.tag == "DestroyThis")
         {
-            if(buildingToDrag.tag == "DestroyThis")
-            {
-                print("HIT");
-            }
             Destroy(buildingToDrag);
             buildingToDrag = null;
             StopDraggingBuidling();
