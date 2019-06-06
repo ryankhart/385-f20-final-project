@@ -51,6 +51,8 @@ public class SpawnNewBuildings : MonoBehaviour
     {
         GameObject tileLayoutStarter = GameObject.Find("TileLayoutStarter");
         tileLayoutScript = tileLayoutStarter.GetComponent<StarterTileLayout>();
+
+        InvokeRepeating("DestroyFloaterBuildings", 10, 0.5f);
     }
 
     void Update()
@@ -104,6 +106,35 @@ public class SpawnNewBuildings : MonoBehaviour
             else
             {
                 draggingNewBuilding = true;
+            }
+        }
+    }
+
+    private void DestroyFloaterBuildings()
+    {
+        print("DESTROYING");
+        GameObject[] floaters = GameObject.FindGameObjectsWithTag("MovingBuilding");
+        foreach(GameObject floater in floaters)
+        { 
+            if(floater.transform.position.y > 0.27)
+            {
+                if (!floater.Equals(buildingToDrag))
+                {
+                    Destroy(floater);
+                    print("Found one");
+                }
+            }
+        }
+        floaters = GameObject.FindGameObjectsWithTag("VillageCenter");
+        foreach (GameObject floater in floaters)
+        {
+            if (floater.transform.position.y > 0.27)
+            {
+                if (!floater.Equals(buildingToDrag))
+                {
+                    Destroy(floater);
+                    print("Found one");
+                }
             }
         }
     }
@@ -267,6 +298,7 @@ public class SpawnNewBuildings : MonoBehaviour
             buildingToDrag = null;
             StopDraggingBuidling();
             startClickTime = Time.time;
+
         }
         else
         {
