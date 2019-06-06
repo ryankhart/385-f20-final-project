@@ -162,6 +162,7 @@ public class GridManager : MonoBehaviour
         } 
     }
     
+    /*
     // Show Debug Grids and obstacles inside the editor
     private void OnDrawGizmos()
     {
@@ -207,4 +208,6 @@ public class GridManager : MonoBehaviour
             Debug.DrawLine(startPos, endPos, color);
         }
     }
+    */
+    
 }

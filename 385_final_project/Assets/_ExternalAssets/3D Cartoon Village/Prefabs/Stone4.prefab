@@ -9,10 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4232488454136694}
-  - component: {fileID: 6957764086718181}
   m_Layer: 0
   m_Name: Stone4
-  m_TagString: Stone
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32,19 +31,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6957764086718181
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1017815435935544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8c5f1dbafa0daf429ffc1cf4742f353, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  numberOfResources: 3
 --- !u!1 &1128990092503394
 GameObject:
   m_ObjectHideFlags: 0
