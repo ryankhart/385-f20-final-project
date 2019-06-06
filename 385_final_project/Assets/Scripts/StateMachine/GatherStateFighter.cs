@@ -14,7 +14,7 @@ public class GatherStateFighter : IState
 
     public void Enter()
     {
-        Debug.Log("Entering Fighting State");
+       
         owner.state = "Fight";
     }
 
@@ -25,6 +25,5 @@ public class GatherStateFighter : IState
 
     public void Exit()
     {
-        Debug.Log("exiting Fighting state");
     }
 }
