@@ -7,7 +7,7 @@ public class BuildingPrice : MonoBehaviour
     private Dictionary<string, int> price;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         // can't use tags because upon initiation, building have MovingBuilding tag
         // TODO resolve
@@ -28,13 +28,13 @@ public class BuildingPrice : MonoBehaviour
         {
             price.Add("Tree", 50);
             price.Add("Stone", 20);
-            price.Add("Copper", 0);
+            price.Add("Copper", 10);
         }
         else if (gameObject.name.Contains("Fort"))
         {
-            price.Add("Tree", 0);
+            //price.Add("Tree", 0);
             price.Add("Stone", 10);
-            price.Add("Copper", 0);
+            //price.Add("Copper", 0);
         }
         else if (gameObject.name.Contains("Farm"))
         {
