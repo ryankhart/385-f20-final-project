@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -255,6 +256,23 @@ public class SpawnNewBuildings : MonoBehaviour
                     if (buildingToDrag.name.Contains("House"))
                     {
                         buildingToDrag.tag = "Home";
+
+                        SpawnVillagers script = GameObject.Find("VillagerSpawner").GetComponent<SpawnVillagers>();
+                        int villagerNum = 0;
+                        if (script == null || script.villagers?.Any() != true)
+                        {
+                            villagerNum = 0;
+                        }
+                        else
+                        {
+                            villagerNum = script.getVillagerList().Count;
+                        }
+                        Text foodCount = GameObject.Find("FarmFoodCount").GetComponent<Text>(); 
+                        int currFoodCount = int.Parse(foodCount.text);
+                        if (currFoodCount < 5 * villagerNum + 5)
+                        {
+                            StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("NotEnoughFood", 4));
+                        }
                     }
                     else if (buildingToDrag.name.Contains("Tavern"))
                     {
