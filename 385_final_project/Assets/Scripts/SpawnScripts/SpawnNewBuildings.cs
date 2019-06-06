@@ -136,9 +136,24 @@ public class SpawnNewBuildings : MonoBehaviour
         }
     }
 
-    public void DestroyCurrentlySelectedBuilding()
+    public void MakeDestroyable()
     {
-        endClickTime = Time.time;
+        GameObject floating = GameObject.FindWithTag("MovingBuilding");
+        if (floating)
+        {
+            floating.tag = "DestroyThis";
+            print(floating.tag);
+        }
+    }
+
+    public void MakeUndestroyable()
+    {
+        GameObject floating = GameObject.FindWithTag("DestroyThis");
+        if (floating)
+        {
+            floating.tag = "MovingBuilding";
+            print(floating.tag);
+        }
     }
 
     private void DragBuilding(GameObject building)
@@ -192,8 +207,12 @@ public class SpawnNewBuildings : MonoBehaviour
         int tileXIndex = (int)(buildingToDrag.transform.position.x / tileOffset);
         int tileZIndex = (int)(buildingToDrag.transform.position.z / tileOffset);
         string tileTag = tileLayoutScript.getTileTag(tileXIndex, tileZIndex);
-        if (tileTag == null)
+        if (tileTag == null || buildingToDrag.tag == "DestroyThis")
         {
+            if(buildingToDrag.tag == "DestroyThis")
+            {
+                print("HIT");
+            }
             Destroy(buildingToDrag);
             buildingToDrag = null;
             StopDraggingBuidling();
@@ -237,7 +256,7 @@ public class SpawnNewBuildings : MonoBehaviour
                 }
                 else
                 {
-                    StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("NotEnoughHint"));
+                    StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("NotEnoughHint", 4));
                     Destroy(buildingToDrag);
                     return;
                 }
