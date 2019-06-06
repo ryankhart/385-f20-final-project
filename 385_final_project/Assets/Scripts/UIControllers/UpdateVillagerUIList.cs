@@ -38,7 +38,7 @@ public class UpdateVillagerUIList : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Every 2 seconds
+        // Every 1 second
         // Get new villager list and check it for status and current resource task
         if(Time.fixedTime >= timeToUpdate)
         {
@@ -75,7 +75,7 @@ public class UpdateVillagerUIList : MonoBehaviour
     {
         Text id = Instantiate(villID, containerTrans);
         float x = container.transform.localScale.x - 890;
-        float y = containerTrans.localScale.y + 830 - (40 * index);
+        float y = containerTrans.localScale.y + 805 - (40 * index);
         id.transform.localPosition = new Vector3(x, y, 0);
         id.text = "Villager " + index;
         villIDs.Add(id);

@@ -12,6 +12,7 @@ public class SpawnNewBuildings : MonoBehaviour
     public GameObject housePrefab;
     public GameObject tavernPrefab;
     public GameObject fortPrefab;
+    public GameObject farmPrefab;
     public new Camera camera;   // new is neccessary because this camera overrides some inherited camera
 
     // buidlings
@@ -22,6 +23,7 @@ public class SpawnNewBuildings : MonoBehaviour
     // building manipulation
     private GameObject buildingToDrag;
     private bool draggingNewBuilding;
+    private Vector3 creationPosition;
 
     // building cost and resource spending
     private TrackStorageResources resourceCounterScript;
@@ -42,14 +44,16 @@ public class SpawnNewBuildings : MonoBehaviour
     {
         GameObject tileLayoutStarter = GameObject.Find("TileLayoutStarter");
         tileLayoutScript = tileLayoutStarter.GetComponent<StarterTileLayout>();
+
+        InvokeRepeating("DestroyRogueFloaterBuildings", 10, 0.5f);
     }
 
     void Update()
     {
         // check if user created village center yet
-        if(resourceCounterScript == null)
-        { 
-            if(GameObject.Find("VillageCenter(Clone)") != null)
+        if (resourceCounterScript == null)
+        {
+            if (GameObject.Find("VillageCenter(Clone)") != null)
             {
                 resourceCounterScript = GameObject.Find("VillageCenter(Clone)").GetComponent<TrackStorageResources>();
             }
@@ -62,6 +66,10 @@ public class SpawnNewBuildings : MonoBehaviour
             // 10 units below the camera, so that the player can see where the building is
             if (camera.transform.position.y > 8.99)
             {
+                if (buildingToDrag == null)
+                {
+                    return;
+                }
                 buildingToDrag.transform.position = camera.ScreenToWorldPoint(new Vector3(posX, posY, 9));
             }
             else
@@ -73,13 +81,48 @@ public class SpawnNewBuildings : MonoBehaviour
         }
         else
         {
-            if (buildingToDrag != null)
+            // player can place a building only if mouse has been moved away from the creation position
+            // because the creation position is usually the UI position
+            if (Vector3.Distance(creationPosition, Input.mousePosition) > 7)
             {
-                PlaceBuildingOnFreePlainsTile();
+                if (buildingToDrag != null)
+                {
+                    PlaceBuildingOnFreePlainsTile();
+                }
+                else
+                {
+                    StopDraggingBuidling();
+                }
             }
             else
             {
-                StopDraggingBuidling();
+                draggingNewBuilding = true;
+            }
+        }
+    }
+
+    private void DestroyRogueFloaterBuildings()
+    {
+        GameObject[] floaters = GameObject.FindGameObjectsWithTag("MovingBuilding");
+        foreach (GameObject floater in floaters)
+        {
+            if (floater.transform.position.y > 0.27)
+            {
+                if (!floater.Equals(buildingToDrag))
+                {
+                    Destroy(floater);
+                }
+            }
+        }
+        floaters = GameObject.FindGameObjectsWithTag("VillageCenter");
+        foreach (GameObject floater in floaters)
+        {
+            if (floater.transform.position.y > 0.27)
+            {
+                if (!floater.Equals(buildingToDrag))
+                {
+                    Destroy(floater);
+                }
             }
         }
     }
@@ -89,9 +132,9 @@ public class SpawnNewBuildings : MonoBehaviour
         if (index != 0)
         {
             // position the building to the mouse cursor position
-            Vector3 mousePosition = Input.mousePosition;
+            creationPosition = Input.mousePosition;
             // camera is positioned at z = -10 => z = 9 means the object will appear 1 unit above the ground
-            Vector3 buildingPosition = camera.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, 9.0f));
+            Vector3 buildingPosition = camera.ScreenToWorldPoint(new Vector3(creationPosition.x, creationPosition.y, 9.0f));
 
             if (index == 1)
             {
@@ -102,27 +145,53 @@ public class SpawnNewBuildings : MonoBehaviour
             }
             else if (index == 2)
             {
+                GameObject newFarm = Instantiate(farmPrefab, buildingPosition, Quaternion.identity);
+                newFarm.tag = "MovingBuilding";
+                //houses.Add(newHouse);
+                buildingToDrag = newFarm;
+            }
+            else if (index == 3)
+            {
                 GameObject newHouse = Instantiate(housePrefab, buildingPosition, Quaternion.identity);
                 newHouse.tag = "MovingBuilding";
                 houses.Add(newHouse);
                 buildingToDrag = newHouse;
             }
-            else if(index == 3)
+            else if (index == 4)
             {
-                GameObject newHouse = Instantiate(fortPrefab, buildingPosition, Quaternion.identity);
-                newHouse.tag = "MovingBuilding";
+                GameObject newFort = Instantiate(fortPrefab, buildingPosition, Quaternion.identity);
+                newFort.tag = "MovingBuilding";
                 //houses.Add(newHouse);
-                buildingToDrag = newHouse;
+                buildingToDrag = newFort;
             }
-            else 
+            else if (index == 5)
             {
                 GameObject newTavern = Instantiate(tavernPrefab, buildingPosition, Quaternion.identity);
                 newTavern.tag = "MovingBuilding";
-                // TODO do I need these lists?
                 taverns.Add(newTavern);
                 buildingToDrag = newTavern;
             }
             draggingNewBuilding = true;
+        }
+    }
+
+    // methods for destroying building if user clicks on building menu to re-select building
+    // triggered by PointerEnter and PointerExit on BuildingMenuDropDown object
+    public void MakeDestroyable()
+    {
+        GameObject floating = GameObject.FindWithTag("MovingBuilding");
+        if (floating)
+        {
+            floating.tag = "DestroyThis";
+        }
+    }
+
+    public void MakeUndestroyable()
+    {
+        GameObject floating = GameObject.FindWithTag("DestroyThis");
+        if (floating)
+        {
+            floating.tag = "MovingBuilding";
         }
     }
 
@@ -131,7 +200,8 @@ public class SpawnNewBuildings : MonoBehaviour
         // if user clicks on the left mouse button
         if (Input.GetMouseButtonDown(0))
         {
-            StartCoroutine(StopDraggingBuidling());
+            StopDraggingBuidling();
+
         }
         buildingToDrag = building;
         float posX = Input.mousePosition.x;
@@ -148,17 +218,10 @@ public class SpawnNewBuildings : MonoBehaviour
         }
     }
 
-    private IEnumerator StopDraggingBuidling()
+    private void StopDraggingBuidling()
     {
-        // stop the dragging process
-        yield return new WaitForSeconds(.03f);
+        // stop dragging, building can now be placed on map (or destroyed)
         draggingNewBuilding = false;
-
-        // Since player is no longer dragging building, destry the radical showing where
-        // building will be placed.
-        ShowBuildingPlacementOnMap script = buildingToDrag.GetComponent<ShowBuildingPlacementOnMap>();
-        script.DestroyRadical();
-        script.enabled = false;
     }
 
     private void PlaceBuildingOnFreePlainsTile()
@@ -167,9 +230,10 @@ public class SpawnNewBuildings : MonoBehaviour
         int tileXIndex = (int)(buildingToDrag.transform.position.x / tileOffset);
         int tileZIndex = (int)(buildingToDrag.transform.position.z / tileOffset);
         string tileTag = tileLayoutScript.getTileTag(tileXIndex, tileZIndex);
-        if(tileTag == null)
+        if (tileTag == null || buildingToDrag.tag == "DestroyThis")
         {
             Destroy(buildingToDrag);
+            buildingToDrag = null;
             StopDraggingBuidling();
             return;
         }
@@ -182,11 +246,11 @@ public class SpawnNewBuildings : MonoBehaviour
                 // if village center exists - village center stores resources
                 if (resourceCounterScript != null)
                 {
-                    if(buildingToDrag.name.Contains("House"))
+                    if (buildingToDrag.name.Contains("House"))
                     {
                         buildingToDrag.tag = "Home";
                     }
-                    else if(buildingToDrag.name.Contains("Tavern"))
+                    else if (buildingToDrag.name.Contains("Tavern"))
                     {
                         buildingToDrag.tag = "Tavern";
                     }
@@ -194,59 +258,68 @@ public class SpawnNewBuildings : MonoBehaviour
                     {
                         buildingToDrag.tag = "Fort";
                     }
-
-                    // pay for the building
-                    Dictionary<string, int> price = buildingToDrag.GetComponent<BuildingPrice>().GetPrice();
-                    foreach (KeyValuePair<string, int> resource in price)
+                    else if (buildingToDrag.name.Contains("Farm"))
                     {
-                        if(resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value) == false)
+                        buildingToDrag.tag = "Farm";
+                        // if this is the first farm in the game
+                        if (GameObject.FindGameObjectsWithTag("Farm").Length == 1)
                         {
-                            StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("NotEnoughHint"));
-                            Destroy(buildingToDrag);
-                            return;
+                            StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("FarmFunctionHint", 5));
+                            // BuildHousesHint will be delayed
+                            StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("BuildHousesHint", 5));
                         }
+                        GameObject.Find("BuildMenuDropDown").GetComponent<DisableDropdownOptions>().DisplayFullMenu();
                     }
-                } 
+
+                    PayThePrice();
+                }
                 else
                 {
-                    StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("NotEnoughHint"));
+                    StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("NotEnoughHint", 4));
                     Destroy(buildingToDrag);
                     return;
                 }
             }
             else
             {
-                if(GameObject.FindGameObjectsWithTag("VillageCenter").Length == 1)
+                // if this is the first village center
+                if (GameObject.FindGameObjectsWithTag("VillageCenter").Length == 1)
                 {
-                    StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("PlayerActionHint (1)"));
+                    StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("BuildFarmsHint", 5));
+                    GameObject.Find("BuildMenuDropDown").GetComponent<DisableDropdownOptions>().DisplayBiggerMenu();
                 }
                 else
                 {
-                    Dictionary<string, int> price = buildingToDrag.GetComponent<BuildingPrice>().GetPrice();
-
-                    foreach (KeyValuePair<string, int> resource in price)
-                    {
-                        if (resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value) == false)
-                        {
-                            StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("NotEnoughHint"));
-                            Destroy(buildingToDrag);
-                            return;
-                        }
-                    }
+                    PayThePrice();
                 }
             }
 
-            buildingToDrag.transform.position = new Vector3(tileXIndex * tileOffset + centerOffset, 0, tileZIndex * tileOffset + centerOffset);
+            buildingToDrag.transform.position = new Vector3(tileXIndex * tileOffset + centerOffset, 0.25f, tileZIndex * tileOffset + centerOffset);
             tileLayoutScript.setTileTag(tileXIndex, tileZIndex, "PlainsTileWithBuilding");
 
-            // stop holding onto this building
             buildingToDrag = null;
             StopDraggingBuidling();
+
         }
         else
         {
             // continue dragging the building
             draggingNewBuilding = true;
+        }
+    }
+
+    private void PayThePrice()
+    {
+        Dictionary<string, int> price = buildingToDrag.GetComponent<BuildingPrice>().GetPrice();
+
+        foreach (KeyValuePair<string, int> resource in price)
+        {
+            if (resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value) == false)
+            {
+                StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("NotEnoughHint", 4));
+                Destroy(buildingToDrag);
+                return;
+            }
         }
     }
 }

@@ -36,6 +36,10 @@ public class BuildingPrice : MonoBehaviour
             price.Add("Stone", 10);
             price.Add("Copper", 0);
         }
+        else if (gameObject.name.Contains("Farm"))
+        {
+            price.Add("Tree", 3);
+        }
     }
 
     public Dictionary<string, int> GetPrice()
