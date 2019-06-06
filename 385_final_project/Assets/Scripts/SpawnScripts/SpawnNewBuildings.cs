@@ -300,7 +300,7 @@ public class SpawnNewBuildings : MonoBehaviour
                 }
             }
 
-            buildingToDrag.transform.position = new Vector3(tileXIndex * tileOffset + centerOffset, 0.25f, tileZIndex * tileOffset + centerOffset);
+            buildingToDrag.transform.position = new Vector3(tileXIndex * tileOffset + centerOffset, 0, tileZIndex * tileOffset + centerOffset);
             tileLayoutScript.setTileTag(tileXIndex, tileZIndex, "PlainsTileWithBuilding");
 
             buildingToDrag = null;
