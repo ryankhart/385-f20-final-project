@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,9 +34,6 @@ public class FighterAI : MonoBehaviour
 
     public int nodesOfMovement = 1;
     public int inventory = 0;
-
-    public bool flee = false;
-    public bool last = true;
 
     public StateMachine stateMachine = new StateMachine();
     public string state;
@@ -94,7 +87,6 @@ public class FighterAI : MonoBehaviour
         }
         else if (checkIfAtDestination(villagerPosition))
         {
-            Debug.Log("Testing");
             //If target is too close that means we need to peform an action!
             //Check to make sure object is there.
             if (targetObject != null)
@@ -106,11 +98,8 @@ public class FighterAI : MonoBehaviour
                 }
                 else if (resourceTag == "Fort")
                 {
-                    if (waitTownFolk(60))
-                    {
-                        setTag("Monsters");
-                        stateMachine.ChangeState(new SearchStateFighter(this));
-                    }  
+                    setTag("Monsters");
+                    stateMachine.ChangeState(new SearchStateFighter(this));
                 }
             }
         }
@@ -129,24 +118,23 @@ public class FighterAI : MonoBehaviour
 
     public bool checkIfAtDestination(Vector3 villagerPosition)
     {
-        Debug.Log("Checking Last");
+       
         if (pathArray.Count == 0)
         {
             return true;
         }
 
         Node nextNode = (Node)pathArray[pathArray.Count - 1];
-        Debug.Log("Current Node: " + villagerPosition);
-        Debug.Log("Last Node: " + nextNode.position);
+      
         Vector3 last = nextNode.position;
-        Debug.Log("Distance to last node: " + Vector3.Distance(villagerPosition, last) + "<" + toleranceRadius);
+        
         if (Vector3.Distance(villagerPosition, last) < toleranceRadius)
         {
 
             return true;
         }
 
-        Debug.Log("Return false");
+       
         return false;
     }
 
@@ -159,18 +147,17 @@ public class FighterAI : MonoBehaviour
     {
         try
         {
-            Debug.Log("Checking Node");
+            
             if (pathArray.Count == 0 || nodesOfMovement > pathArray.Count - 1)
             {
                 return true;
             }
 
             Node nextNode = (Node)pathArray[nodesOfMovement];
-            Debug.Log("Current Node: " + villagerPosition);
-            Debug.Log("Next Node: " + nextNode.position);
+           
 
             Vector3 last = nextNode.position;
-            Debug.Log("Distance to next node: " + Vector3.Distance(villagerPosition, last) + "<" + 1);
+           
             if (Vector3.Distance(villagerPosition, last) < 1)
             {
                 return true;
@@ -183,7 +170,7 @@ public class FighterAI : MonoBehaviour
             stateMachine.ChangeState(new SearchStateFighter(this));
             return false;
         }
-        Debug.Log("Return false");
+       
         return false;
     }
    
@@ -227,7 +214,7 @@ public class FighterAI : MonoBehaviour
             //Check if we can get the next node or if we are too close
             if (nodesOfMovement < pathArray.Count && pathArray.Count != 1 && nodesOfMovement > 0)
             {
-                Debug.Log("Picking next node");
+               
                 //Gets the next node
                 Node nextNode = (Node)pathArray[nodesOfMovement];
                 //Sets the target Point to the nodes position
@@ -236,7 +223,7 @@ public class FighterAI : MonoBehaviour
                 //nodesOfMovement = 1;
             }
         }
-        catch (Exception e)
+        catch
         {
         }
 
