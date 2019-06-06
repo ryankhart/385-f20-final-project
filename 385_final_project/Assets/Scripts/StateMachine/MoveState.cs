@@ -18,7 +18,7 @@ public class MoveState : IState
 
     public void Execute()
     {
-        owner.moveToDestination();
+
         Vector3 villagerPosition = owner.transform.position;
         villagerPosition.y = 0;
 
@@ -32,8 +32,16 @@ public class MoveState : IState
             {
                 owner.nodesOfMovement++;
                 owner.FindNode();
+                if (owner.nodesOfMovement > 5)
+                {
+                    owner.stateMachine.ChangeState(new SearchState(owner));
+                }
             }
 
+        }
+        else
+        {
+            owner.moveToDestination();
         }
     }
 
