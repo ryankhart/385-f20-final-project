@@ -9,8 +9,7 @@ public class TrackStorageResources : MonoBehaviour
     private GameObject woodCount;
     private GameObject stoneCount;
     private GameObject copperCount;
-    // TODO:
-    private Text herbCount;
+    private GameObject foodCount;
 
     // Start is called before the first frame update
     void Start()
@@ -18,11 +17,12 @@ public class TrackStorageResources : MonoBehaviour
         resources.Add("Tree", 0);
         resources.Add("Stone", 0);
         resources.Add("Copper", 0);
-        resources.Add("Herb", 0);
+        resources.Add("Food", 0);
 
         woodCount = GameObject.Find("WoodCount");
         stoneCount = GameObject.Find("StoneCount");
         copperCount = GameObject.Find("CopperCount");
+        foodCount = GameObject.Find("FarmFoodCount");
     }
 
     // Update is called once per frame
@@ -71,6 +71,20 @@ public class TrackStorageResources : MonoBehaviour
             {
                 return false;
             }
+        }
+        return true;
+    }
+
+    public void AddFoodUnits(int numUnits)
+    {
+        foodCount.GetComponent<UpdateResourceCounter>().SetCount(numUnits);
+    }
+
+    public bool SubtractFoodUnits(int numUnits)
+    {
+        if(foodCount.GetComponent<UpdateResourceCounter>().SetCount(- numUnits) < 0)
+        {
+            return false;
         }
         return true;
     }

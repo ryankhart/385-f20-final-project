@@ -54,9 +54,14 @@ public class SpawnVillagers : MonoBehaviour
             string currentResource = jack.GetComponent<TownFolkAI>().lastResource;
             string state = jack.GetComponent<TownFolkAI>().state;
             villagers.Add(jack);
+            if(villagers.Count == 1)
+            {
+                DisplayHints script = GameObject.Find("Hints").GetComponent<DisplayHints>();
+                StartCoroutine(script.DisplayHint("VillagersFunctionHint", 5));
+                StartCoroutine(script.DisplayHint("VillagersOverview", 5));
+            }
             GameObject.Find("VillagerInfo").GetComponent<UpdateVillagerUIList>().AddVillagerToMenu(villagers.Count, jack);
         }
-
 
         if (currentNumForts > 0 && fighters.Count < currentNumForts && fighters.Count <= mapSize)
         {
