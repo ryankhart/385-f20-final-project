@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class SpawnVillagers : MonoBehaviour
@@ -11,13 +12,15 @@ public class SpawnVillagers : MonoBehaviour
     private int mapSize;
     private int currentNumHouses = 0;
     private int currentNumForts = 0;
-    private List<GameObject> villagers;
+    public List<GameObject> villagers;
     private List<GameObject> monsters;
     private List<GameObject> fighters;
     private GameObject[] houses;
     private GameObject[] forts;
     private StarterTileLayout mapStarterScript;
     private float elapsedTime = 0.0f;
+
+    private Text foodCount;
 
     //private float tileOffset = 0.86f;
     //private float centerOffset = 0.43f;
@@ -35,6 +38,8 @@ public class SpawnVillagers : MonoBehaviour
         villagers = new List<GameObject>(mapSize);
         monsters = new List<GameObject>(mapSize);
         fighters = new List<GameObject>(mapSize);
+
+        foodCount = GameObject.Find("FarmFoodCount").GetComponent<Text>();
     }
 
     private void Update()
@@ -47,20 +52,24 @@ public class SpawnVillagers : MonoBehaviour
         currentNumForts = forts.Length;
         if (currentNumHouses > 0 && villagers.Count < currentNumHouses && villagers.Count <= mapSize)
         {
-            // spawn villager at current home
-            float jackX = houses[currentNumHouses - 1].transform.position.x;
-            float jackZ = houses[currentNumHouses - 1].transform.position.z;
-            GameObject jack = Instantiate(lumberjack, new Vector3(jackX, 0.439f, jackZ), Quaternion.identity);
-            string currentResource = jack.GetComponent<TownFolkAI>().lastResource;
-            string state = jack.GetComponent<TownFolkAI>().state;
-            villagers.Add(jack);
-            if(villagers.Count == 1)
+            int currFoodCount = int.Parse(foodCount.text);
+            if (currFoodCount > 5 * villagers.Count + 5)
             {
-                DisplayHints script = GameObject.Find("Hints").GetComponent<DisplayHints>();
-                StartCoroutine(script.DisplayHint("VillagersFunctionHint", 5));
-                StartCoroutine(script.DisplayHint("VillagersOverview", 5));
+                // spawn villager at current home
+                float jackX = houses[currentNumHouses - 1].transform.position.x;
+                float jackZ = houses[currentNumHouses - 1].transform.position.z;
+                GameObject jack = Instantiate(lumberjack, new Vector3(jackX, 0.439f, jackZ), Quaternion.identity);
+                string currentResource = jack.GetComponent<TownFolkAI>().lastResource;
+                string state = jack.GetComponent<TownFolkAI>().state;
+                villagers.Add(jack);
+                if (villagers.Count == 1)
+                {
+                    DisplayHints script = GameObject.Find("Hints").GetComponent<DisplayHints>();
+                    StartCoroutine(script.DisplayHint("VillagersFunctionHint", 5));
+                    StartCoroutine(script.DisplayHint("VillagersOverview", 5));
+                }
+                GameObject.Find("VillagerInfo").GetComponent<UpdateVillagerUIList>().AddVillagerToMenu(villagers.Count, jack);
             }
-            GameObject.Find("VillagerInfo").GetComponent<UpdateVillagerUIList>().AddVillagerToMenu(villagers.Count, jack);
         }
 
         if (currentNumForts > 0 && fighters.Count < currentNumForts && fighters.Count <= mapSize)

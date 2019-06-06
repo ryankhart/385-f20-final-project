@@ -52,16 +52,14 @@ public class DisableDropdownOptions : MonoBehaviour
     public void DisplayFullMenu()
     {
         dropdown.ClearOptions();
+        dropdown.AddOptions(completeList);
         foreach (Dropdown.OptionData item in completeList)
         {
             if (!item.text.Contains("-------"))
             {
-                print(item.text);
                 item.text  = AddPriceTagsToMenu(item.text);
-                print(item.text);
             }
         }
-        dropdown.AddOptions(completeList);
     }
 
     private string AddPriceTagsToMenu(string itemName)
