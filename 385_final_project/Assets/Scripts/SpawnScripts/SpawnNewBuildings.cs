@@ -161,14 +161,8 @@ public class SpawnNewBuildings : MonoBehaviour
         // if user clicks on the left mouse button
         if (Input.GetMouseButtonDown(0))
         {
-            if (selectedAndFloating)
-            {
                 StopDraggingBuidling();
-            }
-            else
-            {
-                StartCoroutine(WaitInsteadOfDropping());
-            }
+            
         }
         buildingToDrag = building;
         float posX = Input.mousePosition.x;
@@ -189,12 +183,6 @@ public class SpawnNewBuildings : MonoBehaviour
     {
         // stop the dragging process
         draggingNewBuilding = false;
-    }
-
-    private IEnumerator WaitInsteadOfDropping()
-    {
-        yield return new WaitForSeconds(0.5f);
-        selectedAndFloating = true;
     }
 
     private void PlaceBuildingOnFreePlainsTile()
