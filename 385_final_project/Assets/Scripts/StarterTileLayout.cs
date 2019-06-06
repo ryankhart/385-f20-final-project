@@ -8,7 +8,9 @@ public class StarterTileLayout : MonoBehaviour
     public GameObject plainsTile;
     public GameObject waterTile;
     public GameObject rockTile;
-    public GameObject tree;
+    public GameObject tree1;
+    public GameObject tree2;
+    public GameObject tree3;
     public GameObject stone;
     public GameObject copper;
     public GameObject GridCreator;
@@ -47,9 +49,11 @@ public class StarterTileLayout : MonoBehaviour
         GenerateOtherTileGroups(waterTile, tileOffset, (int)(mapSize * mapSize * 0.25)); // up to 25% of map is water
         GenerateOtherTileGroups(rockTile, tileOffset, (int)(mapSize * mapSize * 0.15)); // up to 15% of map is rock
         GenerateOtherTileGroups(rockTile, tileOffset, (int)(mapSize * mapSize * 0.09)); // up to 9% of map is rock
-        GenerateEnvironObjs(tree, 0.2f); // up to 20 % of map has trees
-        GenerateEnvironObjs(stone, 0.03f); // up to 3 % of map has stone
-        GenerateEnvironObjs(copper, 0.01f); // up to 3 % of map has stone
+        GenerateEnvironObjs(stone, 0.03f); // up to 3% of map has stone
+        GenerateEnvironObjs(copper, 0.01f); // up to 1% of map has stone
+        GenerateEnvironObjs(tree1, 0.066f); // up to 6.6% of map has tree1 trees
+        GenerateEnvironObjs(tree2, 0.066f); // up to 6.6% of map has tree2 trees
+        GenerateEnvironObjs(tree3, 0.066f); // up to 6.6% of map has tree3 trees
 
         // position camera at the center
         gameCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();

@@ -50,7 +50,9 @@ MonoBehaviour:
     type: 3}
   rockTile: {fileID: 6063934138720175809, guid: 24fa9dd261ec9420f8ae126d50f2b356,
     type: 3}
-  tree: {fileID: 1671842898175696237, guid: 198552a339acc493fb5971128dac8fdb, type: 3}
+  tree1: {fileID: 1889348010867752, guid: bd6dc9bf7490c6041ada3763e75e72b4, type: 3}
+  tree2: {fileID: 1747409973826270, guid: e3a30058d7c317b499aa53ba75e8639c, type: 3}
+  tree3: {fileID: 1121491542805914, guid: 1f7e4b604d112b1468b4b92975077771, type: 3}
   stone: {fileID: 4762198758383142385, guid: 8943121b8a1a0124ba383301d9f9a7e5, type: 3}
   copper: {fileID: 2583634300225348696, guid: f0881a228ff8e7e4bb2b748403e7d2f1, type: 3}
   GridCreator: {fileID: 1798288494717168613, guid: 592c314d6e9519e4aa1307015914fe71,
