@@ -14,7 +14,7 @@ public class TownFolkAI : MonoBehaviour
     private float movementSpeed = 5.0f;
     private float rotationSpeed = 10f;
     [SerializeField]
-    private float toleranceRadius = .25f;
+    private float toleranceRadius = .5f;
 
     private float currentSpeed;
     private Vector3 targetPoint;
@@ -315,8 +315,14 @@ public class TownFolkAI : MonoBehaviour
             return;
         }
 
-        targetObject.GetComponent<ResourceCounter>().numberOfResources -= 1;
-        inventory += 1;
+
+        if (collectionTime >= 3)
+        {
+            targetObject.GetComponent<ResourceCounter>().numberOfResources -= 1;
+            inventory += 1;
+            collectionTime -= 3;
+        }
+       
 
 
         if(inventory == 1)

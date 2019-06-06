@@ -13,13 +13,11 @@ public class SearchState : IState
 
     public void Enter()
     {
-        //Debug.Log("Entering Searching State");
         owner.state = "Search";
     }
 
     public void Execute()
     {
-        //Debug.Log("Searching");
         owner.FindPath();
         owner.FindNode();
         if(owner.targetObject != null)
@@ -38,6 +36,5 @@ public class SearchState : IState
 
     public void Exit()
     {
-        //Debug.Log("exiting Moving state");
     }
 }

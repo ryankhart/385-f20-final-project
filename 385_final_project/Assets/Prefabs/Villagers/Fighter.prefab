@@ -323,7 +323,7 @@ MonoBehaviour:
   targetObject: {fileID: 0}
   resourceTag: Fort
   lastResource: 
-  movementSpeed: 5
+  movementSpeed: 1
   toleranceRadius: 0.25
   collectionTime: 0
   intervalTime: 1
@@ -331,6 +331,4 @@ MonoBehaviour:
   gridManager: {fileID: 0}
   nodesOfMovement: 1
   inventory: 0
-  flee: 0
-  last: 1
   state: 
