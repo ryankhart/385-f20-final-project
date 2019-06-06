@@ -113,6 +113,10 @@ public class TownFolkAI : MonoBehaviour
                 {
                     ProcessResource();
                 }
+                else if (resourceTag == "Copper")
+                {
+                    ProcessResource();
+                }
                 else if(resourceTag == "Tavern")
                 {
                     if (waitTownFolk(20))
@@ -217,16 +221,21 @@ public class TownFolkAI : MonoBehaviour
 
     private void setResource()
     {
-        int rand = UnityEngine.Random.Range(1, 4);
+        int rand = UnityEngine.Random.Range(0, 6);
         if(rand <= 2)
         {
             resourceTag = "Tree";
             lastResource = "Tree";
         }
-        else
+        else if(rand <= 4)
         {
             resourceTag = "Stone";
             lastResource = "Stone";
+        }
+        else
+        {
+            resourceTag = "Copper";
+            lastResource = "Copper";
         }
     }
 

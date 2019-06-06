@@ -29,7 +29,8 @@ public class SearchState : IState
             owner.setTag("Home");
             if (owner.targetObject != null)
             {
-                //if still null just wait;
+                //Try again
+                owner.stateMachine.ChangeState(new MoveState(owner));
             }
         }
     }

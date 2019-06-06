@@ -25,6 +25,7 @@ TagManager:
   - Monsters
   - Farm
   - DestroyThis
+  - Copper
   layers:
   - Default
   - TransparentFX
