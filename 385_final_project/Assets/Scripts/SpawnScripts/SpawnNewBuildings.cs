@@ -156,7 +156,9 @@ public class SpawnNewBuildings : MonoBehaviour
 
         // Since player is no longer dragging building, destry the radical showing where
         // building will be placed.
-        buildingToDrag.GetComponent<ShowBuildingPlacementOnMap>().DestroyRadical();
+        ShowBuildingPlacementOnMap script = buildingToDrag.GetComponent<ShowBuildingPlacementOnMap>();
+        script.DestroyRadical();
+        script.enabled = false;
     }
 
     private void PlaceBuildingOnFreePlainsTile()
