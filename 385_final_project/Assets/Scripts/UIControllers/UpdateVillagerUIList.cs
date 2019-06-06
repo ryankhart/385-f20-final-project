@@ -75,7 +75,7 @@ public class UpdateVillagerUIList : MonoBehaviour
     {
         Text id = Instantiate(villID, containerTrans);
         float x = container.transform.localScale.x - 890;
-        float y = containerTrans.localScale.y + 830 - (40 * index);
+        float y = containerTrans.localScale.y + 805 - (40 * index);
         id.transform.localPosition = new Vector3(x, y, 0);
         id.text = "Villager " + index;
         villIDs.Add(id);

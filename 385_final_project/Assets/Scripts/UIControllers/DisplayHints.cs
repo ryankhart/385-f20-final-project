@@ -29,13 +29,7 @@ public class DisplayHints : MonoBehaviour
                 }
             }
         }
-
-        yield return null;
-    }
-
-    public IEnumerator DisplayHint(string hintName)
-    {
-        DisplayHint(hintName, 3);
+        HideHint("BuildingHint");
         yield return null;
     }
 

@@ -115,7 +115,7 @@ RectTransform:
   m_GameObject: {fileID: 74152661004091624}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.35693747, y: 0.94, z: 0.94}
+  m_LocalScale: {x: 0.37032264, y: 0.8460094, z: 0.94}
   m_Children: []
   m_Father: {fileID: 3257450545198823108}
   m_RootOrder: 0
@@ -408,8 +408,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7587716024188344243}
   m_HandleRect: {fileID: 903124601040595796}
   m_Direction: 3
-  m_Value: 0.9712007
-  m_Size: 0.3209271
+  m_Value: 0.9712008
+  m_Size: 0.32092714
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1041,7 +1041,7 @@ RectTransform:
   m_GameObject: {fileID: 1313370789601353031}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.35693747, y: 0.94, z: 0.94}
+  m_LocalScale: {x: 0.35693747, y: 0.83425, z: 0.94}
   m_Children: []
   m_Father: {fileID: 3257450545198823108}
   m_RootOrder: 2
@@ -1566,7 +1566,7 @@ RectTransform:
   m_GameObject: {fileID: 2582456970886382701}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.35693747, y: 0.94, z: 0.94}
+  m_LocalScale: {x: 0.35693747, y: 0.85775936, z: 0.94}
   m_Children: []
   m_Father: {fileID: 3257450545198823108}
   m_RootOrder: 1
@@ -1646,7 +1646,7 @@ RectTransform:
   m_GameObject: {fileID: 2935214845811274643}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 6.500001}
-  m_LocalScale: {x: 5.6221986, y: 3.2613537, z: 1.4677085}
+  m_LocalScale: {x: 6.6763606, y: 3.791324, z: 1.4677085}
   m_Children:
   - {fileID: 3834178906361325845}
   - {fileID: 691160894567860176}
@@ -1656,7 +1656,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 85, y: 70}
+  m_AnchoredPosition: {x: 59, y: 5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7846447925866896628
@@ -1916,7 +1916,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Farms produce food overtime
+  m_Text: Farms produce food over time
 --- !u!1 &4210774876998564563
 GameObject:
   m_ObjectHideFlags: 0
@@ -4915,13 +4915,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 4
+  - eventID: 0
     callback:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 9160705598833285030, guid: ed0445493deda49b2942fe5f34f15b37,
             type: 3}
-          m_MethodName: DestroyCurrentlySelectedBuilding
+          m_MethodName: MakeDestroyable
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 9160705598833285030, guid: ed0445493deda49b2942fe5f34f15b37,
+            type: 3}
+          m_MethodName: MakeUndestroyable
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

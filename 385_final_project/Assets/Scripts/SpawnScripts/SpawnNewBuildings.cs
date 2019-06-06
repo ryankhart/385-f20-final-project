@@ -52,7 +52,7 @@ public class SpawnNewBuildings : MonoBehaviour
         GameObject tileLayoutStarter = GameObject.Find("TileLayoutStarter");
         tileLayoutScript = tileLayoutStarter.GetComponent<StarterTileLayout>();
 
-        InvokeRepeating("DestroyFloaterBuildings", 10, 0.5f);
+        InvokeRepeating("DestroyRogueFloaterBuildings", 10, 0.5f);
     }
 
     void Update()
@@ -90,8 +90,6 @@ public class SpawnNewBuildings : MonoBehaviour
         {
             // player can place a building only if mouse has been moved away from the creation position
             // because the creation position is usually the UI position
-            // this caused player to sometimes unintentionally place a building at the creation
-            // position by accidentally double-clicking
             if (Vector3.Distance(creationPosition, Input.mousePosition) > 7)
             {
                 if (buildingToDrag != null)
@@ -110,9 +108,8 @@ public class SpawnNewBuildings : MonoBehaviour
         }
     }
 
-    private void DestroyFloaterBuildings()
+    private void DestroyRogueFloaterBuildings()
     {
-        print("DESTROYING");
         GameObject[] floaters = GameObject.FindGameObjectsWithTag("MovingBuilding");
         foreach(GameObject floater in floaters)
         { 
@@ -121,7 +118,6 @@ public class SpawnNewBuildings : MonoBehaviour
                 if (!floater.Equals(buildingToDrag))
                 {
                     Destroy(floater);
-                    print("Found one");
                 }
             }
         }
@@ -133,7 +129,6 @@ public class SpawnNewBuildings : MonoBehaviour
                 if (!floater.Equals(buildingToDrag))
                 {
                     Destroy(floater);
-                    print("Found one");
                 }
             }
         }
@@ -188,9 +183,24 @@ public class SpawnNewBuildings : MonoBehaviour
         }
     }
 
-    public void DestroyCurrentlySelectedBuilding()
+    public void MakeDestroyable()
     {
-        endClickTime = Time.time;
+        GameObject floating = GameObject.FindWithTag("MovingBuilding");
+        if (floating)
+        {
+            floating.tag = "DestroyThis";
+            print(floating.tag);
+        }
+    }
+
+    public void MakeUndestroyable()
+    {
+        GameObject floating = GameObject.FindWithTag("DestroyThis");
+        if (floating)
+        {
+            floating.tag = "MovingBuilding";
+            print(floating.tag);
+        }
     }
 
     private void DragBuilding(GameObject building)
@@ -228,8 +238,12 @@ public class SpawnNewBuildings : MonoBehaviour
         int tileXIndex = (int)(buildingToDrag.transform.position.x / tileOffset);
         int tileZIndex = (int)(buildingToDrag.transform.position.z / tileOffset);
         string tileTag = tileLayoutScript.getTileTag(tileXIndex, tileZIndex);
-        if (tileTag == null)
+        if (tileTag == null || buildingToDrag.tag == "DestroyThis")
         {
+            if(buildingToDrag.tag == "DestroyThis")
+            {
+                print("HIT");
+            }
             Destroy(buildingToDrag);
             buildingToDrag = null;
             StopDraggingBuidling();
@@ -273,7 +287,7 @@ public class SpawnNewBuildings : MonoBehaviour
                 }
                 else
                 {
-                    StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("NotEnoughHint"));
+                    StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("NotEnoughHint", 4));
                     Destroy(buildingToDrag);
                     return;
                 }
@@ -315,7 +329,7 @@ public class SpawnNewBuildings : MonoBehaviour
         {
             if (resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value) == false)
             {
-                StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("NotEnoughHint"));
+                StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("NotEnoughHint", 4));
                 Destroy(buildingToDrag);
                 return;
             }
