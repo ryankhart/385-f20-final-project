@@ -322,7 +322,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetObject: {fileID: 0}
   townFolkTag: TownFolk
-  movementSpeed: 5
+  movementSpeed: 1
   toleranceRadius: 0.25
   intervalTime: 1
   nodesOfMovement: 1
