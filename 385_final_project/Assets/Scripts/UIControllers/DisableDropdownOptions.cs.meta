@@ -3,7 +3,17 @@ guid: 6ee88e59a1f474bad85676a61499383d
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - housePrefab: {fileID: 1174366297928151700, guid: e818fd5208d881d40a771bffbde03a59,
+      type: 3}
+  - farmPrefab: {fileID: 2659870190805139880, guid: 642c08f51207f488b9b01d0940b7bf5a,
+      type: 3}
+  - fortPrefab: {fileID: 1174366297928151700, guid: f1485dc61e17d854eaed4707133e5300,
+      type: 3}
+  - villCenterPrefab: {fileID: 6969227837521944263, guid: 3e745e7c3561041129cf7b06d8c5ee0f,
+      type: 3}
+  - tavernPrefab: {fileID: 1174366297928151700, guid: 833deefc7c3a646eda961b8aba6544aa,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
