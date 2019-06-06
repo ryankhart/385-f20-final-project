@@ -14,7 +14,7 @@ public class TownFolkAI : MonoBehaviour
     private float movementSpeed = 5.0f;
     private float rotationSpeed = 10f;
     [SerializeField]
-    private float toleranceRadius = .25f;
+    private float toleranceRadius = .5f;
 
     private float currentSpeed;
     private Vector3 targetPoint;
@@ -34,9 +34,6 @@ public class TownFolkAI : MonoBehaviour
 
     public int nodesOfMovement = 1;
     public int inventory = 0;
-   
-    public bool flee = false;
-    public bool last = true;
 
     public StateMachine stateMachine = new StateMachine();
     public string state;
@@ -48,7 +45,7 @@ public class TownFolkAI : MonoBehaviour
         gridManager = GridCreator.GetComponent<GridManager>();
         //Calculate the path using our AStart code.
         pathArray = new ArrayList();
-        setResoruce();
+        setResource();
         stateMachine.ChangeState(new SearchState(this));
     }
 
@@ -91,7 +88,6 @@ public class TownFolkAI : MonoBehaviour
         }
         else if(checkIfAtDestination(villagerPosition))
         {
-            Debug.Log("Testing");
             //If target is too close that means we need to peform an action!
             //Check to make sure object is there.
             if (targetObject != null)
@@ -142,24 +138,19 @@ public class TownFolkAI : MonoBehaviour
 
     public bool checkIfAtDestination(Vector3 villagerPosition)
     {
-        Debug.Log("Checking Last");
         if (pathArray.Count == 0)
         {
             return true;
         }
 
         Node nextNode = (Node)pathArray[pathArray.Count - 1];
-        Debug.Log("Current Node: " + villagerPosition);
-        Debug.Log("Last Node: " + nextNode.position);
         Vector3 last = nextNode.position;
-        Debug.Log("Distance to last node: " + Vector3.Distance(villagerPosition, last) + "<" + toleranceRadius);
         if (Vector3.Distance(villagerPosition, last) < toleranceRadius)
         {
            
             return true;
         }
 
-        Debug.Log("Return false");
         return false;
     }
 
@@ -167,19 +158,16 @@ public class TownFolkAI : MonoBehaviour
     {
         try
         {
-            Debug.Log("Checking Node");
             if (pathArray.Count == 0 || nodesOfMovement > pathArray.Count - 1)
             {
                 return true;
             }
 
             Node nextNode = (Node)pathArray[nodesOfMovement];
-            Debug.Log("Current Node: " + villagerPosition);
-            Debug.Log("Next Node: " + nextNode.position);
 
             Vector3 last = nextNode.position;
-            Debug.Log("Distance to next node: " + Vector3.Distance(villagerPosition, last) + "<" + 1);
-            if (Vector3.Distance(villagerPosition, last) < 1)
+          
+            if (Vector3.Distance(villagerPosition, last) < .25)
             {
                 return true;
             }
@@ -191,7 +179,6 @@ public class TownFolkAI : MonoBehaviour
             stateMachine.ChangeState(new SearchState(this));
             return false;
         }
-        Debug.Log("Return false");
         return false;
     }
 
@@ -205,7 +192,7 @@ public class TownFolkAI : MonoBehaviour
                 targetObject.GetComponent<TrackStorageResources>().AddResourceUnits(lastResource, inventory);
                 inventory = 0;
                 targetObject = null;
-                resourceTag = lastResource;
+                setResource();
                 stateMachine.ChangeState(new SearchState(this));
             }
         }
@@ -228,7 +215,7 @@ public class TownFolkAI : MonoBehaviour
         resourceTag = tag;
     }
 
-    private void setResoruce()
+    private void setResource()
     {
         int rand = UnityEngine.Random.Range(1, 4);
         if(rand <= 2)
@@ -283,7 +270,6 @@ public class TownFolkAI : MonoBehaviour
             //Check if we can get the next node or if we are too close
             if (nodesOfMovement < pathArray.Count && pathArray.Count != 1 && nodesOfMovement > 0)
             {
-                Debug.Log("Picking next node");
                 //Gets the next node
                 Node nextNode = (Node)pathArray[nodesOfMovement];
                 //Sets the target Point to the nodes position
@@ -292,8 +278,9 @@ public class TownFolkAI : MonoBehaviour
                 //nodesOfMovement = 1;
             }
         }
-        catch (Exception e)
+        catch (Exception)
         {
+
         }
 
     }
@@ -328,8 +315,14 @@ public class TownFolkAI : MonoBehaviour
             return;
         }
 
-        targetObject.GetComponent<ResourceCounter>().numberOfResources -= 1;
-        inventory += 1;
+
+        if (collectionTime >= 3)
+        {
+            targetObject.GetComponent<ResourceCounter>().numberOfResources -= 1;
+            inventory += 1;
+            collectionTime -= 3;
+        }
+       
 
 
         if(inventory == 1)

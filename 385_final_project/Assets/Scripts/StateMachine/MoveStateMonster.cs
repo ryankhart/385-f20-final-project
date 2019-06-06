@@ -13,37 +13,40 @@ public class MoveStateMonster : IState
 
     public void Enter()
     {
-        Debug.Log("Entering Moving State");
         owner.state = "Move";
     }
 
     public void Execute()
     {
-        Debug.Log("Moving Unit");
-        owner.moveToDestination();
         Vector3 villagerPosition = owner.transform.position;
         villagerPosition.y = 0;
 
         if (owner.checkIfAtNode(villagerPosition))
         {
-            Debug.Log("At Node!");
             if (owner.checkIfAtDestination(villagerPosition))
             {
                 owner.stateMachine.ChangeState(new AttackStateMonster(owner));
             }
             else
             {
-                Debug.Log("Node of Movement up by 1");
                 owner.nodesOfMovement++;
                 owner.FindNode();
+                if(owner.nodesOfMovement > 5)
+                {
+                    owner.stateMachine.ChangeState(new SearchStateMonster(owner));
+                }
             }
 
         }
-        Debug.Log("Done moving!");
+        else
+        {
+            owner.moveToDestination();
+           
+        }
     }
 
     public void Exit()
     {
-        Debug.Log("exiting Moving state");
+      
     }
 }

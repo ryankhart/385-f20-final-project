@@ -321,18 +321,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be902eca932ab6b4fa187e0be294bde2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetObject: {fileID: 0}
   resourceTag: 
   lastResource: 
-  movementSpeed: 5
-  toleranceRadius: 0.25
+  movementSpeed: 1
+  toleranceRadius: 0.5
   collectionTime: 0
   intervalTime: 1
   GridCreator: {fileID: 0}
   gridManager: {fileID: 0}
   nodesOfMovement: 1
   inventory: 0
-  flee: 0
-  last: 1
   state: 
 --- !u!1001 &6469635402864432861
 PrefabInstance:
@@ -341,10 +340,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4603560805218864699}
     m_Modifications:
-    - target: {fileID: 199908, guid: 435c5a16465919d4e95555cea77d41fa, type: 3}
-      propertyPath: m_Name
-      value: Axe
-      objectReference: {fileID: 0}
     - target: {fileID: 475506, guid: 435c5a16465919d4e95555cea77d41fa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.226
@@ -400,6 +395,10 @@ PrefabInstance:
     - target: {fileID: 475506, guid: 435c5a16465919d4e95555cea77d41fa, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.38107
+      objectReference: {fileID: 0}
+    - target: {fileID: 199908, guid: 435c5a16465919d4e95555cea77d41fa, type: 3}
+      propertyPath: m_Name
+      value: Axe
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 435c5a16465919d4e95555cea77d41fa, type: 3}
