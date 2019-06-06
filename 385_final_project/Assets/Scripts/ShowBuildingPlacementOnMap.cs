@@ -52,6 +52,11 @@ public class ShowBuildingPlacementOnMap : MonoBehaviour
         }
     }
 
+    public void DestroyRadical()
+    {
+        Destroy(buildingRadical);
+    }
+
     void OnDestroy()
     {
         Destroy(buildingRadical);
