@@ -45,7 +45,7 @@ public class TownFolkAI : MonoBehaviour
         gridManager = GridCreator.GetComponent<GridManager>();
         //Calculate the path using our AStart code.
         pathArray = new ArrayList();
-        setResoruce();
+        setResource();
         stateMachine.ChangeState(new SearchState(this));
     }
 
@@ -192,7 +192,7 @@ public class TownFolkAI : MonoBehaviour
                 targetObject.GetComponent<TrackStorageResources>().AddResourceUnits(lastResource, inventory);
                 inventory = 0;
                 targetObject = null;
-                resourceTag = lastResource;
+                setResource();
                 stateMachine.ChangeState(new SearchState(this));
             }
         }
@@ -215,7 +215,7 @@ public class TownFolkAI : MonoBehaviour
         resourceTag = tag;
     }
 
-    private void setResoruce()
+    private void setResource()
     {
         int rand = UnityEngine.Random.Range(1, 4);
         if(rand <= 2)

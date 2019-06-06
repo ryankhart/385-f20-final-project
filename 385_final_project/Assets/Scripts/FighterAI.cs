@@ -158,7 +158,7 @@ public class FighterAI : MonoBehaviour
 
             Vector3 last = nextNode.position;
            
-            if (Vector3.Distance(villagerPosition, last) < 1)
+            if (Vector3.Distance(villagerPosition, last) < .25)
             {
                 return true;
             }
