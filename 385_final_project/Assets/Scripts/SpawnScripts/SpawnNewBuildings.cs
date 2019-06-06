@@ -91,11 +91,6 @@ public class SpawnNewBuildings : MonoBehaviour
     {
         if (index != 0)
         {
-            if (buildingToDrag != null)
-            {
-                Destroy(buildingToDrag);
-                StopDraggingBuidling();
-            }
             // position the building to the mouse cursor position
             creationPosition = Input.mousePosition;
             // camera is positioned at z = -10 => z = 9 means the object will appear 1 unit above the ground
@@ -137,7 +132,13 @@ public class SpawnNewBuildings : MonoBehaviour
                 buildingToDrag = newTavern;
             }
             draggingNewBuilding = true;
+            tempBuilding = buildingToDrag;
         }
+    }
+
+    public void DestroyCurrentlySelectedBuilding()
+    {
+        endClickTime = Time.time;
     }
 
     private void DragBuilding(GameObject building)
@@ -194,6 +195,7 @@ public class SpawnNewBuildings : MonoBehaviour
         if (tileTag == null)
         {
             Destroy(buildingToDrag);
+            buildingToDrag = null;
             StopDraggingBuidling();
             return;
         }
@@ -221,6 +223,7 @@ public class SpawnNewBuildings : MonoBehaviour
                     else if (buildingToDrag.name.Contains("Farm"))
                     {
                         buildingToDrag.tag = "Farm";
+                        // if this is the first farm in the game
                         if (GameObject.FindGameObjectsWithTag("Farm").Length == 1)
                         {
                             StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("FarmFunctionHint", 5));
@@ -230,17 +233,7 @@ public class SpawnNewBuildings : MonoBehaviour
                         GameObject.Find("BuildMenuDropDown").GetComponent<DisableDropdownOptions>().DisplayFullMenu();
                     }
 
-                    // pay for the building
-                    Dictionary<string, int> price = buildingToDrag.GetComponent<BuildingPrice>().GetPrice();
-                    foreach (KeyValuePair<string, int> resource in price)
-                    {
-                        if (resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value) == false)
-                        {
-                            StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("NotEnoughHint"));
-                            Destroy(buildingToDrag);
-                            return;
-                        }
-                    }
+                    PayThePrice();
                 }
                 else
                 {
@@ -251,6 +244,7 @@ public class SpawnNewBuildings : MonoBehaviour
             }
             else
             {
+                // if this is the first village center
                 if (GameObject.FindGameObjectsWithTag("VillageCenter").Length == 1)
                 {
                     StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("BuildFarmsHint", 5));
