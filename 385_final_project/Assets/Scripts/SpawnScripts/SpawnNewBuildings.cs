@@ -23,7 +23,10 @@ public class SpawnNewBuildings : MonoBehaviour
     // building manipulation
     private GameObject buildingToDrag;
     private bool draggingNewBuilding;
-    private bool selectedAndFloating;
+    private Vector3 creationPosition;
+    private bool destroyThePrefab;
+    private GameObject tempBuilding;
+    private bool firstTime;
 
     // building cost and resource spending
     private TrackStorageResources resourceCounterScript;
@@ -38,21 +41,24 @@ public class SpawnNewBuildings : MonoBehaviour
     void Start()
     {
         draggingNewBuilding = false;
-        selectedAndFloating = false;
+        destroyThePrefab = false;
+        firstTime = true;
     }
 
     private void Awake()
     {
         GameObject tileLayoutStarter = GameObject.Find("TileLayoutStarter");
         tileLayoutScript = tileLayoutStarter.GetComponent<StarterTileLayout>();
+
+        InvokeRepeating("DestroyRogueFloaterBuildings", 10, 0.5f);
     }
 
     void Update()
     {
         // check if user created village center yet
-        if(resourceCounterScript == null)
-        { 
-            if(GameObject.Find("VillageCenter(Clone)") != null)
+        if (resourceCounterScript == null)
+        {
+            if (GameObject.Find("VillageCenter(Clone)") != null)
             {
                 resourceCounterScript = GameObject.Find("VillageCenter(Clone)").GetComponent<TrackStorageResources>();
             }
@@ -65,6 +71,10 @@ public class SpawnNewBuildings : MonoBehaviour
             // 10 units below the camera, so that the player can see where the building is
             if (camera.transform.position.y > 8.99)
             {
+                if (buildingToDrag == null)
+                {
+                    return;
+                }
                 buildingToDrag.transform.position = camera.ScreenToWorldPoint(new Vector3(posX, posY, 9));
             }
             else
@@ -76,13 +86,48 @@ public class SpawnNewBuildings : MonoBehaviour
         }
         else
         {
-            if (buildingToDrag != null)
+            // player can place a building only if mouse has been moved away from the creation position
+            // because the creation position is usually the UI position
+            if (Vector3.Distance(creationPosition, Input.mousePosition) > 7)
             {
-                PlaceBuildingOnFreePlainsTile();
+                if (buildingToDrag != null)
+                {
+                    PlaceBuildingOnFreePlainsTile();
+                }
+                else
+                {
+                    StopDraggingBuidling();
+                }
             }
             else
             {
-                StopDraggingBuidling();
+                draggingNewBuilding = true;
+            }
+        }
+    }
+
+    private void DestroyRogueFloaterBuildings()
+    {
+        GameObject[] floaters = GameObject.FindGameObjectsWithTag("MovingBuilding");
+        foreach (GameObject floater in floaters)
+        {
+            if (floater.transform.position.y > 0.27)
+            {
+                if (!floater.Equals(buildingToDrag))
+                {
+                    Destroy(floater);
+                }
+            }
+        }
+        floaters = GameObject.FindGameObjectsWithTag("VillageCenter");
+        foreach (GameObject floater in floaters)
+        {
+            if (floater.transform.position.y > 0.27)
+            {
+                if (!floater.Equals(buildingToDrag))
+                {
+                    Destroy(floater);
+                }
             }
         }
     }
@@ -161,12 +206,8 @@ public class SpawnNewBuildings : MonoBehaviour
         // if user clicks on the left mouse button
         if (Input.GetMouseButtonDown(0))
         {
-                StopDraggingBuidling();
-            }
-            else
-            {
-                StartCoroutine(WaitInsteadOfDropping());
-            }
+            StopDraggingBuidling();
+
         }
         buildingToDrag = building;
         float posX = Input.mousePosition.x;
@@ -185,20 +226,8 @@ public class SpawnNewBuildings : MonoBehaviour
 
     private void StopDraggingBuidling()
     {
-        // stop the dragging process
+        // stop dragging, building can now be placed on map (or destroyed)
         draggingNewBuilding = false;
-
-        // Since player is no longer dragging building, destry the radical showing where
-        // building will be placed.
-        ShowBuildingPlacementOnMap script = buildingToDrag.GetComponent<ShowBuildingPlacementOnMap>();
-        script.DestroyRadical();
-        script.enabled = false;
-    }
-
-    private IEnumerator WaitInsteadOfDropping()
-    {
-        yield return new WaitForSeconds(0.5f);
-        selectedAndFloating = true;
     }
 
     private void PlaceBuildingOnFreePlainsTile()
@@ -267,31 +296,36 @@ public class SpawnNewBuildings : MonoBehaviour
                 }
                 else
                 {
-                    Dictionary<string, int> price = buildingToDrag.GetComponent<BuildingPrice>().GetPrice();
-
-                    foreach (KeyValuePair<string, int> resource in price)
-                    {
-                        if (resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value) == false)
-                        {
-                            StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("NotEnoughHint"));
-                            Destroy(buildingToDrag);
-                            return;
-                        }
-                    }
+                    PayThePrice();
                 }
             }
 
-            buildingToDrag.transform.position = new Vector3(tileXIndex * tileOffset + centerOffset, 0, tileZIndex * tileOffset + centerOffset);
+            buildingToDrag.transform.position = new Vector3(tileXIndex * tileOffset + centerOffset, 0.25f, tileZIndex * tileOffset + centerOffset);
             tileLayoutScript.setTileTag(tileXIndex, tileZIndex, "PlainsTileWithBuilding");
 
-            // stop holding onto this building
             buildingToDrag = null;
             StopDraggingBuidling();
+
         }
         else
         {
             // continue dragging the building
             draggingNewBuilding = true;
+        }
+    }
+
+    private void PayThePrice()
+    {
+        Dictionary<string, int> price = buildingToDrag.GetComponent<BuildingPrice>().GetPrice();
+
+        foreach (KeyValuePair<string, int> resource in price)
+        {
+            if (resourceCounterScript.SubtractResourceUnits(resource.Key, resource.Value) == false)
+            {
+                StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("NotEnoughHint", 4));
+                Destroy(buildingToDrag);
+                return;
+            }
         }
     }
 }
