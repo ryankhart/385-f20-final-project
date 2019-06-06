@@ -145,8 +145,6 @@ public class SpawnNewBuildings : MonoBehaviour
         // if user clicks on the left mouse button
         if (Input.GetMouseButtonDown(0))
         {
-            if (selectedAndFloating)
-            {
                 StopDraggingBuidling();
             }
             else
