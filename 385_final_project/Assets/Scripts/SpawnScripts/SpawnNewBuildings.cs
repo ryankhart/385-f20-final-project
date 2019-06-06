@@ -24,9 +24,6 @@ public class SpawnNewBuildings : MonoBehaviour
     private GameObject buildingToDrag;
     private bool draggingNewBuilding;
     private Vector3 creationPosition;
-    private bool destroyThePrefab;
-    private GameObject tempBuilding;
-    private bool firstTime;
 
     // building cost and resource spending
     private TrackStorageResources resourceCounterScript;
@@ -41,8 +38,6 @@ public class SpawnNewBuildings : MonoBehaviour
     void Start()
     {
         draggingNewBuilding = false;
-        destroyThePrefab = false;
-        firstTime = true;
     }
 
     private void Awake()
@@ -177,7 +172,6 @@ public class SpawnNewBuildings : MonoBehaviour
                 buildingToDrag = newTavern;
             }
             draggingNewBuilding = true;
-            tempBuilding = buildingToDrag;
         }
     }
 
