@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 434391648074722917}
   - component: {fileID: 973156867173765848}
   m_Layer: 0
-  m_Name: BuildingTarget
+  m_Name: BuildingRadical
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4058568757831154702
 Transform:
   m_ObjectHideFlags: 0
