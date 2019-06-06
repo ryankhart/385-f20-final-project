@@ -31,6 +31,10 @@ public class MoveStateMonster : IState
             {
                 owner.nodesOfMovement++;
                 owner.FindNode();
+                if(owner.nodesOfMovement > 5)
+                {
+                    owner.stateMachine.ChangeState(new SearchStateMonster(owner));
+                }
             }
 
         }

@@ -19,7 +19,7 @@ public class WaitStateMonster : IState
 
     public void Execute()
     {
-        if(owner.waitTownFolk(3))
+        if(owner.waitTownFolk(1))
         {
             owner.stateMachine.ChangeState(new SearchStateMonster(owner));
         }
