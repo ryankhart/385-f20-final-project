@@ -222,6 +222,12 @@ public class SpawnNewBuildings : MonoBehaviour
     {
         // stop dragging, building can now be placed on map (or destroyed)
         draggingNewBuilding = false;
+
+        // Since player is no longer dragging building, destry the radical showing where
+        // building will be placed.
+        ShowBuildingPlacementOnMap script = buildingToDrag.GetComponent<ShowBuildingPlacementOnMap>();
+        script.DestroyRadical();
+        script.enabled = false;
     }
 
     private void PlaceBuildingOnFreePlainsTile()
@@ -294,7 +300,7 @@ public class SpawnNewBuildings : MonoBehaviour
                 }
             }
 
-            buildingToDrag.transform.position = new Vector3(tileXIndex * tileOffset + centerOffset, 0.25f, tileZIndex * tileOffset + centerOffset);
+            buildingToDrag.transform.position = new Vector3(tileXIndex * tileOffset + centerOffset, 0, tileZIndex * tileOffset + centerOffset);
             tileLayoutScript.setTileTag(tileXIndex, tileZIndex, "PlainsTileWithBuilding");
 
             buildingToDrag = null;
