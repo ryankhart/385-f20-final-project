@@ -24,6 +24,7 @@ TagManager:
   - Fort
   - Monsters
   - Farm
+  - DestroyThis
   layers:
   - Default
   - TransparentFX
