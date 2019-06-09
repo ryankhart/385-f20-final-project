@@ -78,7 +78,6 @@ public class TrackStorageResources : MonoBehaviour
     public void AddFoodUnits(int numUnits)
     {
         foodCount.GetComponent<UpdateResourceCounter>().SetCount(numUnits);
-        print("Food count: " + foodCount.ToString());
     }
 
     public bool SubtractFoodUnits(int numUnits)

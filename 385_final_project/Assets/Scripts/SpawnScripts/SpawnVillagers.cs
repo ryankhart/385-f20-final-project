@@ -97,6 +97,7 @@ public class SpawnVillagers : MonoBehaviour
 
                     GameObject mon = Instantiate(monster, new Vector3(monsterX, 0.439f, monsterZ), Quaternion.identity);
                     monsters.Add(mon);
+                    print("MOOOONSTEEEEERRRRR");
                 }
             }
            

@@ -32,10 +32,10 @@ public class UpdateResourceCounter : MonoBehaviour
             print("Unable to parse input");
         }
         int newValue = oldValue + addValue;
-        if(newValue >= 0)
-        {
+        //if(newValue >= 0)
+        //{
             count.text = newValue.ToString();
-        }
+        //}
         return newValue;
     }
 }

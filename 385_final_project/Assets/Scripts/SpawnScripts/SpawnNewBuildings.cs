@@ -292,8 +292,8 @@ public class SpawnNewBuildings : MonoBehaviour
                             StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("FarmFunctionHint", 5));
                             // BuildHousesHint will be delayed
                             StartCoroutine(GameObject.Find("Hints").GetComponent<DisplayHints>().DisplayHint("BuildHousesHint", 5));
+                            GameObject.Find("BuildMenuDropDown").GetComponent<DisableDropdownOptions>().DisplayFullMenu();
                         }
-                        GameObject.Find("BuildMenuDropDown").GetComponent<DisableDropdownOptions>().DisplayFullMenu();
                     }
 
                     PayThePrice();
