@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FirstTimePressed : MonoBehaviour
+public class FirstTimePressedButton : MonoBehaviour
 {
     private bool pressedFirstTime;
     private float waitTime;

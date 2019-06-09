@@ -409,7 +409,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 903124601040595796}
   m_Direction: 3
   m_Value: 0.5712011
-  m_Size: 0.32092717
+  m_Size: 0.32092714
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -594,6 +594,7 @@ GameObject:
   - component: {fileID: 7539753489870620955}
   - component: {fileID: 4864333753364263015}
   - component: {fileID: 4812217419970461612}
+  - component: {fileID: 6762590747615886501}
   - component: {fileID: 299978273426575180}
   m_Layer: 5
   m_Name: FarmFoodCount
@@ -639,6 +640,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60a367963b8454339a2c8c56d72aa915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6762590747615886501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754368827152476472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 977911c66a7094d24948b694d8e1f7b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &299978273426575180
@@ -2235,7 +2248,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4210774876998564563}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fedc9261e672c4bbf889f4c7e2951f3b, type: 3}
+  m_Script: {fileID: 11500000, guid: 29fb77ec5d18948ada84736a47b78eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4602824338473749891

@@ -38,6 +38,7 @@ public class SpawnNewBuildings : MonoBehaviour
 
     void Start()
     {
+
         draggingNewBuilding = false;
     }
 
