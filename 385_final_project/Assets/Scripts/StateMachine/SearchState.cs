@@ -20,18 +20,15 @@ public class SearchState : State
     {
         owner.FindPath();
         owner.FindNode();
-        if(owner.targetObject != null)
+        if(owner.targetObject != null || owner.pathArray.Count > 0)
         {
            owner.stateMachine.ChangeState(new MoveState(owner));
         }
         else
         {
+            //Fixes the waiting around if the resoruce isn't around;
             owner.setTag("Home");
-            if (owner.targetObject != null)
-            {
-               
-               
-            }
+            //If there isn't a home they will just wait?
         }
     }
 

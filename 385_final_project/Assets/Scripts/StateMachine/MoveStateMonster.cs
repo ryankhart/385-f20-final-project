@@ -31,7 +31,7 @@ public class MoveStateMonster : State
             {
                 owner.nodesOfMovement++;
                 owner.FindNode();
-                if(owner.nodesOfMovement > 5)
+                if(owner.nodesOfMovement > 3)
                 {
                     owner.stateMachine.ChangeState(new SearchStateMonster(owner));
                 }

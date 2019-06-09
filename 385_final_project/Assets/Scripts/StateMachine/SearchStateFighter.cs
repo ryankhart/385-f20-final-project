@@ -20,7 +20,7 @@ public class SearchStateFighter : State
     {
         owner.FindPath();
         owner.FindNode();
-        if (owner.targetObject != null)
+        if (owner.targetObject != null && owner.pathArray.Count > 0)
         {
             owner.stateMachine.ChangeState(new MoveStateFighter(owner));
         }

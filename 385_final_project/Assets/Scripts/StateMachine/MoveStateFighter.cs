@@ -32,7 +32,7 @@ public class MoveStateFighter : State
             {
                 owner.nodesOfMovement++;
                 owner.FindNode();
-                if (owner.nodesOfMovement > 5)
+                if (owner.nodesOfMovement > 3)
                 {
                     owner.stateMachine.ChangeState(new SearchStateFighter(owner));
                 }
