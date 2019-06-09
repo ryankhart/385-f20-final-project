@@ -8,7 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/UIScene.unity
     guid: 64a075d96b8fa424d876bab44158bd24
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ResourceMngmt.unity
     guid: 49f8c04073464403c8e99f6f075c7d05
+  - enabled: 1
+    path: Assets/Scenes/DropdownTestScene.unity
+    guid: bb7d4461abe6e49379df43d43017547b
   m_configObjects: {}

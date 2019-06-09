@@ -11,6 +11,7 @@ public class DisableDropdownOptions : MonoBehaviour
     public GameObject villCenterPrefab;
     public GameObject tavernPrefab;
 
+    private ListBuildingTypePrices priceList;
     private Dropdown dropdown;
     private List<Dropdown.OptionData> smallList;
     private List<Dropdown.OptionData> biggerList;
@@ -20,6 +21,8 @@ public class DisableDropdownOptions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        priceList = GameObject.Find("BuildingSpawner").GetComponent<ListBuildingTypePrices>();
+
         smallList = new List<Dropdown.OptionData>();
         biggerList = new List<Dropdown.OptionData>();
         completeList = new List<Dropdown.OptionData>();
@@ -29,10 +32,13 @@ public class DisableDropdownOptions : MonoBehaviour
         smallList.Add(dropdown.options[0]);
         smallList.Add(dropdown.options[1]);
 
-        biggerList.AddRange(smallList);
+        biggerList.Add(dropdown.options[0]);
+        biggerList.Add(dropdown.options[1]);
         biggerList.Add(dropdown.options[2]);    // farm
 
-        completeList.AddRange(biggerList);
+        completeList.Add(dropdown.options[0]);
+        completeList.Add(dropdown.options[1]);
+        completeList.Add(dropdown.options[2]);
         completeList.Add(dropdown.options[3]);
         completeList.Add(dropdown.options[4]);
         completeList.Add(dropdown.options[5]);
@@ -52,53 +58,50 @@ public class DisableDropdownOptions : MonoBehaviour
     public void DisplayFullMenu()
     {
         dropdown.ClearOptions();
+        dropdown.AddOptions(completeList);
         foreach (Dropdown.OptionData item in completeList)
         {
             if (!item.text.Contains("-------"))
             {
-                print(item.text);
                 item.text  = AddPriceTagsToMenu(item.text);
-                print(item.text);
             }
         }
-        dropdown.AddOptions(completeList);
     }
 
     private string AddPriceTagsToMenu(string itemName)
     {
-        //GameObject prefab = null;
+        GameObject prefab = null;
         string newText = "";
         if(itemName.ToLower().Contains("house"))
         {
-            //prefab = housePrefab;
-            newText = itemName + " (Tree : 5)";
+            prefab = housePrefab;
         }
         else if(itemName.ToLower().Contains("farm"))
         {
-            //prefab = farmPrefab;
-            newText = itemName + " (Tree : 3)";
+            prefab = farmPrefab;
         }
         else if (itemName.ToLower().Contains("fort"))
         {
-            //prefab = fortPrefab;
-            newText = itemName + " (Stone : 10)";
+            prefab = fortPrefab;
         }
-        else if (itemName.ToLower().Contains("vill"))
+        else if (itemName.ToLower().Contains("village"))
         {
-            //prefab = villCenterPrefab;
-            newText = itemName + " (Tree : 50; Stone : 20; Copper : 10)";
+            prefab = villCenterPrefab;
         }
         else if (itemName.ToLower().Contains("tavern"))
         {
-            //prefab = tavernPrefab;
-            newText = itemName + " (Tree : 20; Stone : 10)";
+            prefab = tavernPrefab;
         }
 
-        //Dictionary<string, int> price = prefab.GetComponent<BuildingPrice>().GetPrice();
-        //foreach (KeyValuePair<string, int> resource in price)
-        //{
-        //    newText = itemName + " " + resource.Key + " : " + resource.Value + "; ";
-        //}
+        Dictionary<string, int> price = priceList.GetBuildingPrice(itemName);
+        newText = itemName + " (";
+        foreach (KeyValuePair<string, int> resource in price)
+        {
+            newText += " " + resource.Key + " : " + resource.Value + "; ";
+        }
+        // getting rid of the last ';'
+        newText = newText.Substring(0, newText.Length - 2);
+        newText += ")";
         return newText;
     }
 }

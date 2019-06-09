@@ -8,11 +8,13 @@ public class ShowBuildingPlacementOnMap : MonoBehaviour
     private GameObject buildingRadical;
     private Color32 green;
     private Color32 red;
+    private Color32 invisible;
 
     private void Awake()
     {
         green = new Color32(61, 255, 61, 130);
         red = new Color32(255, 61, 61, 130);
+        invisible = new Color32(61, 255, 61, 0);
         Vector3 radicalPosition = transform.position;
         radicalPosition.y = 0.2f;
         buildingRadical = Instantiate(buildingRadicalPrefab, radicalPosition, Quaternion.Euler(90, 0, 0));
@@ -50,6 +52,11 @@ public class ShowBuildingPlacementOnMap : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void MakeRadicalInvisible()
+    {
+        buildingRadical.GetComponent<MeshRenderer>().material.color = invisible;
     }
 
     public void DestroyRadical()

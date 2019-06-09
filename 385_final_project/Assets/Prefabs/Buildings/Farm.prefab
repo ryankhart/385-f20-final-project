@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5208f76130664f93a2fa2c9806e85ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foodSpawnRate: 5
+  foodSpawnRate: 4
 --- !u!1 &4542020318535767644
 GameObject:
   m_ObjectHideFlags: 0
