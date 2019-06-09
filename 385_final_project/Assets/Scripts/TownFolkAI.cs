@@ -24,7 +24,7 @@ public class TownFolkAI : MonoBehaviour
     public Node startNode { get; set; }
     public Node goalNode { get; set; }
 
-    private ArrayList pathArray;
+    public ArrayList pathArray;
 
     private float elapsedTime = 0.0f;
     public float collectionTime = 0.0f;
@@ -119,9 +119,9 @@ public class TownFolkAI : MonoBehaviour
                 }
                 else if(resourceTag == "Tavern")
                 {
-                    if (waitTownFolk(20))
+                    if (waitTownFolk(10))
                     {
-                        setTag(lastResource);
+                        setResource();
                         stateMachine.ChangeState(new SearchState(this));
                     }
                 }
@@ -219,7 +219,7 @@ public class TownFolkAI : MonoBehaviour
         resourceTag = tag;
     }
 
-    private void setResource()
+    public void setResource()
     {
         int rand = UnityEngine.Random.Range(0, 6);
         if(rand <= 2)

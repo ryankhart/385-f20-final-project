@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SearchStateFighter : IState
+public class SearchStateFighter : State
 {
     FighterAI owner;
 
@@ -20,7 +20,7 @@ public class SearchStateFighter : IState
     {
         owner.FindPath();
         owner.FindNode();
-        if (owner.targetObject != null)
+        if (owner.targetObject != null && owner.pathArray.Count > 0)
         {
             owner.stateMachine.ChangeState(new MoveStateFighter(owner));
         }

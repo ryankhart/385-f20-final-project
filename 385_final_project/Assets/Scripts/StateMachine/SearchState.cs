@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SearchState : IState
+public class SearchState : State
 {
     TownFolkAI owner;
 
@@ -20,18 +20,15 @@ public class SearchState : IState
     {
         owner.FindPath();
         owner.FindNode();
-        if(owner.targetObject != null)
+        if(owner.targetObject != null || owner.pathArray.Count > 0)
         {
            owner.stateMachine.ChangeState(new MoveState(owner));
         }
         else
         {
+            //Fixes the waiting around if the resoruce isn't around;
             owner.setTag("Home");
-            if (owner.targetObject != null)
-            {
-                //Try again
-                owner.stateMachine.ChangeState(new MoveState(owner));
-            }
+            //If there isn't a home they will just wait?
         }
     }
 

@@ -23,7 +23,7 @@ public class MonsterAI : MonoBehaviour
     public Node startNode { get; set; }
     public Node goalNode { get; set; }
 
-    private ArrayList pathArray;
+    public ArrayList pathArray;
 
     private float elapsedTime = 0.0f;
     public float intervalTime = 1.0f;

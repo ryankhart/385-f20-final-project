@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FleeState : IState
+public class FleeState : State
 {
     TownFolkAI owner;
 

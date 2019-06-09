@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveState : IState
+public class MoveState : State
 {
     TownFolkAI owner;
 

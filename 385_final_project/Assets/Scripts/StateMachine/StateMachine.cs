@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class StateMachine
 {
-    IState currentState;
+    State currentState;
 
-    public void ChangeState(IState newState)
+    public void ChangeState(State newState)
     {
         if (currentState != null)
         {

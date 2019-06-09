@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SearchStateMonster : IState
+public class SearchStateMonster : State
 {
     MonsterAI owner;
 
@@ -22,7 +22,11 @@ public class SearchStateMonster : IState
         Debug.Log("Searching");
         owner.FindPath();
         owner.FindNode();
-        owner.stateMachine.ChangeState(new MoveStateMonster(owner));
+        //Should stop the waiting
+        if(owner.pathArray.Count > 0 && owner.targetObject != null)
+        {
+            owner.stateMachine.ChangeState(new MoveStateMonster(owner));
+        }
     }
 
     public void Exit()

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveStateMonster : IState
+public class MoveStateMonster : State
 {
     MonsterAI owner;
 
@@ -31,7 +31,7 @@ public class MoveStateMonster : IState
             {
                 owner.nodesOfMovement++;
                 owner.FindNode();
-                if(owner.nodesOfMovement > 5)
+                if(owner.nodesOfMovement > 3)
                 {
                     owner.stateMachine.ChangeState(new SearchStateMonster(owner));
                 }

@@ -24,7 +24,7 @@ public class FighterAI : MonoBehaviour
     public Node startNode { get; set; }
     public Node goalNode { get; set; }
 
-    private ArrayList pathArray;
+    public ArrayList pathArray;
 
     private float elapsedTime = 0.0f;
     public float collectionTime = 0.0f;
