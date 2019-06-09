@@ -321,9 +321,9 @@ public class SpawnNewBuildings : MonoBehaviour
             buildingToDrag.transform.position = new Vector3(tileXIndex * tileOffset + centerOffset, 0, tileZIndex * tileOffset + centerOffset);
             tileLayoutScript.setTileTag(tileXIndex, tileZIndex, "PlainsTileWithBuilding");
 
+            buildingToDrag.GetComponent<ShowBuildingPlacementOnMap>().MakeRadicalInvisible();
             buildingToDrag = null;
             StopDraggingBuidling();
-
         }
         else
         {
