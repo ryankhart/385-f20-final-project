@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaitState : IState
+public class WaitState : State
 {
     TownFolkAI owner;
 

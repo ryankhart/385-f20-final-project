@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SearchStateFighter : IState
+public class SearchStateFighter : State
 {
     FighterAI owner;
 

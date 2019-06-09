@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SearchStateMonster : IState
+public class SearchStateMonster : State
 {
     MonsterAI owner;
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SearchState : IState
+public class SearchState : State
 {
     TownFolkAI owner;
 
@@ -29,8 +29,8 @@ public class SearchState : IState
             owner.setTag("Home");
             if (owner.targetObject != null)
             {
-                //Try again
-                owner.stateMachine.ChangeState(new MoveState(owner));
+               
+               
             }
         }
     }
